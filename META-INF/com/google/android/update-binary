@@ -385,13 +385,13 @@ if [ -e $home/init.spectrum.rc ];then
     ui_print "remove /system/init.spectrum.sh"
   fi
 else
-  if [ -e /vendor/etc/init/hw/init.spectrum.rc.backup ];then
-    cp -af /vendor/etc/init/hw/init.spectrum.rc.backup /vendor/etc/init/hw/init.spectrum.rc
-  else
-    if [ -e /vendor/etc/init/hw/init.spectrum.rc ];then
-      rm -rf /vendor/etc/init/hw/init.spectrum.rc
-      grep "import /vendor/etc/init/hw/init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import \/vendor\/etc\/init\/hw\/init.spectrum.rc/d' /vendor/etc/init/hw/init.qcom.rc
-    fi
+  if [ -e /vendor/etc/init/hw/init.spectrum.rc ];then
+    rm -rf /vendor/etc/init/hw/init.spectrum.rc
+  fi
+  if [ -e /vendor/etc/init/hw/init.qcom.rc.backup ];then
+    cp -af /vendor/etc/init/hw/init.qcom.rc.backup /vendor/etc/init/hw/init.qcom.rc
+    rm -rf /vendor/etc/init/hw/init.qcom.rc.backup
+    grep "import /vendor/etc/init/hw/init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import \/vendor\/etc\/init\/hw\/init.spectrum.rc/d' /vendor/etc/init/hw/init.qcom.rc
   fi
 fi
 
