@@ -15,7 +15,8 @@ split_img=$home/split_img;
 # ui_print "<text>" [...]
 ui_print() {
   until [ ! "$1" ]; do
-    echo -e "ui_print $1\nui_print" > /proc/self/fd/$OUTFD;
+    echo -e "ui_print $1
+      ui_print" > /proc/self/fd/$OUTFD;
     shift;
   done;
 }
@@ -326,6 +327,9 @@ flash_boot() {
             $comp -dc $kernel > kernel;
           fi;
           $bin/magiskboot hexpatch kernel 736B69705F696E697472616D667300 77616E745F696E697472616D667300;
+          if [ "$(file_getprop $home/anykernel.sh do.systemless)" == 1 ]; then
+            strings kernel | grep -E 'Linux version.*#' > $home/vertmp;
+          fi;
           if [ "$comp" ]; then
             $bin/magiskboot compress=$comp kernel kernel.$comp;
             if [ $? != 0 ]; then
@@ -682,6 +686,9 @@ setup_ak() {
         test "$slot" && slot=_$slot;
       fi;
       if [ "$slot" ]; then
+        if [ -d /postinstall/tmp -a ! "$slot_select" ]; then
+          slot_select=inactive;
+        fi;
         case $slot_select in
           inactive)
             case $slot in
