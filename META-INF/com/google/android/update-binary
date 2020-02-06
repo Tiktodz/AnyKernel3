@@ -355,6 +355,61 @@ do_modules() {
   cd $AKHOME;
 }
 
+AddSpectrum(){
+  # custom script for spectrum
+  unmount /system
+  unmount /vendor
+  mount /system
+  mount /vendor
+
+  # add spectrum support
+  if [ -e $AKHOME/init.spectrum.rc ];then
+    if [ ! -e /vendor/etc/init/hw/init.qcom.rc.backup ];then
+      cp -af /vendor/etc/init/hw/init.qcom.rc /vendor/etc/init/hw/init.qcom.rc.backup
+    fi
+    if [ ! -e /vendor/etc/init/hw/init.spectrum.rc.backup ];then
+      cp -af /vendor/etc/init/hw/init.spectrum.rc /vendor/etc/init/hw/init.spectrum.rc.backup
+    fi
+    grep "import /init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import \/init.spectrum.rc/d' /vendor/etc/init/hw/init.qcom.rc
+    grep "import init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import init.spectrum.rc/d' /vendor/etc/init/hw/init.qcom.rc
+    grep "import /vendor/etc/init/hw/init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null || sed -i '1,/.*import.*/s/.*import.*/import \/vendor\/etc\/init\/hw\/init.spectrum.rc\n&/' /vendor/etc/init/hw/init.qcom.rc
+    cp -af $AKHOME/init.spectrum.rc /vendor/etc/init/hw/
+    chmod -R 644 /vendor/etc/init/hw/init.spectrum.rc
+    # cprofile remover
+    if [ -e /system/xbin/cprofile ];then
+      rm -rf /system/xbin/cprofile
+      ui_print "remove /system/xbin/cprofile"
+    fi
+    if [ -e /system/bin/cprofile ];then
+      rm -rf /system/bin/cprofile
+      ui_print "remove /system/bin/cprofile"
+    fi
+    if [ -e /vendor/bin/cprofile ];then
+      rm -rf /vendor/bin/cprofile
+      ui_print "remove /vendor/bin/cprofile"
+    fi
+    if [ -e /system/init.spectrum.rc ];then
+      rm -rf /system/init.spectrum.rc
+      ui_print "remove /system/init.spectrum.rc"
+    fi
+    if [ -e /system/init.spectrum.sh ];then
+      rm -rf /system/init.spectrum.sh
+      ui_print "remove /system/init.spectrum.sh"
+    fi
+  else
+    if [ -e /vendor/etc/init/hw/init.spectrum.rc ];then
+      rm -rf /vendor/etc/init/hw/init.spectrum.rc
+    fi
+    if [ -e /vendor/etc/init/hw/init.qcom.rc.backup ];then
+      cp -af /vendor/etc/init/hw/init.qcom.rc.backup /vendor/etc/init/hw/init.qcom.rc
+      rm -rf /vendor/etc/init/hw/init.qcom.rc.backup
+      grep "import /vendor/etc/init/hw/init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import \/vendor\/etc\/init\/hw\/init.spectrum.rc/d' /vendor/etc/init/hw/init.qcom.rc
+    fi
+  fi
+  unmount /system
+  unmount /vendor
+}
+
 show_progress 1.34 4;
 ui_print " ";
 cleanup;
@@ -413,63 +468,11 @@ fi;
 
 do_modules;
 
+# custom script for add spectrum support to kernel
+AddSpectrum;
+
 debugging;
 restore_env;
-
-# custom script for spectrum
-unmount /system
-unmount /vendor
-mount /system
-mount /vendor
-
-# add spectrum support
-if [ -e $home/init.spectrum.rc ];then
-  if [ ! -e /vendor/etc/init/hw/init.qcom.rc.backup ];then
-    cp -af /vendor/etc/init/hw/init.qcom.rc /vendor/etc/init/hw/init.qcom.rc.backup
-  fi
-  if [ ! -e /vendor/etc/init/hw/init.spectrum.rc.backup ];then
-    cp -af /vendor/etc/init/hw/init.spectrum.rc /vendor/etc/init/hw/init.spectrum.rc.backup
-  fi
-  grep "import /init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import \/init.spectrum.rc/d' /vendor/etc/init/hw/init.qcom.rc
-  grep "import init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import init.spectrum.rc/d' /vendor/etc/init/hw/init.qcom.rc
-  grep "import /vendor/etc/init/hw/init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null || sed -i '1,/.*import.*/s/.*import.*/import \/vendor\/etc\/init\/hw\/init.spectrum.rc\n&/' /vendor/etc/init/hw/init.qcom.rc
-  cp -af $home/init.spectrum.rc /vendor/etc/init/hw/
-  chmod -R 644 /vendor/etc/init/hw/init.spectrum.rc
-  # cprofile remover
-  if [ -e /system/xbin/cprofile ];then
-    rm -rf /system/xbin/cprofile
-    ui_print "remove /system/xbin/cprofile"
-  fi
-  if [ -e /system/bin/cprofile ];then
-    rm -rf /system/bin/cprofile
-    ui_print "remove /system/bin/cprofile"
-  fi
-  if [ -e /vendor/bin/cprofile ];then
-    rm -rf /vendor/bin/cprofile
-    ui_print "remove /vendor/bin/cprofile"
-  fi
-  if [ -e /system/init.spectrum.rc ];then
-    rm -rf /system/init.spectrum.rc
-    ui_print "remove /system/init.spectrum.rc"
-  fi
-  if [ -e /system/init.spectrum.sh ];then
-    rm -rf /system/init.spectrum.sh
-    ui_print "remove /system/init.spectrum.sh"
-  fi
-else
-  if [ -e /vendor/etc/init/hw/init.spectrum.rc ];then
-    rm -rf /vendor/etc/init/hw/init.spectrum.rc
-  fi
-  if [ -e /vendor/etc/init/hw/init.qcom.rc.backup ];then
-    cp -af /vendor/etc/init/hw/init.qcom.rc.backup /vendor/etc/init/hw/init.qcom.rc
-    rm -rf /vendor/etc/init/hw/init.qcom.rc.backup
-    grep "import /vendor/etc/init/hw/init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import \/vendor\/etc\/init\/hw\/init.spectrum.rc/d' /vendor/etc/init/hw/init.qcom.rc
-  fi
-fi
-
-unmount /system
-unmount /vendor
-
 if [ "$(file_getprop anykernel.sh do.cleanup)" == 1 ]; then
   cleanup;
 fi;
