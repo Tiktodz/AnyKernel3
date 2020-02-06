@@ -356,11 +356,10 @@ do_modules() {
 }
 
 AddSpectrum(){
+  cd $AKHOME;
   # custom script for spectrum
-  unmount /system
-  unmount /vendor
-  mount /system
-  mount /vendor
+  $BB mount -o rw,remount -t auto /system;
+  $BB mount -o rw,remount -t auto /vendor 2>/dev/null;
 
   # add spectrum support
   if [ -e $AKHOME/init.spectrum.rc ];then
@@ -406,8 +405,8 @@ AddSpectrum(){
       grep "import /vendor/etc/init/hw/init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import \/vendor\/etc\/init\/hw\/init.spectrum.rc/d' /vendor/etc/init/hw/init.qcom.rc
     fi
   fi
-  unmount /system
-  unmount /vendor
+  $BB mount -o ro,remount -t auto /system;
+  $BB mount -o ro,remount -t auto /vendor 2>/dev/null;
 }
 
 show_progress 1.34 4;
