@@ -415,6 +415,7 @@ AddSpectrum(){
   else
     if [ -e /vendor/etc/init/hw/init.spectrum.rc ];then
       rm -rf /vendor/etc/init/hw/init.spectrum.rc
+	  ui_print "Removing Old Spectrum Script Tod..."
     fi
     if [ -e /vendor/etc/init/hw/init.qcom.rc.backup ];then
       cp -af /vendor/etc/init/hw/init.qcom.rc.backup /vendor/etc/init/hw/init.qcom.rc
@@ -474,7 +475,7 @@ do_devicecheck;
 do_versioncheck;
 do_levelcheck;
 
-ui_print "Installing...";
+ui_print "Installing Tod...";
 CORE=$($BB grep -oE 'ak.*core.sh' anykernel.sh);
 test -f tools/$CORE || $BB ln -s $AKHOME/tools/ak*-core.sh $AKHOME/tools/$CORE;
 PATH="$AKHOME/bin:$PATH" home=$AKHOME $BB ash anykernel.sh $2;
@@ -493,4 +494,6 @@ if [ "$(file_getprop anykernel.sh do.cleanup)" == 1 ]; then
   cleanup;
 fi;
 
-ui_print " " " " "Done!";
+ui_print " " " " "Dah Kelar Tod!";
+ui_print " " "   (       )    )    )   " "   )\ ) ( /( ( /( ( /(   " "  (()/( )\()))\()))\())  " "   /(_)|(_)\((_)\((_)\   " "  (_))__ ((_)_((_)_((_)  " "  | | \ \ / / \| \ \/ /  " "  | |__\ V /| .` |>  <   " "  |____||_| |_|\_/_/\_\  "
+                      
