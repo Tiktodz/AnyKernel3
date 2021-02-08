@@ -211,7 +211,7 @@ abort() {
 do_devicecheck() {
   test "$(file_getprop anykernel.sh do.devicecheck)" == 1 || return 1;
   local device devicename match product testname vendordevice vendorproduct;
-  ui_print "Checking device...";
+  ui_print "Ngecek Perangkat dulu Tod...";
   device=$(getprop ro.product.device 2>/dev/null);
   product=$(getprop ro.build.product 2>/dev/null);
   vendordevice=$(getprop ro.product.vendor.device 2>/dev/null);
@@ -475,7 +475,7 @@ do_devicecheck;
 do_versioncheck;
 do_levelcheck;
 
-ui_print "Installing Tod...";
+ui_print "Nginstall dulu Tod...";
 CORE=$($BB grep -oE 'ak.*core.sh' anykernel.sh);
 test -f tools/$CORE || $BB ln -s $AKHOME/tools/ak*-core.sh $AKHOME/tools/$CORE;
 PATH="$AKHOME/bin:$PATH" home=$AKHOME $BB ash anykernel.sh $2;
@@ -495,5 +495,13 @@ if [ "$(file_getprop anykernel.sh do.cleanup)" == 1 ]; then
 fi;
 
 ui_print " " " " "Dah Kelar Tod!";
-ui_print " " "   (       )    )    )   " "   )\ ) ( /( ( /( ( /(   " "  (()/( )\()))\()))\())  " "   /(_)|(_)\((_)\((_)\   " "  (_))__ ((_)_((_)_((_)  " "  | | \ \ / / \| \ \/ /  " "  | |__\ V /| .` |>  <   " "  |____||_| |_|\_/_/\_\  "
+ui_print " "
+ui_print "   (       )    )    )   "
+ui_print "   )\ ) ( /( ( /( ( /(   "
+ui_print "  (()/( )\()))\()))\())  "
+ui_print "   /(_)|(_)\((_)\((_)\   "
+ui_print "  (_))__ ((_)_((_)_((_)  "
+ui_print "  | | \ \ / / \| \ \/ /  "
+ui_print "  | |__\ V /| ./ |>  <   "
+ui_print "  |____||_| |_|\_/_/\_\  "
                       
