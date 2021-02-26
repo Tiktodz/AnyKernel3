@@ -6,6 +6,7 @@
 properties() { '
 kernel.string=ExampleKernel by osm0sis @ xda-developers
 do.devicecheck=1
+do.versioncheck=1
 do.modules=0
 do.systemless=1
 do.cleanup=1
@@ -15,7 +16,8 @@ device.name2=X01BDA
 device.name3=
 device.name4=
 device.name5=
-supported.versions=
+supported.versions1=11
+supported.versions2=R
 supported.patchlevels=
 '; } # end properties
 
