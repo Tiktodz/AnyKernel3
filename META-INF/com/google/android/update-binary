@@ -242,7 +242,7 @@ do_versioncheck() {
   test "$(file_getprop anykernel.sh supported.versions)" || return 1;
   local android_ver hi_ver lo_ver parsed_ver supported supported_ver;
   ui_print "Ngecek Versi Android tod...";
-  supported_ver=$(file_getprop anykernel.sh 'supported.versions.*' | $BB tr -d '[:space:]');
+  supported_ver=$(file_getprop anykernel.sh supported.versions | $BB tr -d '[:space:]');
   android_ver=$(file_getprop /system/build.prop ro.build.version.release);
   parsed_ver=$(int2ver $android_ver);
   if echo $supported_ver | $BB grep -q '-'; then
@@ -496,10 +496,8 @@ fi;
 
 ui_print " " " " "Dah Kelar Tod!";
 ui_print " " " " " "
-ui_print "________      ________           _____             ____  __"
-ui_print "____  _/____________(_)____________  /_______________  |/ /"
-ui_print " __  / __  __ \____  /_  _ \  ___/  __/  __ \_  ___/_    / "
-ui_print "__/ /  _  / / /___  / /  __/ /__ / /_ / /_/ /  /   _    |  "
-ui_print "/___/  /_/ /_/___  /  \___/\___/ \__/ \____//_/    /_/|_|  "
-ui_print "              /___/                                        "
+ui_print "   _   _   _   _   _   _   _   _   _  "
+ui_print "  / \ / \ / \ / \ / \ / \ / \ / \ / \ "
+ui_print " ( I | n | j | e | c | t | o | r | X )"
+ui_print "  \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ "
                       
