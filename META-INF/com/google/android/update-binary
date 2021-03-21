@@ -466,7 +466,7 @@ fi;
 ui_print
 KERNEL_STRING="$(file_getprop anykernel.sh kernel.string)";
 ui_print "$KERNEL_STRING";
-ui_print " " " ";
+ui_print " " "_________________________________________________" " ";
 if [ -f version ]; then
   ui_print " ";
   ui_printfile version;
