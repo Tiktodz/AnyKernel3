@@ -211,7 +211,7 @@ abort() {
 do_devicecheck() {
   test "$(file_getprop anykernel.sh do.devicecheck)" == 1 || return 1;
   local device devicename match product testname vendordevice vendorproduct;
-  ui_print "- Ngecek Perangkat dulu Tod...";
+  ui_print "Ngecek Perangkat dulu Tod...";
   device=$(getprop ro.product.device 2>/dev/null);
   product=$(getprop ro.build.product 2>/dev/null);
   vendordevice=$(getprop ro.product.vendor.device 2>/dev/null);
@@ -241,7 +241,7 @@ int2ver() {
 do_versioncheck() {
   test "$(file_getprop anykernel.sh supported.versions)" || return 1;
   local android_ver hi_ver lo_ver parsed_ver supported supported_ver;
-  ui_print "- Ngecek Versi Android tod...";
+  ui_print "Ngecek Versi Android tod...";
   supported_ver=$(file_getprop anykernel.sh supported.versions | $BB tr -d '[:space:]');
   android_ver=$(file_getprop /system/build.prop ro.build.version.release);
   parsed_ver=$(int2ver $android_ver);
@@ -380,7 +380,6 @@ AddSpectrum(){
 
   # add spectrum support
   if [ -e $AKHOME/init.spectrum.rc ];then
-  ui_print "- Backup Script In Progress..."
     if [ ! -e /vendor/etc/init/hw/init.qcom.rc.backup ];then
       cp -af /vendor/etc/init/hw/init.qcom.rc /vendor/etc/init/hw/init.qcom.rc.backup
     fi
@@ -390,8 +389,7 @@ AddSpectrum(){
     grep "import /init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import \/init.spectrum.rc/d' /vendor/etc/init/hw/init.qcom.rc
     grep "import init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import init.spectrum.rc/d' /vendor/etc/init/hw/init.qcom.rc
     grep "import /vendor/etc/init/hw/init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null || sed -i '1,/.*import.*/s/.*import.*/import \/vendor\/etc\/init\/hw\/init.spectrum.rc\n&/' /vendor/etc/init/hw/init.qcom.rc
-    ui_print "- Patching Spectrum Script..."
-	cp -af $AKHOME/init.spectrum.rc /vendor/etc/init/hw/
+    cp -af $AKHOME/init.spectrum.rc /vendor/etc/init/hw/
     chmod -R 644 /vendor/etc/init/hw/init.spectrum.rc
     # cprofile remover
     if [ -e /system/xbin/cprofile ];then
@@ -424,26 +422,6 @@ AddSpectrum(){
       rm -rf /vendor/etc/init/hw/init.qcom.rc.backup
       grep "import /vendor/etc/init/hw/init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import \/vendor\/etc\/init\/hw\/init.spectrum.rc/d' /vendor/etc/init/hw/init.qcom.rc
     fi
-  fi
-  $BB mount -o ro,remount -t auto /system;
-  $BB mount -o ro,remount -t auto /vendor 2>/dev/null;
-}
-
-TuneUClamp(){
-  cd $AKHOME;
-  # Mount Process
-  $BB mount -o rw,remount -t auto /system;
-  $BB mount -o rw,remount -t auto /vendor 2>/dev/null;
-
-  # UClamp Tuning Support
-  if [ -e $AKHOME/uclamp_tuning.sh ];then
-    if [ -e /vendor/bin/uclamp_tuning.sh ];then
-      rm -rf /vendor/bin/uclamp_tuning.sh
-	  ui_print "- Removing Old UClamp Tuning Script Tod..."
-    fi
-	ui_print "- Patching UClamp Tuner Script..."
-	cp -af $AKHOME/uclamp_tuning.sh /vendor/bin/
-    chmod -R 755 /vendor/bin/uclamp_tuning.sh
   fi
   $BB mount -o ro,remount -t auto /system;
   $BB mount -o ro,remount -t auto /vendor 2>/dev/null;
@@ -497,7 +475,7 @@ do_devicecheck;
 do_versioncheck;
 do_levelcheck;
 
-ui_print "- Nginstall dulu Tod...";
+ui_print "Nginstall dulu Tod...";
 CORE=$($BB grep -oE 'ak.*core.sh' anykernel.sh);
 test -f tools/$CORE || $BB ln -s $AKHOME/tools/ak*-core.sh $AKHOME/tools/$CORE;
 PATH="$AKHOME/bin:$PATH" home=$AKHOME $BB ash anykernel.sh $2;
@@ -509,9 +487,6 @@ do_modules;
 
 # custom script for add spectrum support to kernel
 AddSpectrum;
-
-# UClamp Tuning Script
-TuneUClamp;
 
 debugging;
 restore_env;
