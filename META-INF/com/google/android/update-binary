@@ -219,7 +219,7 @@ do_devicecheck() {
   for testname in $(file_getprop anykernel.sh 'device.name.*'); do
     for devicename in $device $product $vendordevice $vendorproduct; do
       if [ "$devicename" == "$testname" ]; then
-        ui_print ">> $testname <<";
+        ui_print "- Device: $testname ";
         match=1;
         break 2;
       fi;
@@ -260,7 +260,7 @@ do_versioncheck() {
     done;
   fi;
   if [ "$supported" ]; then
-    ui_print ">> $android_ver <<";
+    ui_print "- Android Version: $android_ver ";
   else
     abort "! Unsupported Android version. Aborting... !";
   fi;
@@ -466,6 +466,7 @@ fi;
 ui_print
 KERNEL_STRING="$(file_getprop anykernel.sh kernel.string)";
 ui_print "$KERNEL_STRING";
+ui_print " " " ";
 if [ -f version ]; then
   ui_print " ";
   ui_printfile version;
@@ -498,3 +499,7 @@ if [ "$(file_getprop anykernel.sh do.cleanup)" == 1 ]; then
 fi;
 
 ui_print "- Done";
+if [ -f done ]; then
+  ui_printfile done;
+  ui_print " " " ";
+fi;
