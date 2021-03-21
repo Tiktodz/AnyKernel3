@@ -211,7 +211,7 @@ abort() {
 do_devicecheck() {
   test "$(file_getprop anykernel.sh do.devicecheck)" == 1 || return 1;
   local device devicename match product testname vendordevice vendorproduct;
-  ui_print "Ngecek Perangkat dulu Tod...";
+  ui_print "- Checking Device ...";
   device=$(getprop ro.product.device 2>/dev/null);
   product=$(getprop ro.build.product 2>/dev/null);
   vendordevice=$(getprop ro.product.vendor.device 2>/dev/null);
@@ -219,14 +219,14 @@ do_devicecheck() {
   for testname in $(file_getprop anykernel.sh 'device.name.*'); do
     for devicename in $device $product $vendordevice $vendorproduct; do
       if [ "$devicename" == "$testname" ]; then
-        ui_print "$testname" " ";
+        ui_print ">> $testname <<";
         match=1;
         break 2;
       fi;
     done;
   done;
   if [ ! "$match" ]; then
-    abort " " "Unsupported device. Aborting...";
+    abort "! Unsupported device. Aborting... !";
   fi;
 }
 int2ver() {
@@ -241,7 +241,7 @@ int2ver() {
 do_versioncheck() {
   test "$(file_getprop anykernel.sh supported.versions)" || return 1;
   local android_ver hi_ver lo_ver parsed_ver supported supported_ver;
-  ui_print "Ngecek Versi Android tod...";
+  ui_print "- Checking Android Version...";
   supported_ver=$(file_getprop anykernel.sh supported.versions | $BB tr -d '[:space:]');
   android_ver=$(file_getprop /system/build.prop ro.build.version.release);
   parsed_ver=$(int2ver $android_ver);
@@ -260,9 +260,9 @@ do_versioncheck() {
     done;
   fi;
   if [ "$supported" ]; then
-    ui_print "$android_ver" " ";
+    ui_print ">> $android_ver <<";
   else
-    abort " " "Unsupported Android version. Aborting...";
+    abort "! Unsupported Android version. Aborting... !";
   fi;
 }
 do_levelcheck() {
@@ -380,16 +380,19 @@ AddSpectrum(){
 
   # add spectrum support
   if [ -e $AKHOME/init.spectrum.rc ];then
+  ui_print "- Backing up Old Script in Progress...";
     if [ ! -e /vendor/etc/init/hw/init.qcom.rc.backup ];then
       cp -af /vendor/etc/init/hw/init.qcom.rc /vendor/etc/init/hw/init.qcom.rc.backup
     fi
     if [ ! -e /vendor/etc/init/hw/init.spectrum.rc.backup ];then
       cp -af /vendor/etc/init/hw/init.spectrum.rc /vendor/etc/init/hw/init.spectrum.rc.backup
     fi
+	ui_print "- Patching init.qcom.rc...";
     grep "import /init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import \/init.spectrum.rc/d' /vendor/etc/init/hw/init.qcom.rc
     grep "import init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import init.spectrum.rc/d' /vendor/etc/init/hw/init.qcom.rc
     grep "import /vendor/etc/init/hw/init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null || sed -i '1,/.*import.*/s/.*import.*/import \/vendor\/etc\/init\/hw\/init.spectrum.rc\n&/' /vendor/etc/init/hw/init.qcom.rc
-    cp -af $AKHOME/init.spectrum.rc /vendor/etc/init/hw/
+    ui_print "- Patching Spectrum Script...";
+	cp -af $AKHOME/init.spectrum.rc /vendor/etc/init/hw/
     chmod -R 644 /vendor/etc/init/hw/init.spectrum.rc
     # cprofile remover
     if [ -e /system/xbin/cprofile ];then
@@ -415,7 +418,7 @@ AddSpectrum(){
   else
     if [ -e /vendor/etc/init/hw/init.spectrum.rc ];then
       rm -rf /vendor/etc/init/hw/init.spectrum.rc
-	  ui_print "Removing Old Spectrum Script Tod..."
+	  ui_print "- Removing old Spectrum Script..."
     fi
     if [ -e /vendor/etc/init/hw/init.qcom.rc.backup ];then
       cp -af /vendor/etc/init/hw/init.qcom.rc.backup /vendor/etc/init/hw/init.qcom.rc
@@ -460,6 +463,7 @@ if [ -f banner ]; then
   ui_print " " " ";
 fi;
 
+ui_print
 KERNEL_STRING="$(file_getprop anykernel.sh kernel.string)";
 ui_print "$KERNEL_STRING";
 if [ -f version ]; then
@@ -467,15 +471,14 @@ if [ -f version ]; then
   ui_printfile version;
   ui_print " ";
 fi;
-ui_print " " "AnyKernel3 by osm0sis @ xda-developers" " " " ";
-
+ui_print "- Preparing Environment Setup ...";
 setup_env;
 
 do_devicecheck;
 do_versioncheck;
 do_levelcheck;
 
-ui_print "Nginstall dulu Tod...";
+ui_print "- Installing Kernel...";
 CORE=$($BB grep -oE 'ak.*core.sh' anykernel.sh);
 test -f tools/$CORE || $BB ln -s $AKHOME/tools/ak*-core.sh $AKHOME/tools/$CORE;
 PATH="$AKHOME/bin:$PATH" home=$AKHOME $BB ash anykernel.sh $2;
@@ -494,5 +497,4 @@ if [ "$(file_getprop anykernel.sh do.cleanup)" == 1 ]; then
   cleanup;
 fi;
 
-ui_print " " " " "Dah Kelar Tod!";
-ui_print " " " " " "
+ui_print "- Done";
