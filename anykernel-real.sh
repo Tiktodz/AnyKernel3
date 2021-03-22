@@ -10,6 +10,7 @@ kernel.compiler=SDPG
 kernel.made=Ryuuji @ItsRyuujiX
 kernel.version=44xxx
 message.word=blablabla
+build.date=2077
 do.devicecheck=1
 do.versioncheck=1
 do.modules=0
