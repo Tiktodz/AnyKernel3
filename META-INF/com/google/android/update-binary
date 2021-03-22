@@ -469,13 +469,14 @@ KERNEL_FOR="$(file_getprop anykernel.sh kernel.for)";
 KERNEL_COMPILER="$(file_getprop anykernel.sh kernel.compiler)";
 KERNEL_MADE="$(file_getprop anykernel.sh kernel.made)";
 KERNEL_VERSION="$(file_getprop anykernel.sh kernel.version)";
+MESSAGE_WORD="$(file_getprop anykernel.sh message.word)";
 ui_print "-- Kernel Name: $KERNEL_STRING";
 ui_print "-- Kernel Version: $KERNEL_VERSION";
 ui_print "-- Variant: $KERNEL_FOR";
 ui_print "-- Compiler: $KERNEL_COMPILER";
 ui_print "-- Device: ASUS_X01BD , X01BD , X01BDA";
 ui_print "-- Builded by: $KERNEL_MADE";
-ui_print "_________________________________________________";
+ui_print "_________________________________________________" " ";
 if [ -f version ]; then
   ui_print " ";
   ui_printfile version;
@@ -508,7 +509,5 @@ if [ "$(file_getprop anykernel.sh do.cleanup)" == 1 ]; then
 fi;
 
 ui_print "- Done";
-if [ -f done ]; then
-  ui_printfile done;
-  ui_print " " " ";
-fi;
+ui_print " " "_________________________________________________";
+ui_print " " "$MESSAGE_WORD" "_________________________________________________";
