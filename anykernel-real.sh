@@ -19,9 +19,9 @@ do.cleanup=1
 do.cleanuponabort=0
 device.name1=X01BD
 device.name2=X01BDA
-device.name3=
-device.name4=
-device.name5=
+device.name3=Zenfone Max Pro M2 (X01BD)
+device.name4=ASUS_X01BD
+device.name5=ASUS_X01BDA
 supported.versions=11
 supported.patchlevels=
 '; } # end properties
