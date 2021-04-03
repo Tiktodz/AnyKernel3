@@ -9,6 +9,7 @@ kernel.for=KernelForDriver
 kernel.compiler=SDPG
 kernel.made=Ryuuji @ItsRyuujiX
 kernel.version=44xxx
+kernel.type=xxx
 message.word=blablabla
 build.date=2077
 build.type=stable
