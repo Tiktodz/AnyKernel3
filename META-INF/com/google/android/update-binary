@@ -380,6 +380,7 @@ AddSpectrum(){
   $BB mount -o rw,remount -t auto /vendor 2>/dev/null;
 
   # add spectrum support
+  SCRIPT_TYPE="$(file_getprop anykernel.sh script.type)";
   if [ -e $AKHOME/init.spectrum.rc ];then
   ui_print "- Backing up Old Script in Progress...";
     if [ ! -e /vendor/etc/init/hw/init.qcom.rc.backup ];then
@@ -392,7 +393,7 @@ AddSpectrum(){
     grep "import /init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import \/init.spectrum.rc/d' /vendor/etc/init/hw/init.qcom.rc
     grep "import init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import init.spectrum.rc/d' /vendor/etc/init/hw/init.qcom.rc
     grep "import /vendor/etc/init/hw/init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null || sed -i '1,/.*import.*/s/.*import.*/import \/vendor\/etc\/init\/hw\/init.spectrum.rc\n&/' /vendor/etc/init/hw/init.qcom.rc
-    ui_print "- Patching Spectrum Script...";
+    ui_print "- Patching $SCRIPT_TYPE Script...";
 	cp -af $AKHOME/init.spectrum.rc /vendor/etc/init/hw/
     chmod -R 644 /vendor/etc/init/hw/init.spectrum.rc
     # cprofile remover
