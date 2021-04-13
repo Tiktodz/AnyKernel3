@@ -215,6 +215,8 @@ do_devicecheck() {
   ui_print "- Memeriksa Perangkat ...";
   elif [ "$REG" = "JAV" ];then
   ui_print "- Priksa Piranti ...";
+  elif [ "$REG" = "SUN" ];then
+  ui_print "- Pariksa Piranti ...";
   elif [ "$REG" = "EN" ];then
   ui_print "- Checking Device ...";
   fi;
@@ -236,6 +238,8 @@ do_devicecheck() {
 	abort "! Perangkat tidak didukung , Perangkat ini adalah $devicename . Membatalkan... !";
 	elif [ "$REG" = "JAV" ];then
 	abort "! Piranti ora didukung , Piranti iki $devicename . Batal... !";
+	elif [ "$REG" = "SUN" ];then
+	abort "! Paranti henteu dirojong , Paranti ieu $devicename . Ngabatalkeun... !";
 	elif [ "$REG" = "EN" ];then
     abort "! Unsupported device , This Device is $devicename . Aborting... !";
 	fi;
@@ -276,6 +280,9 @@ do_versioncheck() {
   elif [ "$REG" = "JAV" ];then
   ui_print "- Priksa Versi Android...";
   ui_print "- Versi Android: $android_ver ";
+  elif [ "$REG" = "SUN" ];then
+  ui_print "- Pariksa Versi Android...";
+  ui_print "- Versi Android: $android_ver ";
   elif [ "$REG" = "EN" ];then
   ui_print "- Checking Android Version...";
   ui_print "- Android Version: $android_ver ";
@@ -287,6 +294,8 @@ do_versioncheck() {
 	abort "! Versi Android tidak Kompatibel, Kernel ini hanya untuk Android $supported_ver saja . Membatalkan... !";
 	elif [ "$REG" = "JAV" ];then
     abort "! Versi Android ora Kompatibel, Kernel iki mung kanggo $supported_ver wae . Batal... !";
+	elif [ "$REG" = "SUN" ];then
+    abort "! Versi Android anu teu cocog, Kernel leu kanggo $supported_ver hungkul . Ngabatalkeun... !";
 	elif [ "$REG" = "EN" ];then
     abort "! Unsupported Android version, This kernel only for Android $supported_ver . Aborting... !";
 	fi;
@@ -412,6 +421,8 @@ AddSpectrum(){
   ui_print "- Mencadangkan Skrip Lama...";
   elif [ "$REG" = "JAV" ];then
   ui_print "- Gawe Serep Skrip sing lawas...";
+  elif [ "$REG" = "IDN" ];then
+  ui_print "- Nyadangkeun Skrip Lama...";
   elif [ "$REG" = "EN" ];then
   ui_print "- Backing up Old Script in Progress...";
   fi;
@@ -425,6 +436,8 @@ AddSpectrum(){
 	ui_print "- Menambal init.qcom.rc...";
 	elif [ "$REG" = "JAV" ];then
 	ui_print "- Nambahi init.qcom.rc...";
+	elif [ "$REG" = "SUN" ];then
+	ui_print "- Nambal init.qcom.rc...";
 	elif [ "$REG" = "EN" ];then
 	ui_print "- Patching init.qcom.rc...";
 	fi;
@@ -442,6 +455,12 @@ AddSpectrum(){
 		ui_print "- Nambahi Skrip Konfigurasi EAS Lanjutan...";
 		else
 		ui_print "- Nambahi Skrip $SCRIPT_TYPE...";
+		fi
+	elif [ "$REG" = "SUN" ];then
+		if [ "$SCRIPT_TYPE" = "EAS Advanced Configuration" ];then
+		ui_print "- Nambal Skrip Konfigurasi EAS Lanjutan...";
+		else
+		ui_print "- Nambal Skrip $SCRIPT_TYPE...";
 		fi
 	elif [ "$REG" = "EN" ];then
 	ui_print "- Patching $SCRIPT_TYPE Script...";
@@ -475,6 +494,8 @@ AddSpectrum(){
 	  ui_print "- Menghapus Skrip Spectrum Lama..."
 	  elif [ "$REG" = "JAV" ];then
 	  ui_print "- Mbusake Skrip Spektrum sing lawas..."
+	  elif [ "$REG" = "SUN" ];then
+	  ui_print "- Ngaleungitkeun skrip spéktrum lami..."
 	  elif [ "$REG" = "EN" ];then
 	  ui_print "- Removing old Spectrum Script..."
 	  fi
@@ -523,6 +544,8 @@ if echo "$3" | $BB grep -q "IDN";then
   REG=IDN;
 elif echo "$3" | $BB grep -q "JAV";then
   REG=JAV;
+elif echo "$3" | $BB grep -q "SUN";then
+  REG=SUN;
 else
   REG=EN;
 fi;
@@ -560,6 +583,15 @@ ui_print "-- Piranti        : $DEVICE_NAME";
 ui_print "-- Tanggal Mbangun: $BUILD_DATE";
 ui_print "-- Jinis Mbangun  : $BUILD_TYPE";
 ui_print "-- Dibangun Dening: $KERNEL_MADE";
+elif [ "$REG" = "SUN" ];then
+ui_print "-- Ngaran Kernel    : $KERNEL_STRING";
+ui_print "-- Versi Kernel     : $KERNEL_VERSION";
+ui_print "-- Varian           : $KERNEL_FOR - $KERNEL_TYPE";
+ui_print "-- Panyusun         : $KERNEL_COMPILER";
+ui_print "-- Paranti          : $DEVICE_NAME";
+ui_print "-- Tanggal Ngawangun: $BUILD_DATE";
+ui_print "-- Tipe Ngawangun   : $BUILD_TYPE";
+ui_print "-- Diwangun Ku      : $KERNEL_MADE";
 elif [ "$REG" = "EN" ];then
 ui_print "-- Kernel Name    : $KERNEL_STRING";
 ui_print "-- Kernel Version : $KERNEL_VERSION";
@@ -581,6 +613,8 @@ if [ "$REG" = "IDN" ];then
 ui_print "- Menyiapkan Pengaturan Lingkungan ...";
 elif [ "$REG" = "JAV" ];then
 ui_print "- Nyiyapake Persiyapan Lingkungan ...";
+elif [ "$REG" = "SUN" ];then
+ui_print "- Nyiapkeun Setelan Lingkungan ...";
 elif [ "$REG" = "EN" ];then
 ui_print "- Preparing Environment Setup ...";
 fi;
@@ -596,6 +630,9 @@ ui_print "! Tidak Perlu Menginstall Magisk lagi jika sebelumnya sudah terinstall
 elif [ "$REG" = "JAV" ];then
 ui_print "- Nginstall Kernel...";
 ui_print "! Ora perlu nginstall Magisk maneh yen sadurunge wis diinstall !";
+elif [ "$REG" = "SUN" ];then
+ui_print "- Masang Kernel...";
+ui_print "! Henteu kedah masang Magisk deui upami éta sateuacan dipasang !";
 elif [ "$REG" = "EN" ];then
 ui_print "- Installing Kernel...";
 ui_print "! U don't need to reinstall Magisk if already installed before !";
@@ -622,6 +659,8 @@ if [ "$REG" = "IDN" ];then
 ui_print "- Selesai";
 elif [ "$REG" = "JAV" ];then
 ui_print "- Rampung";
+elif [ "$REG" = "JAV" ];then
+ui_print "- Parantos";
 elif [ "$REG" = "EN" ];then
 ui_print "- Done";
 fi;
