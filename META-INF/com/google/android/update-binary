@@ -217,6 +217,8 @@ do_devicecheck() {
   ui_print "- Priksa Piranti ...";
   elif [ "$REG" = "SUN" ];then
   ui_print "- Pariksa Piranti ...";
+  elif [ "$REG" = "HI" ];then
+  ui_print "- Device ki jaanch jaari ...";
   elif [ "$REG" = "EN" ];then
   ui_print "- Checking Device ...";
   fi;
@@ -240,6 +242,8 @@ do_devicecheck() {
 	abort "! Piranti ora didukung , Piranti iki $devicename . Batal... !";
 	elif [ "$REG" = "SUN" ];then
 	abort "! Paranti henteu dirojong , Paranti ieu $devicename . Ngabatalkeun... !";
+	elif [ "$REG" = "HI" ];then
+	abort "! Yeh device $devicename asamarthit hai. Prakriya samapt... !";
 	elif [ "$REG" = "EN" ];then
     abort "! Unsupported device , This Device is $devicename . Aborting... !";
 	fi;
@@ -283,6 +287,9 @@ do_versioncheck() {
   elif [ "$REG" = "SUN" ];then
   ui_print "- Pariksa Versi Android...";
   ui_print "- Versi Android: $android_ver ";
+  elif [ "$REG" = "HI" ];then
+  ui_print "- Android version ki jaanch jaari...";
+  ui_print "- Android Version: $android_ver ";
   elif [ "$REG" = "EN" ];then
   ui_print "- Checking Android Version...";
   ui_print "- Android Version: $android_ver ";
@@ -296,6 +303,8 @@ do_versioncheck() {
     abort "! Versi Android ora Kompatibel, Kernel iki mung kanggo $supported_ver wae . Batal... !";
 	elif [ "$REG" = "SUN" ];then
     abort "! Versi Android anu teu cocog, Kernel leu kanggo $supported_ver hungkul . Ngabatalkeun... !";
+	elif [ "$REG" = "HI" ];then
+    abort "! Yeh android version asamarthit hai, Yeh kernel sirf Android $supported_ver ke lie hai. Prakriya samapt... !";
 	elif [ "$REG" = "EN" ];then
     abort "! Unsupported Android version, This kernel only for Android $supported_ver . Aborting... !";
 	fi;
@@ -421,8 +430,10 @@ AddSpectrum(){
   ui_print "- Mencadangkan Skrip Lama...";
   elif [ "$REG" = "JAV" ];then
   ui_print "- Gawe Serep Skrip sing lawas...";
-  elif [ "$REG" = "IDN" ];then
+  elif [ "$REG" = "SUN" ];then
   ui_print "- Nyadangkeun Skrip Lama...";
+  elif [ "$REG" = "HI" ];then
+  ui_print "- Poorane Script ka backup prakriya suru...";
   elif [ "$REG" = "EN" ];then
   ui_print "- Backing up Old Script in Progress...";
   fi;
@@ -438,6 +449,8 @@ AddSpectrum(){
 	ui_print "- Nambahi init.qcom.rc...";
 	elif [ "$REG" = "SUN" ];then
 	ui_print "- Nambal init.qcom.rc...";
+	elif [ "$REG" = "HI" ];then
+	ui_print "- init.qcom.rc ke Patching prakriya suru...";
 	elif [ "$REG" = "EN" ];then
 	ui_print "- Patching init.qcom.rc...";
 	fi;
@@ -461,6 +474,12 @@ AddSpectrum(){
 		ui_print "- Nambal Skrip Konfigurasi EAS Lanjutan...";
 		else
 		ui_print "- Nambal Skrip $SCRIPT_TYPE...";
+		fi
+	elif [ "$REG" = "HI" ];then
+		if [ "$SCRIPT_TYPE" = "EAS Advanced Configuration" ];then
+		ui_print "- EAS Adhunik Vinyas Script ke patching prakriya suru...";
+		else
+		ui_print "- Script $SCRIPT_TYPE ke Patching prakriya suru...";
 		fi
 	elif [ "$REG" = "EN" ];then
 	ui_print "- Patching $SCRIPT_TYPE Script...";
@@ -496,6 +515,8 @@ AddSpectrum(){
 	  ui_print "- Mbusake Skrip Spektrum sing lawas..."
 	  elif [ "$REG" = "SUN" ];then
 	  ui_print "- Ngaleungitkeun skrip spéktrum lami..."
+	  elif [ "$REG" = "HI" ];then
+	  ui_print "- Poorane Spectrum Script ka hatane jane wale prakriya suru..."
 	  elif [ "$REG" = "EN" ];then
 	  ui_print "- Removing old Spectrum Script..."
 	  fi
@@ -546,6 +567,8 @@ elif echo "$3" | $BB grep -q "JAV";then
   REG=JAV;
 elif echo "$3" | $BB grep -q "SUN";then
   REG=SUN;
+elif echo "$3" | $BB grep -q "HI";then
+  REG=HI;
 else
   REG=EN;
 fi;
@@ -592,6 +615,15 @@ ui_print "-- Paranti          : $DEVICE_NAME";
 ui_print "-- Tanggal Ngawangun: $BUILD_DATE";
 ui_print "-- Tipe Ngawangun   : $BUILD_TYPE";
 ui_print "-- Diwangun Ku      : $KERNEL_MADE";
+elif [ "$REG" = "HI" ];then
+ui_print "-- Kernel Ka Naam   : $KERNEL_STRING";
+ui_print "-- Kernel Ka Version: $KERNEL_VERSION";
+ui_print "-- Kernel Ka Variant: $KERNEL_FOR - $KERNEL_TYPE";
+ui_print "-- Clang Ka Naam    : $KERNEL_COMPILER";
+ui_print "-- Device Ka Naam   : $DEVICE_NAME";
+ui_print "-- Nirman Ka Taarekh: $BUILD_DATE";
+ui_print "-- Bild Prakaar     : $BUILD_TYPE";
+ui_print "-- Nirmankarta      : $KERNEL_MADE";
 elif [ "$REG" = "EN" ];then
 ui_print "-- Kernel Name    : $KERNEL_STRING";
 ui_print "-- Kernel Version : $KERNEL_VERSION";
@@ -615,6 +647,8 @@ elif [ "$REG" = "JAV" ];then
 ui_print "- Nyiyapake Persiyapan Lingkungan ...";
 elif [ "$REG" = "SUN" ];then
 ui_print "- Nyiapkeun Setelan Lingkungan ...";
+elif [ "$REG" = "HI" ];then
+ui_print "- Paryavaran Setup Ka Prakriya suru ...";
 elif [ "$REG" = "EN" ];then
 ui_print "- Preparing Environment Setup ...";
 fi;
@@ -633,6 +667,9 @@ ui_print "! Ora perlu nginstall Magisk maneh yen sadurunge wis diinstall !";
 elif [ "$REG" = "SUN" ];then
 ui_print "- Masang Kernel...";
 ui_print "! Henteu kedah masang Magisk deui upami éta sateuacan dipasang !";
+elif [ "$REG" = "HI" ];then
+ui_print "- Kernel Install ka prakriya suru...";
+ui_print "! Aapko Magisk flash karne ki koi jaroorat nai hai agar aapne pehele se flash kie hai !";
 elif [ "$REG" = "EN" ];then
 ui_print "- Installing Kernel...";
 ui_print "! U don't need to reinstall Magisk if already installed before !";
@@ -659,8 +696,10 @@ if [ "$REG" = "IDN" ];then
 ui_print "- Selesai";
 elif [ "$REG" = "JAV" ];then
 ui_print "- Rampung";
-elif [ "$REG" = "JAV" ];then
+elif [ "$REG" = "SUN" ];then
 ui_print "- Parantos";
+elif [ "$REG" = "HI" ];then
+ui_print "- Kernel Flash Prakriya Ki Ant.";
 elif [ "$REG" = "EN" ];then
 ui_print "- Done";
 fi;
