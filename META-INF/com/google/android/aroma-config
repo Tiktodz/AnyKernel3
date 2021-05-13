@@ -1,0 +1,146 @@
+﻿### LICENSE:
+#
+# Copyright (C) 2011 Ahmad Amarullah ( http://amarullz.com/ )
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or #implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+### FILE INFO:
+#
+# AROMA Installer 2.70 - AROMA Installer Test Script Configuration
+#       (c) 2011-2012 by Ahmad Amarullah
+#           amarullz - xda-developers
+#           http://www.amarullz.com/
+#
+#       Binary Version  : 2.70B
+#       Binary Codename : Flamboyan
+
+# ROM Info
+ini_set("rom_name", "KNAME");
+ini_set("rom_version", "KVER");
+ini_set("rom_author", "KAUTHOR");
+ini_set("rom_device", "KDEVICE");
+ini_set("rom_date", "KBDATE");
+
+##############################################
+# UI/Font/Splash
+##############################################
+ini_set("force_colorspace", "rgba");
+splash(
+    3000,
+    "sw"
+);
+theme("material_blue");
+loadlang("langs/en.lang");
+fontresload( "0", "ttf/GoogleSansMedium.ttf", "12" );
+fontresload( "1", "ttf/GoogleSansMedium.ttf", "14" );
+
+##############################################
+# Welcome
+##############################################
+viewbox(
+    "<~welcome.title>",
+  
+    "<~welcome.text1> <b>"+
+	  ini_get("rom_name")+
+	"</b> <~common.for> <b>"+ini_get("rom_device")+"</b>.\n\n\n\n\n"+
+	
+      "  <#textfg><~welcome.version>\t\t\t: <b>"+ini_get("rom_version")+"</b>\n\n"+
+      "  <~welcome.author>\t\t: <b>"+ini_get("rom_author")+"</b>\n\n"+
+      "  <~welcome.builddate>\t\t: <b>"+ini_get("rom_date")+"</b>\n\n\n"+
+
+    "<~welcome.next></#>",
+  
+    "@welcome"
+);
+
+agreebox(
+  #-- Title
+    "About Kernel",
+  
+  #-- Subtitle / Description
+    "Read these Carefully",
+  
+  #-- Icon:
+    "@license",
+  
+  #-- Text Content 
+    resread("kernel_info.txt"),
+  
+  #-- Checkbox Text
+    "I Have Read this Info",
+  
+  #-- Unchecked Alert Message
+    "Check to continue !"
+);
+
+agreebox(
+  #-- Title
+    "About Overclock Kernel",
+  
+  #-- Subtitle / Description
+    "CPU OC Disclaimer",
+  
+  #-- Icon:
+    "@license",
+  
+  #-- Text Content 
+    resread("kernel_OC.txt"),
+  
+  #-- Checkbox Text
+    "OK, I Understand and Agree",
+  
+  #-- Unchecked Alert Message
+    "Check to continue !"
+);
+
+agreebox(
+  #-- Title
+    "Variant Info",
+  #-- Subtitle / Description
+    "Read This to make sure u're not installing wrong Kernel",
+  #-- Icon:
+    "@license",
+  #-- Text Content 
+    resread("kernel_variant.txt"),
+  #-- Checkbox Text
+    "OK, I Understand",
+  #-- Unchecked Alert Message
+    "Check to continue !"
+);																															
+
+selectbox(
+    "Spectrum","<@center><b>\nEnable Spectrum Support on <b>"+ini_get("rom_name")+
+	"</b> ?</b>\n\n</@>","@install","spectrum.prop",
+    "Yes",	"Install this kernel with spectrum support.", 1, 	        #-- selected.0 = 1
+    "No",	"Install this kernel without spectrum support.", 0	        #-- selected.0 = 2     
+);
+
+setvar("retstatus",
+  install(
+	#-- Title
+      "Installing <b>"+ini_get("rom_name")+"</b> Kernel..",
+	
+	#-- Installation Process message
+	  "<b>"+ini_get("rom_name")+"</b> is being installed.\n\n"+
+      "Please wait while installation wizard installs <b>"+ini_get("rom_name")+
+	  "</b>. This may take a moment..",
+	
+	#-- Installation Icon
+      "@install",
+	
+	#-- Installation Finish Message
+      "The installation wizard has successfully installed <b>"+ini_get("rom_name")+
+	  "</b>. Press Finish to exit."
+  )
+);
+

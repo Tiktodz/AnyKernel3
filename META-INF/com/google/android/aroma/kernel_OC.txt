@@ -1,0 +1,18 @@
+<@center><b><#selectbg_g>SkyWalker Kernel</#></b>
+
+<b><#selectbg_g>About Overclocked Kernel :</#></b></@>
+
+<@fill><q>
+<b>
+Overclocked Kernels is safe if u're using it 
+with carefully . But still use it with ur 
+own risk :) .
+</b>
+
+<b>NOTE:
+* Recommended to use this kernel with spectrum. 
+  It will be a best option else your choice.
+</b>
+
+</q></@>
+

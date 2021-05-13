@@ -1,0 +1,27 @@
+<@center><b><#selectbg_g>SkyWalker Kernel</#></b>
+
+<b><#selectbg_g>About Kernel Variants :</#></b></@>
+
+<@fill><q>
+R : Kernel for Android 11 and 12 ROM which have 
+    LEDs Based Vibration driver , don't flash on 
+	A10 or ROMs which still using Old QPNP 
+	Vibration driver else will bootloop.
+
+XR : Kernel for Android 10 , 11 , and Stock ROM 
+     which it's still using Old QPNP Vibration 
+	 driver , so Don't flash on ROMs with LEDs 
+	 Based Vibration else Vibrate will Dead.
+
+P : Kernel for Android 9 Custom ROM only , 
+    don't flash on others else WiFi Will dead.
+
+NFI : Android R Kernel Variant with 
+      CAF 9.2 / R WiFi Driver . 
+	  Recommended to use this variant if u're on Q Firmware.
+
+OFI : Android R Kernel Variant with 
+      CAF 7.2 / P WiFi Driver . 
+	  U can use this Variant on Both Firmware (Pie and Q).
+</q></@>
+

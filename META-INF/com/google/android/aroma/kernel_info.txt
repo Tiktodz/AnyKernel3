@@ -1,0 +1,21 @@
+<@center><b><#selectbg_g>SkyWalker Kernel</#></b>
+
+<b><#selectbg_g>Some Messages from me :</#></b></@>
+
+<@fill><q>
+SkyWalker Kernel is made with love by @ItsRyuujiX 
+which he's trying to give good experience for 
+any users :) .
+ 
+U can manage this kernel what do u want 
+with Spectrum (if Supported) or other 
+Kernel Managers like FKM & SmartPack.
+
+<b>
+And always Read Info. Latest Version Doesn't mean 
+more better and Using much modules sometimes
+will not make ur Perf more better .
+</b>
+
+Thank You for using this Kernel !. </q></@>
+

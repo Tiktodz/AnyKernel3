@@ -1,0 +1,768 @@
+#!/sbin/sh
+# AnyKernel3 Backend (DO NOT CHANGE)
+# osm0sis @ xda-developers
+
+OUTFD=/proc/self/fd/$2;
+ZIPFILE="$3";
+
+BOOTMODE=false;
+ps | grep zygote | grep -v grep >/dev/null && BOOTMODE=true;
+$BOOTMODE || ps -A 2>/dev/null | grep zygote | grep -v grep >/dev/null && BOOTMODE=true;
+
+DIR=/sdcard;
+$BOOTMODE || DIR=$(dirname "$ZIPFILE");
+
+[ -d /postinstall/tmp ] && POSTINSTALL=/postinstall;
+[ "$AKHOME" ] || AKHOME=$POSTINSTALL/tmp/anykernel;
+[ "$ANDROID_ROOT" ] || ANDROID_ROOT=/system;
+
+ui_print() {
+  until [ ! "$1" ]; do
+    echo "ui_print $1
+      ui_print" >> $OUTFD;
+    shift;
+  done;
+}
+ui_printfile() {
+  while IFS='' read -r line || $BB [[ -n "$line" ]]; do
+    ui_print "$line";
+  done < $1;
+}
+show_progress() { echo "progress $1 $2" >> $OUTFD; }
+file_getprop() { $BB grep "^$2=" "$1" | $BB cut -d= -f2-; }
+find_slot() {
+  local slot=$(getprop ro.boot.slot_suffix 2>/dev/null);
+  [ "$slot" ] || slot=$($BB grep -o 'androidboot.slot_suffix=.*$' /proc/cmdline | $BB cut -d\  -f1 | $BB cut -d= -f2);
+  if [ ! "$slot" ]; then
+    slot=$(getprop ro.boot.slot 2>/dev/null);
+    [ "$slot" ] || slot=$($BB grep -o 'androidboot.slot=.*$' /proc/cmdline | $BB cut -d\  -f1 | $BB cut -d= -f2);
+    [ "$slot" ] && slot=_$slot;
+  fi;
+  [ "$slot" ] && echo "$slot";
+}
+setup_mountpoint() {
+  [ -L $1 ] && $BB mv -f $1 ${1}_link;
+  if [ ! -d $1 ]; then
+    $BB rm -f $1;
+    $BB mkdir -p $1;
+  fi;
+}
+is_mounted() { $BB mount | $BB grep -q " $1 "; }
+mount_apex() {
+  [ -d /system_root/system/apex ] || return 1;
+  local apex dest loop minorx num var;
+  setup_mountpoint /apex;
+  minorx=1;
+  [ -e /dev/block/loop1 ] && minorx=$($BB ls -l /dev/block/loop1 | $BB awk '{ print $6 }');
+  num=0;
+  for apex in /system_root/system/apex/*; do
+    dest=/apex/$($BB basename $apex .apex);
+    case $dest in
+      *.current|*.release) dest=$(echo $dest | $BB rev | $BB cut -d. -f2- | $BB rev);;
+    esac;
+    $BB mkdir -p $dest;
+    case $apex in
+      *.apex)
+        $BB unzip -qo $apex apex_payload.img -d /apex;
+        $BB mv -f /apex/apex_payload.img $dest.img;
+        $BB mount -t ext4 -o ro,noatime $dest.img $dest 2>/dev/null;
+        if [ $? != 0 ]; then
+          while [ $num -lt 64 ]; do
+            loop=/dev/block/loop$num;
+            ($BB mknod $loop b 7 $((num * minorx));
+            $BB losetup $loop $dest.img) 2>/dev/null;
+            num=$((num + 1));
+            $BB losetup $loop | $BB grep -q $dest.img && break;
+          done;
+          $BB mount -t ext4 -o ro,loop,noatime $loop $dest;
+          if [ $? != 0 ]; then
+            $BB losetup -d $loop 2>/dev/null;
+          fi;
+        fi;
+      ;;
+      *) $BB mount -o bind $apex $dest;;
+    esac;
+  done;
+  for var in $($BB grep -o 'export .* /.*' /system_root/init.environ.rc | $BB awk '{ print $2 }'); do
+    eval OLD_${var}=\$$var;
+  done;
+  $($BB grep -o 'export .* /.*' /system_root/init.environ.rc | $BB sed 's; /;=/;'); unset export;
+}
+umount_apex() {
+  [ -d /apex/com.android.runtime ] || return 1;
+  local dest loop var;
+  for var in $($BB grep -o 'export .* /.*' /system_root/init.environ.rc | $BB awk '{ print $2 }'); do
+    if [ "$(eval echo \$OLD_$var)" ]; then
+      eval $var=\$OLD_${var};
+    else
+      eval unset $var;
+    fi;
+    unset OLD_${var};
+  done;
+  for dest in $($BB find /apex -type d -mindepth 1 -maxdepth 1); do
+    if [ -f $dest.img ]; then
+      loop=$($BB mount | $BB grep $dest | $BB cut -d\  -f1);
+    fi;
+    ($BB umount -l $dest;
+    $BB losetup -d $loop) 2>/dev/null;
+  done;
+  $BB rm -rf /apex 2>/dev/null;
+}
+mount_all() {
+  if ! is_mounted /cache; then
+    $BB mount /cache 2>/dev/null && UMOUNT_CACHE=1;
+  fi;
+  if ! is_mounted /data; then
+    $BB mount /data && UMOUNT_DATA=1;
+  fi;
+  ($BB mount -o ro -t auto /vendor;
+  $BB mount -o ro -t auto /product;
+  $BB mount -o ro -t auto /persist) 2>/dev/null;
+  setup_mountpoint $ANDROID_ROOT;
+  if ! is_mounted $ANDROID_ROOT; then
+    $BB mount -o ro -t auto $ANDROID_ROOT 2>/dev/null;
+  fi;
+  case $ANDROID_ROOT in
+    /system_root) setup_mountpoint /system;;
+    /system)
+      if ! is_mounted /system && ! is_mounted /system_root; then
+        setup_mountpoint /system_root;
+        $BB mount -o ro -t auto /system_root;
+      elif [ -f /system/system/build.prop ]; then
+        setup_mountpoint /system_root;
+        $BB mount --move /system /system_root;
+      fi;
+      if [ $? != 0 ]; then
+        ($BB umount /system;
+        $BB umount -l /system) 2>/dev/null;
+        if [ -d /dev/block/mapper ]; then
+          [ -e /dev/block/mapper/system ] || local slot=$(find_slot);
+          $BB mount -o ro -t auto /dev/block/mapper/vendor$slot /vendor;
+          $BB mount -o ro -t auto /dev/block/mapper/product$slot /product 2>/dev/null;
+          $BB mount -o ro -t auto /dev/block/mapper/system$slot /system_root;
+        else
+          [ -e /dev/block/bootdevice/by-name/system ] || local slot=$(find_slot);
+          ($BB mount -o ro -t auto /dev/block/bootdevice/by-name/vendor$slot /vendor;
+          $BB mount -o ro -t auto /dev/block/bootdevice/by-name/product$slot /product;
+          $BB mount -o ro -t auto /dev/block/bootdevice/by-name/persist$slot /persist) 2>/dev/null;
+          $BB mount -o ro -t auto /dev/block/bootdevice/by-name/system$slot /system_root;
+        fi;
+      fi;
+    ;;
+  esac;
+  if is_mounted /system_root; then
+    mount_apex;
+    if [ -f /system_root/build.prop ]; then
+      $BB mount -o bind /system_root /system;
+    else
+      $BB mount -o bind /system_root/system /system;
+    fi;
+  fi;
+}
+umount_all() {
+  local mount;
+  (if [ ! -d /postinstall/tmp ]; then
+    $BB umount /system;
+    $BB umount -l /system;
+  fi) 2>/dev/null;
+  umount_apex;
+  (if [ ! -d /postinstall/tmp ]; then
+    $BB umount /system_root;
+    $BB umount -l /system_root;
+  fi;
+  umount /vendor; # busybox umount /vendor breaks recovery on some hacky devices
+  umount -l /vendor;
+  for mount in /mnt/system /mnt/vendor /product /mnt/product /persist; do
+    $BB umount $mount;
+    $BB umount -l $mount;
+  done;
+  if [ "$UMOUNT_DATA" ]; then
+    $BB umount /data;
+    $BB umount -l /data;
+  fi;
+  if [ "$UMOUNT_CACHE" ]; then
+    $BB umount /cache;
+    $BB umount -l /cache;
+  fi) 2>/dev/null;
+}
+setup_env() {
+  $BOOTMODE && return 1;
+  $BB mount -o bind /dev/urandom /dev/random;
+  if [ -L /etc ]; then
+    setup_mountpoint /etc;
+    $BB cp -af /etc_link/* /etc;
+    $BB sed -i 's; / ; /system_root ;' /etc/fstab;
+  fi;
+  umount_all;
+  mount_all;
+  OLD_LD_PATH=$LD_LIBRARY_PATH;
+  OLD_LD_PRE=$LD_PRELOAD;
+  OLD_LD_CFG=$LD_CONFIG_FILE;
+  unset LD_LIBRARY_PATH LD_PRELOAD LD_CONFIG_FILE;
+  if [ ! "$(getprop 2>/dev/null)" ]; then
+    getprop() {
+      local propdir propfile propval;
+      for propdir in / /system_root /system /vendor /odm /product; do
+        for propfile in default.prop build.prop; do
+          if [ "$propval" ]; then
+            break 2;
+          else
+            propval="$(file_getprop $propdir/$propfile $1 2>/dev/null)";
+          fi;
+        done;
+      done;
+      if [ "$propval" ]; then
+        echo "$propval";
+      else
+        echo "";
+      fi;
+    }
+  elif [ ! "$(getprop ro.build.type 2>/dev/null)" ]; then
+    getprop() {
+      ($(which getprop) | $BB grep "$1" | $BB cut -d[ -f3 | $BB cut -d] -f1) 2>/dev/null;
+    }
+  fi;
+}
+restore_env() {
+  $BOOTMODE && return 1;
+  local dir;
+  unset -f getprop;
+  [ "$OLD_LD_PATH" ] && export LD_LIBRARY_PATH=$OLD_LD_PATH;
+  [ "$OLD_LD_PRE" ] && export LD_PRELOAD=$OLD_LD_PRE;
+  [ "$OLD_LD_CFG" ] && export LD_CONFIG_FILE=$OLD_LD_CFG;
+  unset OLD_LD_PATH OLD_LD_PRE OLD_LD_CFG;
+  umount_all;
+  [ -L /etc_link ] && $BB rm -rf /etc/*;
+  (for dir in /apex /system /system_root /etc; do
+    if [ -L "${dir}_link" ]; then
+      rmdir $dir;
+      $BB mv -f ${dir}_link $dir;
+    fi;
+  done;
+  $BB umount -l /dev/random) 2>/dev/null;
+}
+debugging() {
+  case $(basename "$ZIPFILE" .zip) in
+    *-debugging)
+      ui_print " " "Creating debugging archive in $DIR...";
+      [ -f /tmp/recovery.log ] && local log=/tmp/recovery.log;
+      $BB tar -czf "$DIR/anykernel3-$(date +%Y-%m-%d_%H%M%S)-debug.tgz" $AKHOME $log;
+    ;;
+  esac;
+}
+cleanup() {
+  cd $(dirname $AKHOME);
+  rm -rf $AKHOME;
+}
+abort() {
+  ui_print "$@";
+  debugging;
+  restore_env;
+  if [ ! -f anykernel.sh -o "$(file_getprop anykernel.sh do.cleanuponabort 2>/dev/null)" == 1 ]; then
+    cleanup;
+  fi;
+  exit 1;
+}
+do_devicecheck() {
+  [ "$(file_getprop anykernel.sh do.devicecheck)" == 1 ] || return 1;
+  local device devicename match product testname vendordevice vendorproduct;
+  if [ "$REG" = "IDN" ];then
+  ui_print "- Memeriksa Perangkat ...";
+  elif [ "$REG" = "JAV" ];then
+  ui_print "- Priksa Piranti ...";
+  elif [ "$REG" = "SUN" ];then
+  ui_print "- Pariksa Piranti ...";
+  elif [ "$REG" = "HI" ];then
+  ui_print "- Device ki jaanch jaari ...";
+  elif [ "$REG" = "EN" ];then
+  ui_print "- Checking Device ...";
+  fi;
+  device=$(getprop ro.product.device 2>/dev/null);
+  product=$(getprop ro.build.product 2>/dev/null);
+  vendordevice=$(getprop ro.product.vendor.device 2>/dev/null);
+  vendorproduct=$(getprop ro.vendor.product.device 2>/dev/null);
+  for testname in $(file_getprop anykernel.sh 'device.name.*'); do
+    for devicename in $device $product $vendordevice $vendorproduct; do
+      if [ "$devicename" == "$testname" ]; then
+        ui_print "- OK ! ";
+        match=1;
+        break 2;
+      fi;
+    done;
+  done;
+  if [ ! "$match" ]; then
+	if [ "$REG" = "IDN" ];then
+	abort "! Perangkat tidak didukung , Perangkat ini adalah $devicename . Membatalkan... !";
+	elif [ "$REG" = "JAV" ];then
+	abort "! Piranti ora didukung , Piranti iki $devicename . Batal... !";
+	elif [ "$REG" = "SUN" ];then
+	abort "! Paranti henteu dirojong , Paranti ieu $devicename . Ngabatalkeun... !";
+	elif [ "$REG" = "HI" ];then
+	abort "! Yeh device $devicename asamarthit hai. Prakriya samapt... !";
+	elif [ "$REG" = "EN" ];then
+    abort "! Unsupported device , This Device is $devicename . Aborting... !";
+	fi;
+  fi;
+}
+int2ver() {
+  if $BB [ "$1" -eq "$1" ] 2>/dev/null; then
+    echo "$1.0.0";
+  elif [ ! "$(echo "$1" | $BB cut -d. -f3)" ]; then
+    echo "$1.0";
+  else
+    echo "$1";
+  fi;
+}
+do_versioncheck() {
+  [ "$(file_getprop anykernel.sh supported.versions)" ] || return 1;
+  local android_ver hi_ver lo_ver parsed_ver supported supported_ver;
+  supported_ver=$(file_getprop anykernel.sh supported.versions | $BB tr -d '[:space:]');
+  android_ver=$(file_getprop /system/build.prop ro.build.version.release);
+  parsed_ver=$(int2ver $android_ver);
+  if echo $supported_ver | $BB grep -q '-'; then
+    lo_ver=$(int2ver "$(echo $supported_ver | $BB cut -d- -f1)");
+    hi_ver=$(int2ver "$(echo $supported_ver | $BB cut -d- -f2)");
+    if echo -e "$hi_ver\n$lo_ver\n$parsed_ver" | $BB sort -g | $BB grep -n "$parsed_ver" | $BB grep -q '^2:'; then
+      supported=1;
+    fi;
+  else
+    for ver in $(echo $supported_ver | $BB sed 's;,; ;g'); do
+      if [ "$(int2ver $ver)" == "$parsed_ver" ]; then
+        supported=1;
+        break;
+      fi;
+    done;
+  fi;
+  if [ "$REG" = "IDN" ];then
+  ui_print "- Memeriksa Versi Android...";
+  ui_print "- Versi Android: $android_ver ";
+  elif [ "$REG" = "JAV" ];then
+  ui_print "- Priksa Versi Android...";
+  ui_print "- Versi Android: $android_ver ";
+  elif [ "$REG" = "SUN" ];then
+  ui_print "- Pariksa Versi Android...";
+  ui_print "- Versi Android: $android_ver ";
+  elif [ "$REG" = "HI" ];then
+  ui_print "- Android version ki jaanch jaari...";
+  ui_print "- Android Version: $android_ver ";
+  elif [ "$REG" = "EN" ];then
+  ui_print "- Checking Android Version...";
+  ui_print "- Android Version: $android_ver ";
+  fi;
+  if [ "$supported" ]; then
+	ui_print "- OK !";
+  else
+	if [ "$REG" = "IDN" ];then
+	abort "! Versi Android tidak Kompatibel, Kernel ini hanya untuk Android $supported_ver saja . Membatalkan... !";
+	elif [ "$REG" = "JAV" ];then
+    abort "! Versi Android ora Kompatibel, Kernel iki mung kanggo $supported_ver wae . Batal... !";
+	elif [ "$REG" = "SUN" ];then
+    abort "! Versi Android anu teu cocog, Kernel leu kanggo $supported_ver hungkul . Ngabatalkeun... !";
+	elif [ "$REG" = "HI" ];then
+    abort "! Yeh android version asamarthit hai, Yeh kernel sirf Android $supported_ver ke lie hai. Prakriya samapt... !";
+	elif [ "$REG" = "EN" ];then
+    abort "! Unsupported Android version, This kernel only for Android $supported_ver . Aborting... !";
+	fi;
+  fi;
+}
+do_levelcheck() {
+  [ "$(file_getprop anykernel.sh supported.patchlevels)" ] || return 1;
+  local android_lvl hi_lvl lo_lvl parsed_lvl supported_lvl;
+  ui_print "Checking Android security patch level...";
+  supported_lvl=$(file_getprop anykernel.sh supported.patchlevels | $BB grep -oE '[0-9]{4}-[0-9]{2}|-');
+  android_lvl=$(file_getprop /system/build.prop ro.build.version.security_patch);
+  parsed_lvl=$(echo $android_lvl | $BB grep -oE '[0-9]{4}-[0-9]{2}');
+  if echo $supported_lvl | $BB grep -q '^\-'; then
+    lo_lvl=0000-00;
+    hi_lvl=$(echo $supported_lvl | $BB awk '{ print $2 }');
+  elif echo $supported_lvl | $BB grep -q ' - '; then
+    lo_lvl=$(echo $supported_lvl | $BB awk '{ print $1 }');
+    hi_lvl=$(echo $supported_lvl | $BB awk '{ print $3 }');
+  elif echo $supported_lvl | $BB grep -q '\-$'; then
+    lo_lvl=$(echo $supported_lvl | $BB awk '{ print $1 }');
+    hi_lvl=9999-99;
+  fi;
+  if echo -e "$hi_lvl\n$lo_lvl\n$parsed_lvl" | $BB sort -g | $BB grep -n "$parsed_lvl" | $BB grep -q '^2:'; then
+    ui_print "$android_lvl" " ";
+  else
+    abort " " "Unsupported Android security patch level. Aborting...";
+  fi;
+}
+dump_moduleinfo() {
+cat <<EOF > $1;
+name=AK3 Helper Module
+version=$($BB awk '{ print $3 }' $AKHOME/vertmp) $($BB grep -oE '#.[0-9]' $AKHOME/vertmp)
+versionCode=1
+author=AnyKernel3
+description=$KERNEL_STRING
+EOF
+}
+dump_moduleremover() {
+cat <<'EOF' > $1;
+#!/system/bin/sh
+MODDIR=${0%/*};
+if [ "$(cat /proc/version)" != "$(cat $MODDIR/version)" ]; then
+  rm -rf $MODDIR;
+fi;
+EOF
+}
+do_modules() {
+  [ "$(file_getprop anykernel.sh do.modules)" == 1 ] || return 1;
+  local block modcon moddir modtarget module slot umask;
+  if [ "$(file_getprop anykernel.sh do.systemless)" == 1 ]; then
+    cd $AKHOME/modules;
+    ui_print " " "Creating kernel helper Magisk module...";
+    if [ -d /data/adb/magisk -a -f $AKHOME/split_img/.magisk ]; then
+      umask=$(umask);
+      umask 022;
+      moddir=/data/adb/modules/ak3-helper;
+      $BB rm -rf $moddir;
+      mkdir -p system $moddir;
+      ($BB mv -f product system;
+      $BB mv -f vendor system) 2>/dev/null;
+      $BB cp -rLf * $moddir;
+      dump_moduleinfo $moddir/module.prop;
+      dump_moduleremover $moddir/post-fs-data.sh;
+      cp -f $AKHOME/vertmp $moddir/version;
+      umask $umask;
+    else
+      ui_print "Magisk installation not found. Skipped!";
+    fi;
+  else
+    cd $AKHOME/modules;
+    ui_print " " "Pushing modules...";
+    if [ -d /dev/block/mapper ]; then
+      for block in system vendor product; do
+        for slot in "" _a _b; do
+          $BB blockdev --setrw /dev/block/mapper/$block$slot 2>/dev/null;
+        done;
+      done;
+    fi;
+    if [ ! -d /postinstall/tmp ]; then
+      $BB mount -o rw,remount -t auto /system;
+      ($BB mount -o rw,remount -t auto /vendor;
+      $BB mount -o rw,remount -t auto /product) 2>/dev/null;
+    fi;
+    for module in $(find . -name '*.ko'); do
+      modtarget=$POSTINSTALL$(echo $module | $BB cut -c2-);
+      if [ ! -e $modtarget ]; then
+        case $module in
+          */vendor/*) modcon=vendor;;
+          */product/*) modcon=product;;
+          *) modcon=system;;
+        esac;
+      fi;
+      if is_mounted $modtarget; then
+        $BB mount -o rw,remount -t auto $modtarget;
+      fi;
+      mkdir -p $(dirname $modtarget);
+      $BB cp -rLf $module $modtarget;
+      $BB chown 0:0 $modtarget;
+      $BB chmod 644 $modtarget;
+      if [ "$modcon" ]; then
+        chcon "u:object_r:${modcon}_file:s0" $modtarget;
+      fi;
+      if is_mounted $modtarget; then
+        $BB mount -o ro,remount -t auto $modtarget;
+      fi;
+    done;
+    if [ ! -d /postinstall/tmp ]; then
+      $BB mount -o ro,remount -t auto /system;
+      ($BB mount -o ro,remount -t auto /vendor;
+      $BB mount -o ro,remount -t auto /product) 2>/dev/null;
+    fi;
+  fi;
+  cd $AKHOME;
+}
+
+AddSpectrum(){
+if [ "`$BB grep selected.0=1 /tmp/aroma-data/spectrum.prop`" ]; then
+  cd $AKHOME;
+  # custom script for spectrum
+  $BB mount -o rw,remount -t auto /system;
+  $BB mount -o rw,remount -t auto /vendor 2>/dev/null;
+
+  # add spectrum support
+  SCRIPT_TYPE="$(file_getprop anykernel.sh script.type)";
+  if [ -e $AKHOME/init.spectrum.rc ];then
+  if [ "$REG" = "IDN" ];then
+  ui_print "- Mencadangkan Skrip Lama...";
+  elif [ "$REG" = "JAV" ];then
+  ui_print "- Gawe Serep Skrip sing lawas...";
+  elif [ "$REG" = "SUN" ];then
+  ui_print "- Nyadangkeun Skrip Lama...";
+  elif [ "$REG" = "HI" ];then
+  ui_print "- Poorane Script ka backup prakriya suru...";
+  elif [ "$REG" = "EN" ];then
+  ui_print "- Backing up Old Script in Progress...";
+  fi;
+    if [ ! -e /vendor/etc/init/hw/init.qcom.rc.backup ];then
+      cp -af /vendor/etc/init/hw/init.qcom.rc /vendor/etc/init/hw/init.qcom.rc.backup
+    fi
+    if [ ! -e /vendor/etc/init/hw/init.spectrum.rc.backup ];then
+      cp -af /vendor/etc/init/hw/init.spectrum.rc /vendor/etc/init/hw/init.spectrum.rc.backup
+    fi
+	if [ "$REG" = "IDN" ];then
+	ui_print "- Menambal init.qcom.rc...";
+	elif [ "$REG" = "JAV" ];then
+	ui_print "- Nambahi init.qcom.rc...";
+	elif [ "$REG" = "SUN" ];then
+	ui_print "- Nambal init.qcom.rc...";
+	elif [ "$REG" = "HI" ];then
+	ui_print "- init.qcom.rc ke Patching prakriya suru...";
+	elif [ "$REG" = "EN" ];then
+	ui_print "- Patching init.qcom.rc...";
+	fi;
+    grep "import /init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import \/init.spectrum.rc/d' /vendor/etc/init/hw/init.qcom.rc
+    grep "import init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import init.spectrum.rc/d' /vendor/etc/init/hw/init.qcom.rc
+    grep "import /vendor/etc/init/hw/init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null || sed -i '1,/.*import.*/s/.*import.*/import \/vendor\/etc\/init\/hw\/init.spectrum.rc\n&/' /vendor/etc/init/hw/init.qcom.rc
+    if [ "$REG" = "IDN" ];then
+		if [ "$SCRIPT_TYPE" = "EAS Advanced Configuration" ];then
+		ui_print "- Menambal Skrip Konfigurasi EAS Lanjutan...";
+		else
+		ui_print "- Menambal Skrip $SCRIPT_TYPE...";
+		fi
+	elif [ "$REG" = "JAV" ];then
+		if [ "$SCRIPT_TYPE" = "EAS Advanced Configuration" ];then
+		ui_print "- Nambahi Skrip Konfigurasi EAS Lanjutan...";
+		else
+		ui_print "- Nambahi Skrip $SCRIPT_TYPE...";
+		fi
+	elif [ "$REG" = "SUN" ];then
+		if [ "$SCRIPT_TYPE" = "EAS Advanced Configuration" ];then
+		ui_print "- Nambal Skrip Konfigurasi EAS Lanjutan...";
+		else
+		ui_print "- Nambal Skrip $SCRIPT_TYPE...";
+		fi
+	elif [ "$REG" = "HI" ];then
+		if [ "$SCRIPT_TYPE" = "EAS Advanced Configuration" ];then
+		ui_print "- EAS Adhunik Vinyas Script ke patching prakriya suru...";
+		else
+		ui_print "- Script $SCRIPT_TYPE ke Patching prakriya suru...";
+		fi
+	elif [ "$REG" = "EN" ];then
+	ui_print "- Patching $SCRIPT_TYPE Script...";
+	fi
+	cp -af $AKHOME/init.spectrum.rc /vendor/etc/init/hw/
+    chmod -R 644 /vendor/etc/init/hw/init.spectrum.rc
+    # cprofile remover
+    if [ -e /system/xbin/cprofile ];then
+      rm -rf /system/xbin/cprofile
+      ui_print "remove /system/xbin/cprofile"
+    fi
+    if [ -e /system/bin/cprofile ];then
+      rm -rf /system/bin/cprofile
+      ui_print "remove /system/bin/cprofile"
+    fi
+    if [ -e /vendor/bin/cprofile ];then
+      rm -rf /vendor/bin/cprofile
+      ui_print "remove /vendor/bin/cprofile"
+    fi
+    if [ -e /system/init.spectrum.rc ];then
+      rm -rf /system/init.spectrum.rc
+      ui_print "remove /system/init.spectrum.rc"
+    fi
+    if [ -e /system/init.spectrum.sh ];then
+      rm -rf /system/init.spectrum.sh
+      ui_print "remove /system/init.spectrum.sh"
+    fi
+	fi
+  elif [ "`$BB grep selected.0=2 /tmp/aroma-data/spectrum.prop`" ];then
+    if [ -e /vendor/etc/init/hw/init.spectrum.rc ];then
+	  if [ "$REG" = "IDN" ];then
+	  ui_print "- Menghapus Skrip Spectrum Lama..."
+	  elif [ "$REG" = "JAV" ];then
+	  ui_print "- Mbusake Skrip Spektrum sing lawas..."
+	  elif [ "$REG" = "SUN" ];then
+	  ui_print "- Ngaleungitkeun skrip spéktrum lami..."
+	  elif [ "$REG" = "HI" ];then
+	  ui_print "- Poorane Spectrum Script ka hatane jane wale prakriya suru..."
+	  elif [ "$REG" = "EN" ];then
+	  ui_print "- Removing old Spectrum Script..."
+	  fi
+      rm -rf /vendor/etc/init/hw/init.spectrum.rc
+    fi
+    if [ -e /vendor/etc/init/hw/init.qcom.rc.backup ];then
+      cp -af /vendor/etc/init/hw/init.qcom.rc.backup /vendor/etc/init/hw/init.qcom.rc
+      rm -rf /vendor/etc/init/hw/init.qcom.rc.backup
+      grep "import /vendor/etc/init/hw/init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import \/vendor\/etc\/init\/hw\/init.spectrum.rc/d' /vendor/etc/init/hw/init.qcom.rc
+    fi
+  fi
+  $BB mount -o ro,remount -t auto /system;
+  $BB mount -o ro,remount -t auto /vendor 2>/dev/null;
+}
+
+show_progress 1.34 4;
+ui_print " ";
+cleanup;
+mkdir -p $AKHOME/bin;
+cd $AKHOME;
+unzip -o "$ZIPFILE";
+if [ $? != 0 -o ! "$(ls tools)" ]; then
+  abort "Unzip failed. Aborting...";
+fi;
+for ARCH32 in x86 arm; do
+  if [ -d $AKHOME/tools/$ARCH32 ]; then
+    BB=$AKHOME/tools/$ARCH32/busybox;
+    chmod 755 $BB;
+    $BB >/dev/null 2>&1;
+    if [ $? == 0 ]; then
+      $BB mv -f $AKHOME/tools/$ARCH32/* $AKHOME/tools;
+      break;
+    fi;
+  fi;
+done;
+BB=$AKHOME/tools/busybox;
+chmod 755 $BB;
+$BB chmod -R 755 tools bin;
+$BB --install -s bin;
+if [ $? != 0 -o -z "$(ls bin)" ]; then
+  abort "Busybox setup failed. Aborting...";
+fi;
+
+# MultiLanguage Support
+if echo "$3" | $BB grep -q "IDN";then
+  REG=IDN;
+elif echo "$3" | $BB grep -q "JAV";then
+  REG=JAV;
+elif echo "$3" | $BB grep -q "SUN";then
+  REG=SUN;
+elif echo "$3" | $BB grep -q "HI";then
+  REG=HI;
+else
+  REG=EN;
+fi;
+	
+if [ -f banner ]; then
+  ui_printfile banner;
+  ui_print " ";
+fi;
+
+KERNEL_STRING="$(file_getprop anykernel.sh kernel.string)";
+KERNEL_FOR="$(file_getprop anykernel.sh kernel.for)";
+KERNEL_COMPILER="$(file_getprop anykernel.sh kernel.compiler)";
+KERNEL_MADE="$(file_getprop anykernel.sh kernel.made)";
+KERNEL_VERSION="$(file_getprop anykernel.sh kernel.version)";
+KERNEL_TYPE="$(file_getprop anykernel.sh kernel.type)";
+MESSAGE_WORD="$(file_getprop anykernel.sh message.word)";
+BUILD_DATE="$(file_getprop anykernel.sh build.date)";
+DEVICE_NAME="$(file_getprop anykernel.sh device.name3)";
+BUILD_TYPE="$(file_getprop anykernel.sh build.type)";
+if [ "$REG" = "IDN" ];then
+ui_print "-- Nama Kernel    : $KERNEL_STRING";
+ui_print "-- Versi Kernel   : $KERNEL_VERSION";
+ui_print "-- Varian         : $KERNEL_FOR - $KERNEL_TYPE";
+ui_print "-- PengKompilasi  : $KERNEL_COMPILER";
+ui_print "-- Perangkat      : $DEVICE_NAME";
+ui_print "-- Tanggal Build  : $BUILD_DATE";
+ui_print "-- Tipe Build     : $BUILD_TYPE";
+ui_print "-- DiBuild Oleh   : $KERNEL_MADE";
+elif [ "$REG" = "JAV" ];then
+ui_print "-- Jeneng Kernel  : $KERNEL_STRING";
+ui_print "-- Versi Kernel   : $KERNEL_VERSION";
+ui_print "-- Varian         : $KERNEL_FOR - $KERNEL_TYPE";
+ui_print "-- Panyusun       : $KERNEL_COMPILER";
+ui_print "-- Piranti        : $DEVICE_NAME";
+ui_print "-- Tanggal Mbangun: $BUILD_DATE";
+ui_print "-- Jinis Mbangun  : $BUILD_TYPE";
+ui_print "-- Dibangun Dening: $KERNEL_MADE";
+elif [ "$REG" = "SUN" ];then
+ui_print "-- Ngaran Kernel    : $KERNEL_STRING";
+ui_print "-- Versi Kernel     : $KERNEL_VERSION";
+ui_print "-- Varian           : $KERNEL_FOR - $KERNEL_TYPE";
+ui_print "-- Panyusun         : $KERNEL_COMPILER";
+ui_print "-- Paranti          : $DEVICE_NAME";
+ui_print "-- Tanggal Ngawangun: $BUILD_DATE";
+ui_print "-- Tipe Ngawangun   : $BUILD_TYPE";
+ui_print "-- Diwangun Ku      : $KERNEL_MADE";
+elif [ "$REG" = "HI" ];then
+ui_print "-- Kernel Ka Naam   : $KERNEL_STRING";
+ui_print "-- Kernel Ka Version: $KERNEL_VERSION";
+ui_print "-- Kernel Ka Variant: $KERNEL_FOR - $KERNEL_TYPE";
+ui_print "-- Clang Ka Naam    : $KERNEL_COMPILER";
+ui_print "-- Device Ka Naam   : $DEVICE_NAME";
+ui_print "-- Nirman Ka Taarekh: $BUILD_DATE";
+ui_print "-- Bild Prakaar     : $BUILD_TYPE";
+ui_print "-- Nirmankarta      : $KERNEL_MADE";
+elif [ "$REG" = "EN" ];then
+ui_print "-- Kernel Name    : $KERNEL_STRING";
+ui_print "-- Kernel Version : $KERNEL_VERSION";
+ui_print "-- Variant        : $KERNEL_FOR - $KERNEL_TYPE";
+ui_print "-- Compiler       : $KERNEL_COMPILER";
+ui_print "-- Device         : $DEVICE_NAME";
+ui_print "-- Build Date     : $BUILD_DATE";
+ui_print "-- Build Type     : $BUILD_TYPE";
+ui_print "-- Builded by     : $KERNEL_MADE";
+fi;
+ui_print "_________________________________________________" " ";
+if [ -f version ]; then
+  ui_print " ";
+  ui_printfile version;
+  ui_print " ";
+fi;
+
+if [ "$REG" = "IDN" ];then
+ui_print "- Menyiapkan Pengaturan Lingkungan ...";
+elif [ "$REG" = "JAV" ];then
+ui_print "- Nyiyapake Persiyapan Lingkungan ...";
+elif [ "$REG" = "SUN" ];then
+ui_print "- Nyiapkeun Setelan Lingkungan ...";
+elif [ "$REG" = "HI" ];then
+ui_print "- Paryavaran Setup Ka Prakriya suru ...";
+elif [ "$REG" = "EN" ];then
+ui_print "- Preparing Environment Setup ...";
+fi;
+setup_env;
+
+do_devicecheck;
+do_versioncheck;
+do_levelcheck;
+
+if [ "$REG" = "IDN" ];then
+ui_print "- Memasang Kernel...";
+ui_print "! Tidak Perlu Menginstall Magisk lagi jika sebelumnya sudah terinstall !";
+elif [ "$REG" = "JAV" ];then
+ui_print "- Nginstall Kernel...";
+ui_print "! Ora perlu nginstall Magisk maneh yen sadurunge wis diinstall !";
+elif [ "$REG" = "SUN" ];then
+ui_print "- Masang Kernel...";
+ui_print "! Henteu kedah masang Magisk deui upami éta sateuacan dipasang !";
+elif [ "$REG" = "HI" ];then
+ui_print "- Kernel Install ka prakriya suru...";
+ui_print "! Aapko Magisk flash karne ki koi jaroorat nai hai agar aapne pehele se flash kie hai !";
+elif [ "$REG" = "EN" ];then
+ui_print "- Installing Kernel...";
+ui_print "! U don't need to reinstall Magisk if already installed before !";
+fi;
+CORE=$($BB grep -oE 'ak.*core.sh' anykernel.sh);
+[ -f tools/$CORE ] || $BB ln -s $AKHOME/tools/ak*-core.sh $AKHOME/tools/$CORE;
+PATH="$AKHOME/bin:$PATH" home=$AKHOME $BB ash anykernel.sh $2;
+if [ $? != 0 ]; then
+  abort;
+fi;
+
+do_modules;
+
+# custom script for add spectrum support to kernel
+AddSpectrum;
+
+debugging;
+restore_env;
+if [ "$(file_getprop anykernel.sh do.cleanup)" == 1 ]; then
+  cleanup;
+fi;
+
+if [ "$REG" = "IDN" ];then
+ui_print "- Selesai";
+elif [ "$REG" = "JAV" ];then
+ui_print "- Rampung";
+elif [ "$REG" = "SUN" ];then
+ui_print "- Parantos";
+elif [ "$REG" = "HI" ];then
+ui_print "- Kernel Flash Prakriya Ki Ant.";
+elif [ "$REG" = "EN" ];then
+ui_print "- Done";
+fi;
+
+ui_print " " "_________________________________________________";
+ui_print " " "$MESSAGE_WORD" "_________________________________________________" " ";
