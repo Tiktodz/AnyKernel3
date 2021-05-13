@@ -1,27 +1,67 @@
+<@center><b><#selectbg_g>ENGLISH</#></b>
+
 <@center><b><#selectbg_g>SkyWalker Kernel</#></b>
 
 <b><#selectbg_g>About Kernel Variants :</#></b></@>
 
 <@fill><q>
-R : Kernel for Android 11 and 12 ROM which have 
-    LEDs Based Vibration driver , don't flash on 
-	A10 or ROMs which still using Old QPNP 
-	Vibration driver else will bootloop.
+R : Kernel for Android 11 and 12 ROM which have
+     LEDs Based Vibration driver , don't flash on
+	 A10 or ROMs which still using Old QPNP
+	 Vibration driver else will bootloop.
 
-XR : Kernel for Android 10 , 11 , and Stock ROM 
-     which it's still using Old QPNP Vibration 
-	 driver , so Don't flash on ROMs with LEDs 
-	 Based Vibration else Vibrate will Dead.
+XR : Kernel for Android 10 , 11 , and Stock ROM
+      which it's still using Old QPNP Vibration
+	  driver , so Don't flash on ROMs with LEDs
+	  Based Vibration else Vibrate will Dead.
 
-P : Kernel for Android 9 Custom ROM only , 
-    don't flash on others else WiFi Will dead.
+P : Kernel for Android 9 Custom ROM only ,
+     don't flash on others else WiFi Will dead.
 
-NFI : Android R Kernel Variant with 
-      CAF 9.2 / R WiFi Driver . 
-	  Recommended to use this variant if u're on Q Firmware.
+NFI : Android R Kernel Variant with
+       CAF 9.2 / R WiFi Driver .
+	   Recommended to use this variant
+	   if u're on Q Firmware.
 
-OFI : Android R Kernel Variant with 
-      CAF 7.2 / P WiFi Driver . 
-	  U can use this Variant on Both Firmware (Pie and Q).
+OFI : Android R Kernel Variant with
+       CAF 7.2 / P WiFi Driver .
+	   U can use this Variant on
+	   Both Firmware (Pie and Q).
 </q></@>
+
+<@center><b><#selectbg_g>INDONESIA</#></b>
+
+<@center><b><#selectbg_g>Kernel SkyWalker</#></b>
+
+<b><#selectbg_g>Tentang Varian Kernel :</#></b></@>
+
+<@fill><q>
+R : Kernel untuk ROM Android 11 dan 12 Yang
+    dimana Getarannya sudah Berbasis Driver LEDs
+	, Jangan Flash pada Android 10 atau ROM
+	yang masih menggunakan Getaran lama berbasis
+	Driver QPNP , nanti akan bootloop .
+
+XR : Kernel untuk ROM Android 10 , 11 , and Stock
+     yang dimana masih menggunakan Getaran lama
+	 berbasis Driver QPNP , jadi jangan flash
+	 pada ROM yang getarannya sudah memakai
+	 Driver berbasis LEDs , nanti getaran
+	 akan mati .
+
+P : Kernel yang hanya untuk Custom ROM Android 9
+    , jangan flash pada lainnya atau WiFi
+	akan Mati.
+
+NFI : Varian Kernel untuk Android R dengan
+      CAF 9.2 / Driver WiFi R . Disarankan
+	  menggunakan varian ini apabila agan
+	  menggunakan Firmware Q.
+
+OFI : Varian Kernel untuk Android R dengan
+      CAF 7.2 / Driver WiFi P . Agan dapat
+	  menggunakan varian ini pada Kedua
+	  Jenis Firmware yaitu Pie dan Q.
+</q></@>
+
 

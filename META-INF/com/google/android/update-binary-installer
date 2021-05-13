@@ -621,14 +621,12 @@ if [ $? != 0 -o -z "$(ls bin)" ]; then
 fi;
 
 # MultiLanguage Support
-if echo "$3" | $BB grep -q "IDN";then
+if [ "`$BB grep selected.0=2 /tmp/aroma-data/lang.prop`" ];then
   REG=IDN;
-elif echo "$3" | $BB grep -q "JAV";then
+elif [ "`$BB grep selected.0=3 /tmp/aroma-data/lang.prop`" ];then
   REG=JAV;
-elif echo "$3" | $BB grep -q "SUN";then
+elif [ "`$BB grep selected.0=4 /tmp/aroma-data/lang.prop`" ];then
   REG=SUN;
-elif echo "$3" | $BB grep -q "HI";then
-  REG=HI;
 else
   REG=EN;
 fi;

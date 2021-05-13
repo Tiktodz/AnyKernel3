@@ -1,0 +1,95 @@
+﻿### LICENSE:
+#
+# Copyright (C) 2011 Ahmad Amarullah ( http://amarullz.com/ )
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+### LANGUAGE STRING RESOURCE FILE
+#
+#   Language  : Sundanese ( Based on Google Translate)
+#   By        : RyuujiX
+#
+
+#
+#--- COMMON SYSTEM STRING RESOURCE
+#
+text_ok=OK
+text_finish=Rengse
+text_install=Pasang
+text_next=Terusna
+text_back=Balik deui
+text_yes=Enya
+text_no=Henteu
+text_about=Ngeunaan
+text_calibrating=Calibrating Parabot
+text_quit=Kaluar Pamasangan
+text_quit_msg=Naha anjeun pasti kaluar tina installer?
+
+#
+#-- CUSTOM STRING RESOURCE
+#
+common.for=pikeun
+common.press=Pencet
+
+langtest.title=Language Test
+langtest.multiline=This text is located in langs/en.lang\
+Use backslash before enter to add new line\
+\
+You can also do <b>Formatting</b> inside the language string resource.\
+\
+Thanks for using AROMA Installer
+
+#-- End of string without any backslash for multiline text
+
+
+themes.title=Pilih Téma
+themes.desc=Please select installer theme that you want to use in this installation test:
+
+welcome.title=Wilujeng Sumping
+welcome.text1=Anjeun badé Masang
+welcome.text2=AROMA Installer was the first and the only Touch and Customizable ANDROID ROM Installer in the World.
+welcome.version=VERSI
+welcome.codename=PARANGKAT
+welcome.builddate=NGAWANGUN TANGGAL
+welcome.author=DIWANGUN KU
+welcome.next=Pencét Terusna pikeun Neruskeun Pamasangan...
+
+kernel.about=Ngeunaan Kernel
+kernel.aboutoc=Ngeunaan Kernel Overclock
+kernel.variantinfo=Inpo Varian
+have.readinfo=Kuring Parantos Maca Inpo ieu
+have.understand=Muhun abdi ngartos
+have.understandagree=OK, Kuring Ngartos sareng Satuju
+check.tocontinue=Centang kanggo teruskeun !
+info.caution=Baca ieu sacara saksama
+infooc.caution=Bantahan Kernel OC
+infovariant.caution=Maca Ieu pikeun mastikeun yén anjeun henteu masang Kernel anu salah
+spectrum.confirm=Aktipkeun dukungan spéktrum dina
+with.spectrum=Pasang kernel ieu kalayan dukungan spéktrum.
+without.spectrum=Pasang kernel ieu tanpa dukungan spéktrum.
+ready.install=Siap dipasang
+kernel.install=Kernel ieu siap dipasang
+begin.install=pikeun masang kernel ieu
+review.confirm=Upami anjeun hoyong marios atanapi ngarobih naon wae
+installing=Masang
+isbeing.installed=nuju dipasang.
+please.wait=Punten antosan, Ieu tiasa nyandak sakedap...
+installed=Kernel parantos hasil dipasang, Pencét Rengse pikeun kaluar.
+
+terms.title=Syarat sareng katangtuan
+terms.desc=Mangga baca sacara saksama Sarat sareng Kaayaan AROMA Installer Ieu di handap.
+terms.check=Kuring satuju sareng Sarat sareng Kaayaan ieu...
+terms.confirm=Punten parios perjanjian...
+
+changelog.title=Changelog
+changelog.desc=AROMA Installer Changelog

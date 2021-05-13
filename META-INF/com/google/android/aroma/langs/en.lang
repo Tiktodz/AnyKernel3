@@ -18,12 +18,15 @@
 #
 #   Language  : English
 #   By        : amarullz
+#	Revised by: RyuujiX
 #
 
 #
 #--- COMMON SYSTEM STRING RESOURCE
 #
 text_ok=OK
+text_finish=Finish
+text_install=Install
 text_next=Next
 text_back=Back
 text_yes=Yes
@@ -37,6 +40,7 @@ text_quit_msg=Are you sure to quit the installer?
 #-- CUSTOM STRING RESOURCE
 #
 common.for=for
+common.press=Press
 
 langtest.title=Language Test
 langtest.multiline=This text is located in langs/en.lang\
@@ -57,8 +61,31 @@ welcome.text1=You are about to Install
 welcome.text2=AROMA Installer was the first and the only Touch and Customizable ANDROID ROM Installer in the World.
 welcome.version=VERSION
 welcome.codename=CODENAME
-welcome.updated=UPDATED
+welcome.builddate=BUILD DATE
+welcome.author=BUILDED BY
 welcome.next=Press Next to Continue the Installation...
+
+kernel.about=About Kernel
+kernel.aboutoc=About Overclock Kernel
+kernel.variantinfo=Variant Info
+have.readinfo=I Have Read this Info
+have.understand=OK, I Understand
+have.understandagree=OK, I Understand and Agree
+check.tocontinue=Check to continue !
+info.caution=Read these Carefully
+infooc.caution=OC Kernel Disclaimer
+infovariant.caution=Read This to make sure u're not installing wrong Kernel
+spectrum.confirm=Enable Spectrum Support on
+with.spectrum=Install this kernel with spectrum support.
+without.spectrum=Install this kernel without spectrum support.
+ready.install=Ready to Install
+kernel.install=This kernel is ready to be installed
+begin.install=to install this kernel
+review.confirm=If u want to review or change any
+installing=Installing
+isbeing.installed=is being installed.
+please.wait=Please wait , This may take a moment...
+installed=Kernel has successfully installed , Press Finish to Exit.
 
 terms.title=Terms and Conditions
 terms.desc=Please read carefully The AROMA Installer Terms and Conditions Below.

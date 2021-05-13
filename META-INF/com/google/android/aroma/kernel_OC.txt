@@ -1,10 +1,12 @@
+<@center><b><#selectbg_g>ENGLISH</#></b>
+
 <@center><b><#selectbg_g>SkyWalker Kernel</#></b>
 
 <b><#selectbg_g>About Overclocked Kernel :</#></b></@>
 
 <@fill><q>
 <b>
-Overclocked Kernels is safe if u're using it 
+Overclocked Kernels actually is safe if u're using it 
 with carefully . But still use it with ur 
 own risk :) .
 </b>
@@ -16,3 +18,22 @@ own risk :) .
 
 </q></@>
 
+<@center><b><#selectbg_g>INDONESIA</#></b>
+
+<@center><b><#selectbg_g>Kernel SkyWalker</#></b>
+
+<b><#selectbg_g>Tentang Kernel yang diOverclock :</#></b></@>
+
+<@fill><q>
+<b>
+Kernel yang diOverclock itu sebenarnya aman
+apabila agan menggunakannya dengan hati-hati .
+Tapi tetap Resiko ditanggung Pemenang :) .
+</b>
+
+<b>NOTE:
+* Disarankan menggunakan kernel ini dengan spectrum. 
+  Ini akan menjadi opsi terbaik .
+</b>
+
+</q></@>

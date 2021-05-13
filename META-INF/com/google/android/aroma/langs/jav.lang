@@ -1,0 +1,95 @@
+﻿### LICENSE:
+#
+# Copyright (C) 2011 Ahmad Amarullah ( http://amarullz.com/ )
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+### LANGUAGE STRING RESOURCE FILE
+#
+#   Language  : Javanese
+#   By        : RyuujiX
+#
+
+#
+#--- COMMON SYSTEM STRING RESOURCE
+#
+text_ok=OK
+text_finish=Rampung
+text_install=Pasang
+text_next=Teruske
+text_back=Bali
+text_yes=Nggeh
+text_no=Mboten
+text_about=Babagan
+text_calibrating=Alat Kalibrasi
+text_quit=Batal Instalasi
+text_quit_msg=Sampeyan manawa bakal mbatalake instalasi?
+
+#
+#-- CUSTOM STRING RESOURCE
+#
+common.for=kanggo
+common.press=Pencet
+
+langtest.title=Language Test
+langtest.multiline=This text is located in langs/en.lang\
+Use backslash before enter to add new line\
+\
+You can also do <b>Formatting</b> inside the language string resource.\
+\
+Thanks for using AROMA Installer
+
+#-- End of string without any backslash for multiline text
+
+
+themes.title=Pilih Tema
+themes.desc=Please select installer theme that you want to use in this installation test:
+
+welcome.title=Sugeng Rawuh
+welcome.text1=Sampeyan arep nginstal
+welcome.text2=AROMA Installer was the first and the only Touch and Customizable ANDROID ROM Installer in the World.
+welcome.version=VERSI
+welcome.codename=PIRANTI
+welcome.builddate=TANGGAL GAWE
+welcome.author=DIGAWE OLEH
+welcome.next=Pencet Teruske kanggo Teruske Instalasi...
+
+kernel.about=Babagan Kernel
+kernel.aboutoc=Babagan Kernel Overclock
+kernel.variantinfo=Info Varian
+have.readinfo=Kulo sampun Woco Info iki
+have.understand=OK, Kulo Ngerti
+have.understandagree=OK, Kulo Ngerti lan Setuju
+check.tocontinue=Centang manawa sampeyan pengin terus !
+info.caution=Woco kanthi tliti
+infooc.caution=Penafian Kernel OC
+infovariant.caution=Woco Iki kanggo mesthekake yen sampeyan ora nginstal Kernel sing salah
+spectrum.confirm=Aktifke dhukungan spektrum ing
+with.spectrum=Instal kernel iki kanthi dhukungan spektrum.
+without.spectrum=Instal kernel iki tanpa dhukungan spektrum.
+ready.install=Siap Kanggo Nginstal
+kernel.install=Kernel iki Siap Nginstal
+begin.install=kanggo nginstal kernel iki
+review.confirm=Yen ono sing ndeleng utawa diganti
+installing=Menginstal
+isbeing.installed=lagi nginstal.
+please.wait=Tulung ngenteni, Iki bisa uga butuh wektu suwe...
+installed=Kernel wis sukses diinstal, Pencet Rampung kanggo Metu.
+
+terms.title=Syarat lan Ketentuan
+terms.desc=Woco kanthi tliti Syarat lan Ketentuan AROMA Installer Ing ngisor iki.
+terms.check=Aku Setuju karo Syarat lan Ketentuan iki...
+terms.confirm=Monggo dipriksa kesepakatan...
+
+changelog.title=Changelog
+changelog.desc=AROMA Installer Changelog
