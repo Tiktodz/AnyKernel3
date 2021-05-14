@@ -148,6 +148,19 @@ selectbox(
     "<~text_no>",	"<~without.spectrum>", 0	        #-- selected.0 = 2     
 );
 
+ini_set("text_next", "<~text_install>");
+
+viewbox(
+	"<~ready.install>",
+	"\n\n\n\n\n\n\n\n\n\n<#textfg><~kernel.install>.\n\n"+
+	"<~common.press> <b><~text_install></b> <~begin.install>.\n\n"+
+	"<~review.confirm>, <~common.press> <b><~text_back>.</#>",
+	
+	"@install"
+);
+
+ini_set("text_next", "<~text_finish>");
+
 setvar("retstatus",
   install(
 	#-- Title
