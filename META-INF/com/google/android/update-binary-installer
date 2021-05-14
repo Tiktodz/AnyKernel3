@@ -627,6 +627,8 @@ elif [ "`$BB grep selected.0=3 /tmp/aroma-data/lang.prop`" ];then
   REG=JAV;
 elif [ "`$BB grep selected.0=4 /tmp/aroma-data/lang.prop`" ];then
   REG=SUN;
+elif [ "`$BB grep selected.0=5 /tmp/aroma-data/lang.prop`" ];then
+  REG=HI;
 else
   REG=EN;
 fi;

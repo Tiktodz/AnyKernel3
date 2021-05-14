@@ -48,7 +48,8 @@ selectbox(
     "English",	"Use Default English Language.", 1,	        #-- selected.0 = 1     
     "Indonesia",	"Gunakan Bahasa Indonesia.", 0, 	        #-- selected.0 = 2
 	"Jawa",	"Nggo Boso Jowo.", 0, 	        #-- selected.0 = 3
-	"Sunda",	"Anggo Basa Sundana.", 0 	        #-- selected.0 = 4
+	"Sunda",	"Anggo Basa Sundana.", 0, 	        #-- selected.0 = 4
+	"Hindi",	"Hindee bhaasha ka upayog karen.", 0 	        #-- selected.0 = 5
 );
 
 if prop("lang.prop","selected.0")=="1" then
@@ -65,6 +66,10 @@ endif;
 
 if prop("lang.prop","selected.0")=="4" then
   loadlang("langs/sun.lang");
+endif;
+
+if prop("lang.prop","selected.0")=="5" then
+  loadlang("langs/hi.lang");
 endif;
 
 ##############################################
