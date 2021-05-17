@@ -131,6 +131,17 @@ agreebox(
     "<~check.tocontinue>"
 );
 
+textbox(
+  #-- Title
+    "<~kernel.variantinfo>",
+  #-- Subtitle / Description
+    "<~infovariant.caution>",
+  #-- Icon:
+    "@license",
+  #-- Text Content 
+    resread("kernel_variant.txt")
+	);
+	
 agreebox(
   #-- Title
     "<~kernel.variantinfo>",
@@ -139,7 +150,7 @@ agreebox(
   #-- Icon:
     "@license",
   #-- Text Content 
-    resread("kernel_variant.txt"),
+    resread("kernel_variant_id.txt"),
   #-- Checkbox Text
     "<~have.understand>",
   #-- Unchecked Alert Message

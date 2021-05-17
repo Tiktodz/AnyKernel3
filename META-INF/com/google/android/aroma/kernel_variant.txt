@@ -5,63 +5,81 @@
 <b><#selectbg_g>About Kernel Variants :</#></b></@>
 
 <@fill><q>
-R : Kernel for Android 11 and 12 ROM which have
-     LEDs Based Vibration driver , don't flash on
-	 A10 or ROMs which still using Old QPNP
-	 Vibration driver else will bootloop.
+R : Kernel for Android 11 and 12 ROM
+    with CAF LA.UM.9.2.r1-XXXXX-SDMxx0.0 .
+	Some Android 10 ROMs maybe can
+	booted with this :)
 
-XR : Kernel for Android 10 , 11 , and Stock ROM
-      which it's still using Old QPNP Vibration
-	  driver , so Don't flash on ROMs with LEDs
-	  Based Vibration else Vibrate will Dead.
+XR : Kernel for Android 10 , 11 ,
+     and Stock ROM which it's
+	 still using Old QPNP Vibration
+	 driver . With CAF
+	 LA.UM.8.2.r2-XXXXX-sdm660.0 ,
+	 so Don't flash on ROMs with
+	 LEDs Based Vibration else
+	 Vibrate will Dead.
 
-P : Kernel for Android 9 Custom ROM only ,
-     don't flash on others else WiFi Will dead.
+P : Kernel for Android 9 Custom ROM only
+    with CAF LA.UM.8.2.r2-XXXXX-sdm660.0 ,
+	don't flash on others else WiFi Will
+	dead.
 
 NFI : Android R Kernel Variant with
-       CAF 9.2 / R WiFi Driver .
-	   Recommended to use this variant
-	   if u're on Q Firmware.
+      CAF 9.2 / R WiFi Driver .
+	  Recommended to use this variant
+	  if u're on Q Firmware.
 
 OFI : Android R Kernel Variant with
-       CAF 7.2 / P WiFi Driver .
-	   U can use this Variant on
-	   Both Firmware (Pie and Q).
+      CAF 7.2 / P WiFi Driver . U
+	  can use this Variant on
+	  Both Firmware (Pie and Q).
+
+LV : For ROM which using LEDs Based
+     Vibration driver , don't flash
+	 on A10 or ROMs which still
+	 using Old QPNP Vibration
+	 driver else will bootloop.
+
+NLV : For ROMs which still using
+      Old QPNP Vibration Driver .
+	  Don't flash on ROMs with LEDs
+	  Based Vibration else Vibrate
+	  will Dead.
+	  
+What is EAS?
+
+Energy Aware Scheduling (EAS) is an enhancement
+to Linux power management, unifying CPU power
+control under the Linux kernel. EAS extends the
+Linux kernel scheduler to make it fully aware
+of the power/performance capabilities of the
+CPUs in the system, to optimize energy
+consumption for advanced multi-core SoCs
+including big.LITTLE. With EAS, the Linux kernel
+will use the task load and a CPU ‘Energy Model’ to
+control task placement to select the optimal
+CPU to run on.
+
+What is HMP ?
+
+Heterogeneous Multi-Processing (HMP) This is the
+standard load scheduler for any big.LITTLE device
+released in recent years, other than the
+Google Pixel. HMP makes use of the big.LITTLE
+architecture, delegating low priority, less intensive
+work to the little cores which consume less power.
+HMP is “safe” wherein it knows what should go to the
+big cores and what should go to the little cores,
+without making mistakes. It just works and requires a
+lot less effort to set up on the development side than
+something like EAS, which we’ll get into in a moment.
+HMP is just an extension of CFS to make it power aware.
+
+HMP doesn’t take guesses, nor does it predict future
+processes. This is good but is why the device cannot be
+as fluid as those running EAS and is also why it consumes
+slightly more battery. This, finally, brings us to
+Energy Aware Scheduling (EAS), which I firmly believe is
+the future in ROM and kernel development as more OEMs
+adopt it.
 </q></@>
-
-<@center><b><#selectbg_g>INDONESIA</#></b>
-
-<@center><b><#selectbg_g>Kernel SkyWalker</#></b>
-
-<b><#selectbg_g>Tentang Varian Kernel :</#></b></@>
-
-<@fill><q>
-R : Kernel untuk ROM Android 11 dan 12 Yang
-    dimana Getarannya sudah Berbasis Driver LEDs
-	, Jangan Flash pada Android 10 atau ROM
-	yang masih menggunakan Getaran lama berbasis
-	Driver QPNP , nanti akan bootloop .
-
-XR : Kernel untuk ROM Android 10 , 11 , and Stock
-     yang dimana masih menggunakan Getaran lama
-	 berbasis Driver QPNP , jadi jangan flash
-	 pada ROM yang getarannya sudah memakai
-	 Driver berbasis LEDs , nanti getaran
-	 akan mati .
-
-P : Kernel yang hanya untuk Custom ROM Android 9
-    , jangan flash pada lainnya atau WiFi
-	akan Mati.
-
-NFI : Varian Kernel untuk Android R dengan
-      CAF 9.2 / Driver WiFi R . Disarankan
-	  menggunakan varian ini apabila agan
-	  menggunakan Firmware Q.
-
-OFI : Varian Kernel untuk Android R dengan
-      CAF 7.2 / Driver WiFi P . Agan dapat
-	  menggunakan varian ini pada Kedua
-	  Jenis Firmware yaitu Pie dan Q.
-</q></@>
-
-

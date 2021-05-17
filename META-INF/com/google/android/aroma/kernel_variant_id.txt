@@ -1,0 +1,90 @@
+<@center><b><#selectbg_g>INDONESIA</#></b>
+
+<@center><b><#selectbg_g>Kernel SkyWalker</#></b>
+
+<b><#selectbg_g>Tentang Varian Kernel :</#></b></@>
+
+<@fill><q>
+R : Kernel untuk ROM Android 11 dan 12
+    dengan CAF LA.UM.9.2.r1-XXXXX-SDMxx0.0 .
+	Beberapa ROM Android 10 mungkin bisa
+	boot dengan variant ini :)
+
+XR : Kernel untuk ROM Android 10 , 11 , dan
+     Stock yang dimana masih menggunakan
+	 Getaran lama berbasis Driver QPNP .
+	 Dengan CAF LA.UM.8.2.r2-XXXXX-sdm660.0 ,
+	 jadi jangan flash pada ROM yang
+	 getarannya sudah memakai Driver
+	 berbasis LEDs , nanti getaran akan mati.
+
+P : Kernel yang hanya untuk
+    Custom ROM Android 9 . Dengan
+	CAF LA.UM.8.2.r2-XXXXX-sdm660.0 ,
+	jangan flash pada lainnya atau
+	WiFi akan Mati.
+
+NFI : Varian Kernel untuk Android R dengan
+      CAF 9.2 / Driver WiFi R . Disarankan
+	  menggunakan varian ini apabila agan
+	  menggunakan Firmware Q.
+
+OFI : Varian Kernel untuk Android R dengan
+      CAF 7.2 / Driver WiFi P . Agan dapat
+	  menggunakan varian ini pada Kedua
+	  Jenis Firmware yaitu Pie dan Q.
+
+LV : Untuk ROM yang Getarannya sudah
+     Berbasis Driver LEDs , Jangan Flash
+	 pada Android 10 atau ROM yang masih
+	 menggunakan Getaran lama berbasis
+	 Driver QPNP , nanti akan bootloop .
+
+NLV : Untuk ROM yang Getarannya masih
+      Menggunakan Driver QPNP Lama ,
+	  Jangan flash pada ROM yang
+	  getarannya sudah memakai
+	  Driver berbasis LEDs , nanti
+	  getaran akan mati .
+	  
+Apa itu EAS?
+
+Penjadwalan Sadar Energi (EAS) adalah
+peningkatan pada manajemen daya Linux,
+menyatukan kontrol daya CPU di bawah
+kernel Linux. EAS memperluas penjadwal
+kernel Linux untuk membuatnya sepenuhnya
+menyadari kemampuan daya / kinerja CPU dalam
+sistem, untuk mengoptimalkan konsumsi energi
+untuk SoC multi-core lanjutan termasuk
+big.LITTLE. Dengan EAS, kernel Linux akan
+menggunakan beban tugas dan 'Model Energi' CPU
+untuk mengontrol penempatan tugas guna memilih
+CPU yang optimal untuk dijalankan.
+
+Apa itu HMP?
+
+Multi-Processing Heterogen Ini adalah penjadwal
+beban standar untuk perangkat big.LITTLE apa pun
+yang dirilis dalam beberapa tahun terakhir, selain
+Google Pixel. HMP memanfaatkan arsitektur big.LITTLE,
+mendelegasikan prioritas rendah, pekerjaan yang kurang
+intensif ke inti kecil yang mengonsumsi lebih sedikit
+daya. HMP adalah “aman” di mana ia tahu apa yang harus
+masuk ke inti besar dan apa yang harus masuk ke inti
+kecil, tanpa membuat kesalahan. Ini hanya berfungsi
+dan membutuhkan lebih sedikit upaya untuk menyiapkan di
+sisi pengembangan daripada sesuatu seperti EAS, yang
+akan kita bahas sebentar lagi. HMP hanyalah perpanjangan
+dari CFS untuk membuatnya sadar daya.
+
+HMP tidak mengambil tebakan, juga tidak memprediksi proses
+masa depan. Ini bagus, tetapi itulah sebabnya perangkat
+tidak bisa selancar yang menjalankan EAS dan juga mengapa
+ia menghabiskan sedikit lebih banyak baterai. Ini, akhirnya,
+membawa kita ke Penjadwalan Sadar Energi (EAS), yang sangat
+saya yakini adalah masa depan dalam pengembangan ROM dan
+kernel karena semakin banyak OEM yang mengadopsinya.
+</q></@>
+
+
