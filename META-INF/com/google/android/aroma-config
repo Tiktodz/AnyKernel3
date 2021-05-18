@@ -1,0 +1,204 @@
+﻿### LICENSE:
+#
+# Copyright (C) 2011 Ahmad Amarullah ( http://amarullz.com/ )
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or #implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+### FILE INFO:
+#
+# AROMA Installer 2.70 - AROMA Installer Test Script Configuration
+#       (c) 2011-2012 by Ahmad Amarullah
+#           amarullz - xda-developers
+#           http://www.amarullz.com/
+#
+#       Binary Version  : 2.70B
+#       Binary Codename : Flamboyan
+
+# ROM Info
+ini_set("rom_name", "KNAME");
+ini_set("rom_version", "KVER");
+ini_set("rom_author", "KAUTHOR");
+ini_set("rom_device", "KDEVICE");
+ini_set("rom_date", "KBDATE");
+
+##############################################
+# UI/Font/Splash
+##############################################
+ini_set("force_colorspace", "rgba");
+splash(
+    3000,
+    "sw"
+);
+theme("material_blue");
+fontresload( "0", "ttf/GoogleSansMedium.ttf", "12" );
+fontresload( "1", "ttf/GoogleSansMedium.ttf", "14" );
+
+selectbox(
+    "Interface Language","<@center><b>\nChoose Language :</b>\n\n</@>","@welcome","lang.prop",
+    "English",	"Use Default English Language.", 1,	        #-- selected.0 = 1     
+    "Indonesia",	"Gunakan Bahasa Indonesia.", 0, 	        #-- selected.0 = 2
+	"Jawa",	"Nggo Boso Jowo.", 0, 	        #-- selected.0 = 3
+	"Sunda",	"Anggo Basa Sundana.", 0, 	        #-- selected.0 = 4
+	"Hindi",	"Hindee bhaasha ka upayog karen.", 0 	        #-- selected.0 = 5
+);
+
+if prop("lang.prop","selected.0")=="1" then
+  loadlang("langs/en.lang");
+endif;
+
+if prop("lang.prop","selected.0")=="2" then
+  loadlang("langs/id.lang");
+endif;
+
+if prop("lang.prop","selected.0")=="3" then
+  loadlang("langs/jav.lang");
+endif;
+
+if prop("lang.prop","selected.0")=="4" then
+  loadlang("langs/sun.lang");
+endif;
+
+if prop("lang.prop","selected.0")=="5" then
+  loadlang("langs/hi.lang");
+endif;
+
+##############################################
+# Welcome
+##############################################
+viewbox(
+    "<~welcome.title>",
+  
+    "<~welcome.text1> <b>"+
+	  ini_get("rom_name")+
+	"</b> <~common.for> <b>"+ini_get("rom_device")+"</b>.\n\n\n\n\n"+
+	
+      "  <#textfg><~welcome.version>\t\t\t: <b>"+ini_get("rom_version")+"</b>\n\n"+
+      "  <~welcome.author>\t\t: <b>"+ini_get("rom_author")+"</b>\n\n"+
+      "  <~welcome.builddate>\t\t: <b>"+ini_get("rom_date")+"</b>\n\n\n"+
+
+    "<~welcome.next></#>",
+  
+    "@welcome"
+);
+
+agreebox(
+  #-- Title
+    "<~kernel.about>",
+  
+  #-- Subtitle / Description
+    "<~info.caution>",
+  
+  #-- Icon:
+    "@license",
+  
+  #-- Text Content 
+    resread("kernel_info.txt"),
+  
+  #-- Checkbox Text
+    "<~have.readinfo>",
+  
+  #-- Unchecked Alert Message
+    "<~check.tocontinue>"
+);
+
+agreebox(
+  #-- Title
+    "<~kernel.aboutoc>",
+  
+  #-- Subtitle / Description
+    "<~infooc.caution>",
+  
+  #-- Icon:
+    "@license",
+  
+  #-- Text Content 
+    resread("kernel_OC.txt"),
+  
+  #-- Checkbox Text
+    "<~have.understandagree>",
+  
+  #-- Unchecked Alert Message
+    "<~check.tocontinue>"
+);
+
+textbox(
+  #-- Title
+    "<~kernel.variantinfo>",
+  #-- Subtitle / Description
+    "<~infovariant.caution>",
+  #-- Icon:
+    "@license",
+  #-- Text Content 
+    resread("kernel_variant.txt")
+	);
+	
+agreebox(
+  #-- Title
+    "<~kernel.variantinfo>",
+  #-- Subtitle / Description
+    "<~infovariant.caution>",
+  #-- Icon:
+    "@license",
+  #-- Text Content 
+    resread("kernel_variant_id.txt"),
+  #-- Checkbox Text
+    "<~have.understand>",
+  #-- Unchecked Alert Message
+    "<~check.tocontinue>"
+);																															
+
+selectbox(
+    "Spectrum","<@center><b>\n<~spectrum.confirm> <b>"+ini_get("rom_name")+
+	"</b> ?</b>\n\n</@>","@install","spectrum.prop",
+    "<~text_yes>",	"<~with.spectrum>", 1, 	        #-- selected.0 = 1
+    "<~text_no>",	"<~without.spectrum>", 0	        #-- selected.0 = 2     
+);
+
+selectbox(
+    "EAS Perf HAL","<@center><b>\n<~easperfhal.confirm> ?</b>\n\n</@>","@install","perfhal.prop",
+    "<~text_yes>,<~installeas.module>",	"<~installeas.moduleinfo>", 1, 	        #-- selected.0 = 1
+    "<~text_yes>,<~installeas.directly>",	"<~installeas.directlyinfo>", 0,	        #-- selected.0 = 2     
+	"<~text_no>",	"<~installeas.nothing>", 0, 	        #-- selected.0 = 3
+    "<~installeas.restore>",	"<~installeas.restoreinfo>", 0	        #-- selected.0 = 4   
+);
+
+ini_set("text_next", "<~text_install>");
+
+viewbox(
+	"<~ready.install>",
+	"\n\n\n\n\n\n\n\n\n\n<#textfg><~kernel.install>.\n\n"+
+	"<~common.press> <b><~text_install></b> <~begin.install>.\n\n"+
+	"<~review.confirm>, <~common.press> <b><~text_back>.</#>",
+	
+	"@install"
+);
+
+ini_set("text_next", "<~text_finish>");
+
+setvar("retstatus",
+  install(
+	#-- Title
+      "<~installing> <b>"+ini_get("rom_name")+"</b>...",
+	
+	#-- Installation Process message
+	  "<b>"+ini_get("rom_name")+"</b> <~isbeing.installed>\n\n"+
+      "<~please.wait>",
+	
+	#-- Installation Icon
+      "@install",
+	
+	#-- Installation Finish Message
+      "<~installed>"
+  )
+);
+
