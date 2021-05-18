@@ -592,6 +592,85 @@ if [ "`$BB grep selected.0=1 /tmp/aroma-data/spectrum.prop`" ]; then
   $BB mount -o ro,remount -t auto /vendor 2>/dev/null;
 }
 
+EASPerfHAL() {
+	cd $AKHOME;
+	PerfHALDir=$AKHOME/tools/SDM660PerfHAL;
+	
+	$BB mount -o rw,remount -t auto /system;
+    $BB mount -o rw,remount -t auto /vendor 2>/dev/null;
+	
+	if [ "`$BB grep selected.0=1 /tmp/aroma-data/perfhal.prop`" ]; then
+	if [ "$REG" = "IDN" ];then
+    ui_print "- Menginstall Perf HAL EAS sebagai Modul...";
+    elif [ "$REG" = "JAV" ];then
+    ui_print "- Nginstall Perf HAL EAS minangka Modul...";
+    elif [ "$REG" = "SUN" ];then
+    ui_print "- Masang Perf HAL EAS salaku Modul...";
+    elif [ "$REG" = "HI" ];then
+    ui_print "- EAS Perf HAL ko modyool ke roop mein sthaapit karana...";
+    elif [ "$REG" = "EN" ];then
+    ui_print "- Installing EAS Perf HAL as Module...";
+    fi;
+	cp -af $PerfHALDir /data/adb/modules
+	chmod -R 755 /data/adb/modules/SDM660PerfHAL
+	chmod -R 644 /data/adb/modules/SDM660PerfHAL/system/vendor/etc/perf/*
+	elif [ "`$BB grep selected.0=2 /tmp/aroma-data/perfhal.prop`" ]; then
+	if [ ! -f /vendor/etc/perf/targetresourceconfigs.xml.bkp ] && [ ! -f /vendor/etc/perf/targetconfig.xml.bkp ] && [ ! -f /vendor/etc/perf/perfboostsconfig.xml.bkp ] && [ ! -f /vendor/etc/perf/commonresourceconfigs.xml.bkp ];then
+	if [ "$REG" = "IDN" ];then
+    ui_print "- Mencadangkan Perf HAL lama...";
+    elif [ "$REG" = "JAV" ];then
+    ui_print "- Nggawe Serep Perf HAL lawas...";
+    elif [ "$REG" = "SUN" ];then
+    ui_print "- Nyadangkeun Perf HAL lami...";
+    elif [ "$REG" = "HI" ];then
+    ui_print "- Puraanee Perf HAL ka baikap lena...";
+    elif [ "$REG" = "EN" ];then
+    ui_print "- Backing up Old Perf HAL...";
+    fi;
+	cp -af /vendor/etc/perf/targetresourceconfigs.xml /vendor/etc/perf/targetresourceconfigs.xml.bkp
+	cp -af /vendor/etc/perf/targetconfig.xml /vendor/etc/perf/targetconfig.xml.bkp
+	cp -af /vendor/etc/perf/perfboostsconfig.xml /vendor/etc/perf/perfboostsconfig.xml.bkp
+	cp -af /vendor/etc/perf/commonresourceconfigs.xml /vendor/etc/perf/commonresourceconfigs.xml.bkp
+	fi;
+	if [ "$REG" = "IDN" ];then
+    ui_print "- Menginstall Perf HAL EAS...";
+    elif [ "$REG" = "JAV" ];then
+    ui_print "- Nginstall Perf HAL EAS...";
+    elif [ "$REG" = "SUN" ];then
+    ui_print "- Masang Perf HAL EAS...";
+    elif [ "$REG" = "HI" ];then
+    ui_print "- EAS Perf HAL sthaapit karana...";
+    elif [ "$REG" = "EN" ];then
+    ui_print "- Installing EAS Perf HAL...";
+    fi;
+	cp -af $PerfHALDir/system/vendor/etc/perf/targetresourceconfigs.xml /vendor/etc/perf/targetresourceconfigs.xml
+	cp -af $PerfHALDir/system/vendor/etc/perf/targetconfig.xml /vendor/etc/perf/targetconfig.xml
+	cp -af $PerfHALDir/system/vendor/etc/perf/perfboostsconfig.xml /vendor/etc/perf/perfboostsconfig.xml
+	cp -af $PerfHALDir/system/vendor/etc/perf/commonresourceconfigs.xml /vendor/etc/perf/commonresourceconfigs.xml
+	elif [ "`$BB grep selected.0=4 /tmp/aroma-data/perfhal.prop`" ]; then
+	if [ -f /vendor/etc/perf/targetresourceconfigs.xml.bkp ] || [ -f /vendor/etc/perf/targetconfig.xml.bkp ] || [ -f /vendor/etc/perf/perfboostsconfig.xml.bkp ] || [ -f /vendor/etc/perf/commonresourceconfigs.xml.bkp ];then
+	if [ "$REG" = "IDN" ];then
+    ui_print "- Mengembalikan Perf HAL lama...";
+    elif [ "$REG" = "JAV" ];then
+    ui_print "- Mulihke Perf HAL lawas...";
+    elif [ "$REG" = "SUN" ];then
+    ui_print "- Malikkeun Perf HAL lami...";
+    elif [ "$REG" = "HI" ];then
+    ui_print "- Puraanee Perf HAL ko punarsthaapit karana...";
+    elif [ "$REG" = "EN" ];then
+    ui_print "- Restoring old Perf HAL...";
+    fi;
+	mv -f /vendor/etc/perf/targetresourceconfigs.xml.bkp /vendor/etc/perf/targetresourceconfigs.xml
+	mv -f /vendor/etc/perf/targetconfig.xml.bkp /vendor/etc/perf/targetconfig.xml
+	mv -f /vendor/etc/perf/perfboostsconfig.xml.bkp /vendor/etc/perf/perfboostsconfig.xml
+	mv -f /vendor/etc/perf/commonresourceconfigs.xml.bkp /vendor/etc/perf/commonresourceconfigs.xml
+	fi;
+	fi;
+	
+	$BB mount -o rw,remount -t auto /system;
+    $BB mount -o rw,remount -t auto /vendor 2>/dev/null;
+}
+	
 show_progress 1.34 4;
 ui_print " ";
 cleanup;
@@ -745,6 +824,7 @@ do_modules;
 
 # custom script for add spectrum support to kernel
 AddSpectrum;
+EASPerfHAL;
 
 debugging;
 restore_env;

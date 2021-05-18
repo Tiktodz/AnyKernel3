@@ -16,9 +16,22 @@
 #
 ### LANGUAGE STRING RESOURCE FILE
 #
-#   Language  : Hindi
-#   By        : ElectroPerf
+#   Language   : Hindi
+#   By         : ElectroPerf
+#   Revised By : RyuujiX
 #
+
+#
+#--- EAS PERF HAL
+#
+easperfhal.confirm=Kya aap EAS Perf HAL sthaapit karana chaahate hain
+installeas.module=Modyool ke roop mein sthaapit karen
+installeas.directly=Seedhe sthaapit karen
+installeas.restore=Puraanee Perf HAL ko punarsthaapit karen
+installeas.nothing=Perf HAL ke saath kuchh na karen.
+installeas.moduleinfo=Anushansit, aavashyak Magisk sthaapit.
+installeas.directlyinfo=Kernel badalane se pahale puraane Perf HAL ko punarsthaapit karana na bhoolen , Is karnel ko phir se sthaapit karen phir Puraanee Perf HAL ko punarsthaapit karen chunen ya punah sthaapit karen ROM.
+installeas.restoreinfo=Puraanee Perf HAL ko punarsthaapit karane ke lie.Yadi pahale ise modyool ke roop mein sthaapit kiya gaya tha, to aap ise Magisk Manager ke saath hata den.
 
 #
 #--- COMMON SYSTEM STRING RESOURCE
@@ -75,9 +88,9 @@ info.caution=Dhyan se padhiye
 infooc.caution=OC Kernel Disclaimer
 infovariant.caution=Ise padhiye aur bataiye ki aap sahi kernel flash kar rhe h ya nai
 spectrum=Spectrum
-spectrum.confirm=Spectrum support dia jae
-with.spectrum=Spectrum ke saaath kernel flash kia jae.
-without.spectrum=Bina spectrum ke saath kernel flash kia jae.
+spectrum.confirm=EAS unnat vinyaas dia jae
+with.spectrum=EAS unnat vinyaas ke saaath kernel flash kia jae.
+without.spectrum=Bina EAS unnat vinyaas ke saath kernel flash kia jae.
 ready.install=Kernel flash hone wala h
 kernel.install=Yeh kernel flash hone ke lie taiyyar h
 begin.install=iss kernel ko flash karne ke lie

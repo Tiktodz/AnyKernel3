@@ -21,6 +21,18 @@
 #
 
 #
+#--- EAS PERF HAL
+#
+easperfhal.confirm=Naha anjeun badé masang Perf HAL EAS
+installeas.module=Salaku Modul
+installeas.directly=Langsung
+installeas.restore=Malikkeun Perf HAL Lami
+installeas.nothing=Entong ngalakukeun nanaon ka Perf HAL.
+installeas.moduleinfo=Disarankeun, Peryogi Magisk Dipasang.
+installeas.directlyinfo=Tong hilap mulangkeun Perf HAL lami sateuacan ngagentos kernel , Pasang kernel ieu deui teras Pencét Malikkeun Perf HAL Lami atanapi Pasang Deui ROMnya.
+installeas.restoreinfo=Pikeun Malikkeun. Upami sateuacan dipasang salaku modul, anjeun ngan saukur tiasa ngaleupaskeun via Magisk Manager.
+
+#
 #--- COMMON SYSTEM STRING RESOURCE
 #
 text_ok=OK
@@ -74,9 +86,9 @@ check.tocontinue=Centang kanggo teruskeun !
 info.caution=Baca ieu sacara saksama
 infooc.caution=Bantahan Kernel OC
 infovariant.caution=Maca Ieu pikeun mastikeun yén anjeun henteu masang Kernel anu salah
-spectrum.confirm=Aktipkeun dukungan spéktrum dina
-with.spectrum=Pasang kernel ieu kalayan dukungan spéktrum.
-without.spectrum=Pasang kernel ieu tanpa dukungan spéktrum.
+spectrum.confirm=Aktipkeun konfigurasi tambahan EAS dina
+with.spectrum=Pasang kernel ieu kalayan konfigurasi tambahan.
+without.spectrum=Pasang kernel ieu tanpa konfigurasi tambahan.
 ready.install=Siap dipasang
 kernel.install=Kernel ieu siap dipasang
 begin.install=pikeun masang kernel ieu

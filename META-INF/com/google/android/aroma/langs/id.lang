@@ -21,6 +21,18 @@
 #
 
 #
+#--- EAS PERF HAL
+#
+easperfhal.confirm=Apakah Anda ingin menginstall Perf HAL EAS
+installeas.module=Sebagai Modul
+installeas.directly=Secara Langsung
+installeas.restore=Kembalikan Perf HAL Lama
+installeas.nothing=Jangan lakukan apapun pada Perf HAL.
+installeas.moduleinfo=DiRekomendasikan , Membutuhkan Magisk Terinstall.
+installeas.directlyinfo=Jangan lupa untuk mengembalikan Perf HAL lama sebelum ganti kernel , Install kernel ini kembali lalu Klik Kembalikan Perf HAL Lama atau Install Ulang ROMnya.
+installeas.restoreinfo=Untuk Mengembalikan Perf HAL Lama. Jika sebelumnya Terinstall sebagai Modul , Anda cukup menghapusnya lewat Magisk Manager.
+
+#
 #--- COMMON SYSTEM STRING RESOURCE
 #
 text_ok=OK
@@ -75,9 +87,9 @@ check.tocontinue=Centang untuk melanjutkan !
 info.caution=Baca ini dengan seksama
 infooc.caution=Pemberitahuan Kernel OC
 infovariant.caution=Baca ini untuk memastikan Anda tidak salah menginstall Kernel
-spectrum.confirm=Aktifkan dukungan spectrum di
-with.spectrum=Install kernel ini dengan dukungan spectrum.
-without.spectrum=Install kernel ini tanpa dukungan spectrum.
+spectrum.confirm=Aktifkan Konfigurasi Tambahan EAS di
+with.spectrum=Install kernel ini dengan konfigurasi tambahan.
+without.spectrum=Install kernel ini tanpa konfigurasi tambahan.
 ready.install=Siap DiInstall
 kernel.install=Kernel ini Siap untuk diInstall
 begin.install=untuk menginstall Kernel ini

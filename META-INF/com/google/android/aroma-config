@@ -164,6 +164,14 @@ selectbox(
     "<~text_no>",	"<~without.spectrum>", 0	        #-- selected.0 = 2     
 );
 
+selectbox(
+    "EAS Perf HAL","<@center><b>\n<~easperfhal.confirm> ?</b>\n\n</@>","@install","perfhal.prop",
+    "<~text_yes>,<~installeas.module>",	"<~installeas.moduleinfo>", 1, 	        #-- selected.0 = 1
+    "<~text_yes>,<~installeas.directly>",	"<~installeas.directlyinfo>", 0,	        #-- selected.0 = 2     
+	"<~text_no>",	"<~installeas.nothing>", 0, 	        #-- selected.0 = 3
+    "<~installeas.restore>",	"<~installeas.restoreinfo>", 0	        #-- selected.0 = 4   
+);
+
 ini_set("text_next", "<~text_install>");
 
 viewbox(
