@@ -476,7 +476,7 @@ do_modules() {
 }
 
 AddSpectrum(){
-if [ "`$BB grep selected.0=1 /tmp/aroma-data/spectrum.prop`" ]; then
+if [ "`$BB grep selected.0=1 /tmp/aroma-data/spectrum.prop`" ] && [ -e $AKHOME/init.spectrum.rc ];then
   cd $AKHOME;
   # custom script for spectrum
   $BB mount -o rw,remount -t auto /system;
@@ -484,7 +484,6 @@ if [ "`$BB grep selected.0=1 /tmp/aroma-data/spectrum.prop`" ]; then
 
   # add spectrum support
   SCRIPT_TYPE="$(file_getprop anykernel.sh script.type)";
-  if [ -e $AKHOME/init.spectrum.rc ];then
   if [ "$REG" = "IDN" ];then
   ui_print "- Mencadangkan Skrip Lama...";
   elif [ "$REG" = "JAV" ];then
@@ -565,9 +564,8 @@ if [ "`$BB grep selected.0=1 /tmp/aroma-data/spectrum.prop`" ]; then
     if [ -e /system/init.spectrum.sh ];then
       rm -rf /system/init.spectrum.sh
       ui_print "remove /system/init.spectrum.sh"
-    fi
 	fi
-  elif [ "`$BB grep selected.0=2 /tmp/aroma-data/spectrum.prop`" ];then
+  elif [ "`$BB grep selected.0=2 /tmp/aroma-data/spectrum.prop`" ] || [ ! -e $AKHOME/init.spectrum.rc ];then
     if [ -e /vendor/etc/init/hw/init.spectrum.rc ];then
 	  if [ "$REG" = "IDN" ];then
 	  ui_print "- Menghapus Skrip Spectrum Lama..."
