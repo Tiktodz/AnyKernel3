@@ -36,15 +36,15 @@ ini_set("rom_date", "KBDATE");
 ##############################################
 ini_set("force_colorspace", "rgba");
 splash(
-    3000,
+    5000,
     "sw"
 );
-theme("material_blue");
+theme("materialize_indigo");
 fontresload( "0", "ttf/GoogleSansMedium.ttf", "12" );
 fontresload( "1", "ttf/GoogleSansMedium.ttf", "14" );
 
 selectbox(
-    "Interface Language","<@center><b>\nChoose Language :</b>\n\n</@>","@welcome","lang.prop",
+    "Interface Language","<@center><b>\nChoose Language :</b>\n\n</@>","@language","lang.prop",
     "English",	"Use Default English Language.", 1,	        #-- selected.0 = 1     
     "Indonesia",	"Gunakan Bahasa Indonesia.", 0, 	        #-- selected.0 = 2
 	"Jawa",	"Nggo Boso Jowo.", 0, 	        #-- selected.0 = 3
@@ -88,7 +88,7 @@ viewbox(
 
     "<~welcome.next></#>",
   
-    "@welcome"
+    "@description"
 );
 
 agreebox(
@@ -99,7 +99,7 @@ agreebox(
     "<~info.caution>",
   
   #-- Icon:
-    "@license",
+    "@info",
   
   #-- Text Content 
     resread("kernel_info.txt"),
@@ -119,7 +119,7 @@ agreebox(
     "<~infooc.caution>",
   
   #-- Icon:
-    "@license",
+    "@info",
   
   #-- Text Content 
     resread("kernel_OC.txt"),
@@ -137,7 +137,7 @@ textbox(
   #-- Subtitle / Description
     "<~infovariant.caution>",
   #-- Icon:
-    "@license",
+    "@info",
   #-- Text Content 
     resread("kernel_variant.txt")
 	);
@@ -148,7 +148,7 @@ agreebox(
   #-- Subtitle / Description
     "<~infovariant.caution>",
   #-- Icon:
-    "@license",
+    "@info",
   #-- Text Content 
     resread("kernel_variant_id.txt"),
   #-- Checkbox Text
@@ -159,13 +159,13 @@ agreebox(
 
 selectbox(
     "Spectrum","<@center><b>\n<~spectrum.confirm> <b>"+ini_get("rom_name")+
-	"</b> ?</b>\n\n</@>","@install","spectrum.prop",
+	"</b> ?</b>\n\n</@>","@extension","spectrum.prop",
     "<~text_yes>",	"<~with.spectrum>", 1, 	        #-- selected.0 = 1
     "<~text_no>",	"<~without.spectrum>", 0	        #-- selected.0 = 2     
 );
 
 selectbox(
-    "EAS Perf HAL","<@center><b>\n<~easperfhal.confirm> ?</b>\n\n</@>","@install","perfhal.prop",
+    "EAS Perf HAL","<@center><b>\n<~easperfhal.confirm> ?</b>\n\n</@>","@extension","perfhal.prop",
     "<~text_yes>,<~installeas.module>",	"<~installeas.moduleinfo>", 1, 	        #-- selected.0 = 1
     "<~text_yes>,<~installeas.directly>",	"<~installeas.directlyinfo>", 0,	        #-- selected.0 = 2     
 	"<~text_no>",	"<~installeas.nothing>", 0, 	        #-- selected.0 = 3
@@ -180,7 +180,7 @@ viewbox(
 	"<~common.press> <b><~text_install></b> <~begin.install>.\n\n"+
 	"<~review.confirm>, <~common.press> <b><~text_back>.</#>",
 	
-	"@install"
+	"@verified"
 );
 
 ini_set("text_next", "<~text_finish>");
@@ -195,7 +195,7 @@ setvar("retstatus",
       "<~please.wait>",
 	
 	#-- Installation Icon
-      "@install",
+      "@build",
 	
 	#-- Installation Finish Message
       "<~installed>"
