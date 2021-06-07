@@ -74,6 +74,7 @@ welcome.version=VERSI
 welcome.codename=PIRANTI
 welcome.builddate=TANGGAL GAWE
 welcome.author=DIGAWE OLEH
+welcome.buildvariant=VARIAN
 welcome.next=Pencet Teruske kanggo Teruske Instalasi...
 
 kernel.about=Babagan Kernel

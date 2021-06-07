@@ -75,6 +75,7 @@ welcome.version=VERSION
 welcome.codename=CODENAME
 welcome.builddate=BUILD KA TAREEKH
 welcome.author=BUILD KARNE WALA
+welcome.buildvariant=PRAKAAR
 welcome.next=Next dabake installation suru kijie..
 
 kernel.about=Kernel ke baare me
