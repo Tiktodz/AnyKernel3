@@ -63,6 +63,7 @@ welcome.version=VERSI
 welcome.codename=PERANGKAT
 welcome.builddate=TANGGAL BUILD
 welcome.author=DIBUILD OLEH
+welcome.buildvariant=VARIAN
 welcome.next=Tekan Lanjut untuk melanjutkan penginstallan...
 
 kernel.about=Tentang Kernel

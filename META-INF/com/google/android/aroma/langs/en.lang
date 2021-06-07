@@ -63,6 +63,7 @@ welcome.version=VERSION
 welcome.codename=CODENAME
 welcome.builddate=BUILD DATE
 welcome.author=BUILDED BY
+welcome.buildvariant=VARIANT
 welcome.next=Press Next to Continue the Installation...
 
 kernel.about=About Kernel

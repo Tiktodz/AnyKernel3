@@ -62,6 +62,7 @@ welcome.version=VERSI
 welcome.codename=PARANGKAT
 welcome.builddate=NGAWANGUN TANGGAL
 welcome.author=DIWANGUN KU
+welcome.buildvariant=VARIAN
 welcome.next=Pencét Terusna pikeun Neruskeun Pamasangan...
 
 kernel.about=Ngeunaan Kernel
