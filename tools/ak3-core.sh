@@ -359,6 +359,7 @@ flash_boot() {
   if [ $? != 0 ]; then
     abort "Repacking image failed. Aborting...";
   fi;
+  [ -f .magisk ] && touch $home/magisk_patched;
 
   cd $home;
   if [ -f "$bin/futility" -a -d "$bin/chromeos" ]; then
