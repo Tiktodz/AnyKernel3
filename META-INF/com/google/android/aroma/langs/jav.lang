@@ -24,6 +24,8 @@
 #--- COMMON SYSTEM STRING RESOURCE
 #
 text_ok=OK
+text_start=Mulai
+text_restore=Pulihke
 text_finish=Rampung
 text_install=Pasang
 text_next=Teruske
@@ -39,7 +41,12 @@ text_quit_msg=Sampeyan manawa bakal mbatalake instalasi?
 #-- CUSTOM STRING RESOURCE
 #
 common.for=kanggo
+common.toupper=Kanggo
+common.to=kanggo
 common.press=Pencet
+common.cancel=batal
+language=Boso
+select.language=Pilih Boso
 
 langtest.title=Language Test
 langtest.multiline=This text is located in langs/en.lang\
@@ -65,6 +72,11 @@ welcome.author=DIGAWE OLEH
 welcome.buildvariant=VARIAN
 welcome.next=Pencet Teruske kanggo Teruske Instalasi...
 
+perfhal=Perf HAL
+perfhal.restore=Pulihke Perf HAL Lawas
+perfhal.restoreinfo=Kanggo mulihke Perf Hal lawas.Yen sadurunge wis diinstal minangka modul, cukup copot liwat Magisk Manager.
+
+add.on=Tambahan
 kernel.about=Babagan Kernel
 kernel.aboutoc=Babagan Kernel Overclock
 kernel.variantinfo=Info Varian
@@ -78,6 +90,12 @@ infovariant.caution=Woco Iki kanggo mesthekake yen sampeyan ora nginstal Kernel 
 spectrum.confirm=Aktifke dhukungan spektrum ing
 with.spectrum=Instal kernel iki kanthi dhukungan spektrum.
 without.spectrum=Instal kernel iki tanpa dhukungan spektrum.
+ready.restore=Siap kanggo Pulihke
+begin.restore=kanggo pulihke
+restoring=Mulihke
+isbeing.restored=lagi diPulihke.
+resfinish=rampung diPulihke ,  Pencet Rampung kanggo Metu.
+install=Instal
 ready.install=Siap Kanggo Nginstal
 kernel.install=Kernel iki Siap Nginstal
 begin.install=kanggo nginstal kernel iki
@@ -92,5 +110,5 @@ terms.desc=Woco kanthi tliti Syarat lan Ketentuan AROMA Installer Ing ngisor iki
 terms.check=Aku Setuju karo Syarat lan Ketentuan iki...
 terms.confirm=Monggo dipriksa kesepakatan...
 
-changelog.title=Changelog
+changelog.title=Opo wae sing wis diganti / anyar?
 changelog.desc=AROMA Installer Changelog

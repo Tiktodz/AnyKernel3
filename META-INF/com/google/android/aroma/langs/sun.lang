@@ -24,6 +24,8 @@
 #--- COMMON SYSTEM STRING RESOURCE
 #
 text_ok=OK
+text_start=Mulai
+text_restore=Malikkeun
 text_finish=Rengse
 text_install=Pasang
 text_next=Terusna
@@ -39,7 +41,12 @@ text_quit_msg=Naha anjeun pasti kaluar tina installer?
 #-- CUSTOM STRING RESOURCE
 #
 common.for=pikeun
+common.toupper=Pikeun
+common.to=pikeun
 common.press=Pencet
+common.cancel=ngabatalkeun
+language=Basa
+select.language=Pilih Basa
 
 langtest.title=Language Test
 langtest.multiline=This text is located in langs/en.lang\
@@ -65,6 +72,11 @@ welcome.author=DIWANGUN KU
 welcome.buildvariant=VARIAN
 welcome.next=Pencét Terusna pikeun Neruskeun Pamasangan...
 
+perfhal=Perf HAL
+perfhal.restore=Malikkeun Perf HAL Lami
+perfhal.restoreinfo=Pikeun Malikkeun. Upami sateuacan dipasang salaku modul, anjeun ngan saukur tiasa ngaleupaskeun via Magisk Manager.
+
+add.on=Tambahan
 kernel.about=Ngeunaan Kernel
 kernel.aboutoc=Ngeunaan Kernel Overclock
 kernel.variantinfo=Inpo Varian
@@ -78,6 +90,12 @@ infovariant.caution=Maca Ieu pikeun mastikeun yén anjeun henteu masang Kernel a
 spectrum.confirm=Aktipkeun dukungan spéktrum dina
 with.spectrum=Pasang kernel ieu kalayan dukungan spéktrum.
 without.spectrum=Pasang kernel ieu tanpa dukungan spéktrum.
+ready.restore=Siap diMalikkeun
+begin.restore=pikeun dimalikkeun
+restoring=Malikkeun
+isbeing.restored=nuju diMalikkeun.
+resfinish=beres diMalikkeun ,  Pencét Rengse pikeun kaluar.
+install=Pasang
 ready.install=Siap dipasang
 kernel.install=Kernel ieu siap dipasang
 begin.install=pikeun masang kernel ieu
@@ -92,5 +110,5 @@ terms.desc=Mangga baca sacara saksama Sarat sareng Kaayaan AROMA Installer Ieu d
 terms.check=Kuring satuju sareng Sarat sareng Kaayaan ieu...
 terms.confirm=Punten parios perjanjian...
 
-changelog.title=Changelog
+changelog.title=Naon anu parantos diganti / énggal ?
 changelog.desc=AROMA Installer Changelog

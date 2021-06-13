@@ -476,7 +476,7 @@ do_modules() {
 }
 
 AddSpectrum(){
-if [ "`$BB grep selected.0=1 /tmp/aroma-data/spectrum.prop`" ] && [ -e $AKHOME/init.spectrum.rc ];then
+if [ "`$BB grep selected.1=1 /tmp/aroma-data/spectrum.prop`" ] && [ -e $AKHOME/init.spectrum.rc ];then
   cd $AKHOME;
   # custom script for spectrum
   $BB mount -o rw,remount -t auto /system;
@@ -565,7 +565,7 @@ if [ "`$BB grep selected.0=1 /tmp/aroma-data/spectrum.prop`" ] && [ -e $AKHOME/i
       rm -rf /system/init.spectrum.sh
       ui_print "remove /system/init.spectrum.sh"
 	fi
-  elif [ "`$BB grep selected.0=2 /tmp/aroma-data/spectrum.prop`" ] || [ ! -e $AKHOME/init.spectrum.rc ];then
+  elif [ "`$BB grep selected.1=2 /tmp/aroma-data/spectrum.prop`" ] || [ ! -e $AKHOME/init.spectrum.rc ];then
     if [ -e /vendor/etc/init/hw/init.spectrum.rc ];then
 	  if [ "$REG" = "IDN" ];then
 	  ui_print "- Menghapus Skrip Spectrum Lama..."
@@ -712,6 +712,53 @@ ui_print "- Preparing Environment Setup ...";
 fi;
 setup_env;
 
+if [ "`$BB grep selected.2=4 /tmp/aroma-data/spectrum.prop`" ]; then
+	
+	$BB mount -o rw,remount -t auto /system;
+    $BB mount -o rw,remount -t auto /vendor 2>/dev/null;
+	
+	if [ -f /vendor/etc/perf/targetresourceconfigs.xml.bkp ] || [ -f /vendor/etc/perf/targetconfig.xml.bkp ] || [ -f /vendor/etc/perf/perfboostsconfig.xml.bkp ] || [ -f /vendor/etc/perf/commonresourceconfigs.xml.bkp ];then
+	if [ "$REG" = "IDN" ];then
+    ui_print "- Mengembalikan Perf HAL lama...";
+    elif [ "$REG" = "JAV" ];then
+    ui_print "- Mulihke Perf HAL lawas...";
+    elif [ "$REG" = "SUN" ];then
+    ui_print "- Malikkeun Perf HAL lami...";
+    elif [ "$REG" = "HI" ];then
+    ui_print "- Puraanee Perf HAL ko punarsthaapit karana...";
+    elif [ "$REG" = "EN" ];then
+    ui_print "- Restoring old Perf HAL...";
+    fi;
+	mv -f /vendor/etc/perf/targetresourceconfigs.xml.bkp /vendor/etc/perf/targetresourceconfigs.xml
+	mv -f /vendor/etc/perf/targetconfig.xml.bkp /vendor/etc/perf/targetconfig.xml
+	mv -f /vendor/etc/perf/perfboostsconfig.xml.bkp /vendor/etc/perf/perfboostsconfig.xml
+	mv -f /vendor/etc/perf/commonresourceconfigs.xml.bkp /vendor/etc/perf/commonresourceconfigs.xml
+	if [ "$REG" = "IDN" ];then
+	ui_print "- Selesai";
+	elif [ "$REG" = "JAV" ];then
+	ui_print "- Rampung";
+	elif [ "$REG" = "SUN" ];then
+	ui_print "- Parantos";
+	elif [ "$REG" = "HI" ];then
+	ui_print "- Kernel Flash Prakriya Ki Ant.";
+	elif [ "$REG" = "EN" ];then
+	ui_print "- Done";
+	fi;
+	else
+	if [ "$REG" = "IDN" ];then
+    abort "! Perf HAL Lama tidak ditemukan. Membatalkan... !";
+    elif [ "$REG" = "JAV" ];then
+    abort "! Perf HAL lawas ora ditemokke. Mbatalke... !";
+    elif [ "$REG" = "SUN" ];then
+    abort "! Perf HAL lami teu kapendak. Ngabatalkeun... !";
+    elif [ "$REG" = "HI" ];then
+    abort "! Puraanee Perf HAL nahin mileen. Radd karana... !";
+    elif [ "$REG" = "EN" ];then
+    abort "! Old Perf HAL not found. Aborting... !";
+    fi;
+	fi;
+
+else
 do_devicecheck;
 do_versioncheck;
 do_levelcheck;
@@ -764,3 +811,4 @@ fi;
 
 ui_print " " "_________________________________________________";
 ui_print " " "$MESSAGE_WORD" "_________________________________________________" " ";
+fi;
