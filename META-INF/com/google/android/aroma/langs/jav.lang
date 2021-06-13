@@ -26,16 +26,19 @@
 easperfhal.confirm=Sampeyan pengin nginstal Perf HAL EAS
 installeas.module=Minangka Modul
 installeas.directly=Langsung
-installeas.restore=Pulihke Perf HAL Lawas
+perfhal.restore=Pulihke Perf HAL Lawas
 installeas.nothing=Ojo nindakke opo-opo kanggo Perf HAL.
 installeas.moduleinfo=DiAnjurke , Mbutuhke Magisk diinstall.
 installeas.directlyinfo=Ojo lali mulihke Perf HAL lawas sadurung ngganti kernel, Instal kernel iki maneh banjur klik Pulihke Perf HAL Lawas utawa Instal maneh ROM.
-installeas.restoreinfo=Kanggo mulihke Perf Hal lawas.Yen sadurunge wis diinstal minangka modul, cukup copot liwat Magisk Manager.
+perfhal=Perf HAL
+perfhal.restoreinfo=Kanggo mulihke Perf Hal lawas.Yen sadurunge wis diinstal minangka modul, cukup copot liwat Magisk Manager.
 
 #
 #--- COMMON SYSTEM STRING RESOURCE
 #
 text_ok=OK
+text_start=Mulai
+text_restore=Pulihke
 text_finish=Rampung
 text_install=Pasang
 text_next=Teruske
@@ -51,7 +54,12 @@ text_quit_msg=Sampeyan manawa bakal mbatalake instalasi?
 #-- CUSTOM STRING RESOURCE
 #
 common.for=kanggo
+common.toupper=Kanggo
+common.to=kanggo
 common.press=Pencet
+common.cancel=batal
+language=Boso
+select.language=Pilih Boso
 
 langtest.title=Language Test
 langtest.multiline=This text is located in langs/en.lang\
@@ -77,6 +85,7 @@ welcome.author=DIGAWE OLEH
 welcome.buildvariant=VARIAN
 welcome.next=Pencet Teruske kanggo Teruske Instalasi...
 
+add.on=Tambahan
 kernel.about=Babagan Kernel
 kernel.aboutoc=Babagan Kernel Overclock
 kernel.variantinfo=Info Varian
@@ -90,6 +99,12 @@ infovariant.caution=Woco Iki kanggo mesthekake yen sampeyan ora nginstal Kernel 
 spectrum.confirm=Aktifke konfigurasi tambahan EAS ing
 with.spectrum=Instal kernel iki kanthi konfigurasi tambahan.
 without.spectrum=Instal kernel iki tanpa konfigurasi tambahan.
+ready.restore=Siap kanggo Pulihke
+begin.restore=kanggo pulihke
+restoring=Mulihke
+isbeing.restored=lagi diPulihke.
+resfinish=rampung diPulihke ,  Pencet Rampung kanggo Metu.
+install=Instal
 ready.install=Siap Kanggo Nginstal
 kernel.install=Kernel iki Siap Nginstal
 begin.install=kanggo nginstal kernel iki
@@ -104,5 +119,5 @@ terms.desc=Woco kanthi tliti Syarat lan Ketentuan AROMA Installer Ing ngisor iki
 terms.check=Aku Setuju karo Syarat lan Ketentuan iki...
 terms.confirm=Monggo dipriksa kesepakatan...
 
-changelog.title=Changelog
+changelog.title=Opo wae sing wis diganti / anyar?
 changelog.desc=AROMA Installer Changelog

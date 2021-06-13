@@ -27,16 +27,19 @@
 easperfhal.confirm=Do you want to install EAS Perf HAL
 installeas.module=Install as Module
 installeas.directly=Install Directly
-installeas.restore=Restore Old Perf HAL
+perfhal.restore=Restore Old Perf HAL
 installeas.nothing=Do Nothing with Perf HAL.
 installeas.moduleinfo=Recommended , Required Magisk Installed.
 installeas.directlyinfo=Don't forget to Restore old Perf HAL before u change Kernel , Install this kernel again then Select Restore Old Perf HAL or Reflash ROM.
-installeas.restoreinfo=To Restore Old Perf HAL.If previously it was installed as module , u just Remove it with Magisk Manager.
+perfhal=Perf HAL
+perfhal.restoreinfo=To Restore Old Perf HAL.If previously it was installed as module , u just Remove it with Magisk Manager.
 
 #
 #--- COMMON SYSTEM STRING RESOURCE
 #
 text_ok=OK
+text_start=Start
+text_restore=Restore
 text_finish=Finish
 text_install=Install
 text_next=Next
@@ -52,7 +55,12 @@ text_quit_msg=Are you sure to quit the installer?
 #-- CUSTOM STRING RESOURCE
 #
 common.for=for
+common.toupper=To
+common.to=to
 common.press=Press
+common.cancel=cancel
+language=Language
+select.language=Select Language
 
 langtest.title=Language Test
 langtest.multiline=This text is located in langs/en.lang\
@@ -78,8 +86,9 @@ welcome.author=BUILDED BY
 welcome.buildvariant=VARIANT
 welcome.next=Press Next to Continue the Installation...
 
+add.on=Additional
 kernel.about=About Kernel
-kernel.aboutoc=About Overclock Kernel
+kernel.aboutoc=About Overclocked Kernel
 kernel.variantinfo=Variant Info
 have.readinfo=I Have Read this Info
 have.understand=OK, I Understand
@@ -91,6 +100,12 @@ infovariant.caution=Read This to make sure u're not installing wrong Kernel
 spectrum.confirm=Enable EAS Advanced Configuration on
 with.spectrum=Install this kernel with EAS Advanced Configuration.
 without.spectrum=Install this kernel without EAS Advanced Configuration.
+ready.restore=Ready to Restore
+begin.restore=to restore
+restoring=Restoring
+isbeing.restored=is being restored.
+resfinish=restore finished ,  Press Finish to Exit.
+install=Install
 ready.install=Ready to Install
 kernel.install=This kernel is ready to be installed
 begin.install=to install this kernel
@@ -105,5 +120,5 @@ terms.desc=Please read carefully The AROMA Installer Terms and Conditions Below.
 terms.check=I Agree with this Terms and Conditions...
 terms.confirm=Please check the agreement...
 
-changelog.title=Changelog
+changelog.title=Changelogs :
 changelog.desc=AROMA Installer Changelog

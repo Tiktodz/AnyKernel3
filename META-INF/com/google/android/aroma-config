@@ -44,12 +44,11 @@ fontresload( "0", "ttf/GoogleSansMedium.ttf", "12" );
 fontresload( "1", "ttf/GoogleSansMedium.ttf", "14" );
 
 selectbox(
-    "Interface Language","<@center><b>\nChoose Language :</b>\n\n</@>","@language","lang.prop",
+    "Language","<@center><b>\nSelect Language:</b>\n\n</@>","@language","lang.prop",
     "English",	"Use Default English Language.", 1,	        #-- selected.0 = 1     
     "Indonesia",	"Gunakan Bahasa Indonesia.", 0, 	        #-- selected.0 = 2
 	"Jawa",	"Nggo Boso Jowo.", 0, 	        #-- selected.0 = 3
-	"Sunda",	"Anggo Basa Sundana.", 0, 	        #-- selected.0 = 4
-	"Hindi",	"Hindee bhaasha ka upayog karen.", 0 	        #-- selected.0 = 5
+	"Sunda",	"Anggo Basa Sundana.", 0 	        #-- selected.0 = 4
 );
 
 if prop("lang.prop","selected.0")=="1" then
@@ -66,10 +65,6 @@ endif;
 
 if prop("lang.prop","selected.0")=="4" then
   loadlang("langs/sun.lang");
-endif;
-
-if prop("lang.prop","selected.0")=="5" then
-  loadlang("langs/hi.lang");
 endif;
 
 ##############################################
@@ -92,46 +87,85 @@ viewbox(
     "@description"
 );
 
-agreebox(
+menubox(
+  #-- Title
+    "",
+  
+  #-- Description
+    "",
+  
+  #-- Icon
+    "@widgets",
+    
+  #-- Property
+    "menu.prop",
+    
+  #-------------------------+------------------------------+-------------#
+  # TITLE                   | DESCRIPTION                  | ICON        #
+  #-------------------------+------------------------------+-------------#
+  
+    "<~install>",    "",    "@send",    #-- selected = 1
+	"<~perfhal.restore>", "", "@archive", #-- selected = 2
+    "<~kernel.about>",    "",    "@info",    #-- selected = 3
+	"<~kernel.aboutoc>",    "",    "@alert",    #-- selected = 4
+	"<~kernel.variantinfo>",    "",    "@info"    #-- selected = 5
+);																															
+
+if prop("menu.prop","selected")=="3" then
+ini_set("text_next", "");
+textbox(
   #-- Title
     "<~kernel.about>",
-  
   #-- Subtitle / Description
-    "<~info.caution>",
-  
+    "<~infovariant.caution>",
   #-- Icon:
     "@info",
-  
   #-- Text Content 
-    resread("kernel_info.txt"),
-  
-  #-- Checkbox Text
-    "<~have.readinfo>",
-  
-  #-- Unchecked Alert Message
-    "<~check.tocontinue>"
-);
+    resread("kernel_info.txt")
+	);
+back("1");
+endif;
 
-agreebox(
+if prop("menu.prop","selected")=="4" then
+ini_set("text_next", "");
+textbox(
   #-- Title
     "<~kernel.aboutoc>",
-  
   #-- Subtitle / Description
     "<~infooc.caution>",
-  
   #-- Icon:
     "@info",
-  
   #-- Text Content 
-    resread("kernel_OC.txt"),
+    resread("kernel_OC.txt")
+);
+back("1");
+endif;
+
+if prop("menu.prop","selected")=="5" then
+
+menubox(
+  #-- Title
+    "<~kernel.variantinfo>",
   
-  #-- Checkbox Text
-    "<~have.understandagree>",
+  #-- Description
+    "<~select.language>",
   
-  #-- Unchecked Alert Message
-    "<~check.tocontinue>"
+  #-- Icon
+    "@language",
+    
+  #-- Property
+    "varlang.prop",
+    
+  #-------------------------+------------------------------+-------------#
+  # TITLE                   | DESCRIPTION                  | ICON        #
+  #-------------------------+------------------------------+-------------#
+  
+    "ENGLISH",    "",    "@public",    #-- selected = 1
+    "INDONESIA",    "",    "@public"    #-- selected = 2
 );
 
+if prop("varlang.prop","selected")=="1" then
+ini_set("text_next", "");
 textbox(
   #-- Title
     "<~kernel.variantinfo>",
@@ -142,8 +176,9 @@ textbox(
   #-- Text Content 
     resread("kernel_variant.txt")
 	);
-	
-agreebox(
+else
+ini_set("text_next", "");
+textbox(
   #-- Title
     "<~kernel.variantinfo>",
   #-- Subtitle / Description
@@ -151,27 +186,88 @@ agreebox(
   #-- Icon:
     "@info",
   #-- Text Content 
-    resread("kernel_variant_id.txt"),
-  #-- Checkbox Text
-    "<~have.understand>",
-  #-- Unchecked Alert Message
-    "<~check.tocontinue>"
-);																															
+    resread("kernel_variant_id.txt")
+	);
+endif;
+back("1");
+endif;
 
-selectbox(
-    "Spectrum","<@center><b>\n<~spectrum.confirm> <b>"+ini_get("rom_name")+
-	"</b> ?</b>\n\n</@>","@extension","spectrum.prop",
-    "<~text_yes>",	"<~with.spectrum>", 1, 	        #-- selected.0 = 1
-    "<~text_no>",	"<~without.spectrum>", 0	        #-- selected.0 = 2     
+if prop("menu.prop","selected")=="2" then
+ini_set("text_next", "<~text_restore>");
+writetmpfile(
+      #-- Property
+	    "spectrum.prop",
+	  #-- Values
+	    "selected.2=4\n"
+    );
+
+viewbox(
+	"<~perfhal> <~ready.restore>",
+	"\n\n\n\n\n\n\n\n\n\n<#textfg><~perfhal.restoreinfo>.\n\n"+
+	"<~common.press> <b><~text_restore></b> <~begin.restore>.\n\n"+
+	"<~common.toupper> <~common.cancel>, <~common.press> <b><~text_back>.</#>",
+
+	"@verified"
+);
+
+ini_set("text_next", "<~text_finish>");
+
+setvar("retstatus",
+  install(
+	#-- Title
+      "<~restoring> <~perfhal>...",
+
+	#-- Installation Process message
+	  "<~perfhal> <~isbeing.restored>\n\n"+
+      "<~please.wait>",
+
+	#-- Installation Icon
+      "@build",
+
+	#-- Installation Finish Message
+      "<~perfhal> <~resfinish>"
+  )
+);
+endif;
+
+if prop("menu.prop","selected")=="1" then
+textbox(
+  #-- Title
+    "",
+  
+  #-- Subtitle
+    "<~changelog.title>",
+  
+  #-- Icon
+    "@new_release",
+  
+  #-- Text Content
+    resread("changelog.txt")
 );
 
 selectbox(
-    "EAS Perf HAL","<@center><b>\n<~easperfhal.confirm> ?</b>\n\n</@>","@extension","perfhal.prop",
-    "<~text_yes>,<~installeas.module>",	"<~installeas.moduleinfo>", 1, 	        #-- selected.0 = 1
-    "<~text_yes>,<~installeas.directly>",	"<~installeas.directlyinfo>", 0,	        #-- selected.0 = 2     
-	"<~text_no>",	"<~installeas.nothing>", 0, 	        #-- selected.0 = 3
-    "<~installeas.restore>",	"<~installeas.restoreinfo>", 0	        #-- selected.0 = 4   
-);
+      #-- Title
+        "",
+      #-- Description
+        "<~add.on>",
+      #-- Icon
+        "@extension",
+      #-- Property
+        "spectrum.prop",
+        
+      #-------------------------------+------------------------------+-------#
+      # TITLE                         | DESCRIPTION                  | VALUE #
+      #-------------------------------+------------------------------+-------#
+    
+        "<~spectrum.confirm> ?",        "",                              2,  #-- Group 1. key = "selected.1"
+          "<~text_yes>",    "<~with.spectrum>",    1,    #-- selected.1 = 1
+          "<~text_no>",    "<~without.spectrum>",    0,    #-- selected.1 = 2
+        
+        "<~easperfhal.confirm> ?",        "",                              2,  #-- Group 2. key = "selected.2"
+          "<~text_yes>,<~installeas.module>",    "<~installeas.moduleinfo>",    1,    #-- selected.2 = 1
+          "<~text_yes>,<~installeas.directly>",    "<~installeas.directlyinfo>",    0,    #-- selected.2 = 2
+		  "<~text_no>",    "<~installeas.nothing>",    0     #-- selected.2 = 3
+    );
 
 ini_set("text_next", "<~text_install>");
 
@@ -203,3 +299,4 @@ setvar("retstatus",
   )
 );
 
+endif;

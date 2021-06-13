@@ -26,19 +26,21 @@
 easperfhal.confirm=Apakah Anda ingin menginstall Perf HAL EAS
 installeas.module=Sebagai Modul
 installeas.directly=Secara Langsung
-installeas.restore=Kembalikan Perf HAL Lama
+perfhal.restore=Kembalikan Perf HAL Lama
 installeas.nothing=Jangan lakukan apapun pada Perf HAL.
 installeas.moduleinfo=DiRekomendasikan , Membutuhkan Magisk Terinstall.
 installeas.directlyinfo=Jangan lupa untuk mengembalikan Perf HAL lama sebelum ganti kernel , Install kernel ini kembali lalu Klik Kembalikan Perf HAL Lama atau Install Ulang ROMnya.
-installeas.restoreinfo=Untuk Mengembalikan Perf HAL Lama. Jika sebelumnya Terinstall sebagai Modul , Anda cukup menghapusnya lewat Magisk Manager.
+perfhal=Perf HAL
+perfhal.restoreinfo=Untuk Mengembalikan Perf HAL Lama. Jika sebelumnya Terinstall sebagai Modul , Anda cukup menghapusnya lewat Magisk Manager.
 
 #
 #--- COMMON SYSTEM STRING RESOURCE
 #
 text_ok=OK
+text_start=Mulai
+text_restore=Kembalikan
 text_finish=Selesai
 text_install=Pasang
-text_finish=Selesai
 text_next=Lanjut
 text_back=Kembali
 text_yes=Ya
@@ -52,7 +54,12 @@ text_quit_msg=Anda yakin ingin membatalkan?
 #-- CUSTOM STRING RESOURCE
 #
 common.for=untuk
+common.toupper=Untuk
+common.to=untuk
 common.press=Tekan
+common.cancel=membatalkan
+language=Bahasa
+select.language=Pilih Bahasa
 
 langtest.title=Language Test
 langtest.multiline=This text is located in langs/en.lang\
@@ -78,6 +85,7 @@ welcome.author=DIBUILD OLEH
 welcome.buildvariant=VARIAN
 welcome.next=Tekan Lanjut untuk melanjutkan penginstallan...
 
+add.on=Tambahan
 kernel.about=Tentang Kernel
 kernel.aboutoc=Tentang Kernel Overclock
 kernel.variantinfo=Info Varian
@@ -91,6 +99,12 @@ infovariant.caution=Baca ini untuk memastikan Anda tidak salah menginstall Kerne
 spectrum.confirm=Aktifkan Konfigurasi Tambahan EAS di
 with.spectrum=Install kernel ini dengan konfigurasi tambahan.
 without.spectrum=Install kernel ini tanpa konfigurasi tambahan.
+ready.restore=Siap diKembalikan
+begin.restore=untuk mengembalikan
+restoring=Mengembalikan
+isbeing.restored=sedang dikembalikan.
+resfinish=selesai dikembalikan ,  Klik Selesai untuk Keluar.
+install=Install
 ready.install=Siap DiInstall
 kernel.install=Kernel ini Siap untuk diInstall
 begin.install=untuk menginstall Kernel ini
@@ -105,5 +119,5 @@ terms.desc=Mohon Baca dengan Seksama Ketentuan dibawah ini.
 terms.check=Saya Setuju dengan Syarat dan Ketentuan...
 terms.confirm=Mohon periksa persetujuan...
 
-changelog.title=Pembaruan
+changelog.title=Apa saja yang diganti / baru?
 changelog.desc=Pembaruan AROMA Installer
