@@ -598,6 +598,20 @@ EASPerfHAL() {
     $BB mount -o rw,remount -t auto /vendor 2>/dev/null;
 	
 	if [ "`$BB grep selected.2=1 /tmp/aroma-data/spectrum.prop`" ]; then
+	if [ -f /data/adb/modules/SDM660PerfHAL ];then
+	if [ "$REG" = "IDN" ];then
+    ui_print "- Menghapus Modul Perf HAL EAS lama...";
+    elif [ "$REG" = "JAV" ];then
+    ui_print "- Mbusake Modul Perf HAL EAS sing lawas...";
+    elif [ "$REG" = "SUN" ];then
+    ui_print "- Ngaleungitkeun Modul Perf HAL EAS lami...";
+    elif [ "$REG" = "HI" ];then
+    ui_print "- Poorane EAS Perf HAL modyool ka hatane jane wale prakriya suru...";
+    elif [ "$REG" = "EN" ];then
+    ui_print "- Removing old EAS Perf HAL Module...";
+    fi;
+	rm -rf /data/adb/modules/SDM660PerfHAL
+	fi;
 	if [ "$REG" = "IDN" ];then
     ui_print "- Menginstall Perf HAL EAS sebagai Modul...";
     elif [ "$REG" = "JAV" ];then
@@ -779,6 +793,20 @@ if [ "`$BB grep selected.2=4 /tmp/aroma-data/spectrum.prop`" ]; then
     $BB mount -o rw,remount -t auto /vendor 2>/dev/null;
 	
 	if [ -f /vendor/etc/perf/targetresourceconfigs.xml.bkp ] || [ -f /vendor/etc/perf/targetconfig.xml.bkp ] || [ -f /vendor/etc/perf/perfboostsconfig.xml.bkp ] || [ -f /vendor/etc/perf/commonresourceconfigs.xml.bkp ];then
+	if [ -f /data/adb/modules/SDM660PerfHAL ];then
+	if [ "$REG" = "IDN" ];then
+    ui_print "- Menghapus Modul Perf HAL EAS lama...";
+    elif [ "$REG" = "JAV" ];then
+    ui_print "- Mbusake Modul Perf HAL EAS sing lawas...";
+    elif [ "$REG" = "SUN" ];then
+    ui_print "- Ngaleungitkeun Modul Perf HAL EAS lami...";
+    elif [ "$REG" = "HI" ];then
+    ui_print "- Poorane EAS Perf HAL modyool ka hatane jane wale prakriya suru...";
+    elif [ "$REG" = "EN" ];then
+    ui_print "- Removing old EAS Perf HAL Module...";
+    fi;
+	rm -rf /data/adb/modules/SDM660PerfHAL
+	fi;
 	if [ "$REG" = "IDN" ];then
     ui_print "- Mengembalikan Perf HAL lama...";
     elif [ "$REG" = "JAV" ];then
