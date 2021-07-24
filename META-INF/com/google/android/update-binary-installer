@@ -476,7 +476,7 @@ do_modules() {
 }
 
 AddSpectrum(){
-if [ "`$BB grep selected.1=1 /tmp/aroma-data/spectrum.prop`" ] && [ -e $AKHOME/init.spectrum.rc ];then
+if [ "`$BB grep selected.2=1 /tmp/aroma-data/spectrum.prop`" ] && [ -e $AKHOME/init.spectrum.rc ];then
   cd $AKHOME;
   # custom script for spectrum
   $BB mount -o rw,remount -t auto /system;
@@ -565,7 +565,7 @@ if [ "`$BB grep selected.1=1 /tmp/aroma-data/spectrum.prop`" ] && [ -e $AKHOME/i
       rm -rf /system/init.spectrum.sh
       ui_print "remove /system/init.spectrum.sh"
 	fi
-  elif [ "`$BB grep selected.1=2 /tmp/aroma-data/spectrum.prop`" ] || [ ! -e $AKHOME/init.spectrum.rc ];then
+  elif [ "`$BB grep selected.2=2 /tmp/aroma-data/spectrum.prop`" ] || [ ! -e $AKHOME/init.spectrum.rc ];then
     if [ -e /vendor/etc/init/hw/init.spectrum.rc ];then
 	  if [ "$REG" = "IDN" ];then
 	  ui_print "- Menghapus Skrip Spectrum Lama..."
@@ -597,7 +597,7 @@ EASPerfHAL() {
 	$BB mount -o rw,remount -t auto /system;
     $BB mount -o rw,remount -t auto /vendor 2>/dev/null;
 	
-	if [ "`$BB grep selected.2=1 /tmp/aroma-data/spectrum.prop`" ]; then
+	if [ "`$BB grep selected.1=1 /tmp/aroma-data/spectrum.prop`" ]; then
 	if [ -f /data/adb/modules/SDM660PerfHAL ];then
 	if [ "$REG" = "IDN" ];then
     ui_print "- Menghapus Modul Perf HAL EAS lama...";
@@ -626,7 +626,7 @@ EASPerfHAL() {
 	cp -af $PerfHALDir /data/adb/modules
 	chmod -R 755 /data/adb/modules/SDM660PerfHAL
 	chmod -R 644 /data/adb/modules/SDM660PerfHAL/system/vendor/etc/perf/*
-	elif [ "`$BB grep selected.2=2 /tmp/aroma-data/spectrum.prop`" ]; then
+	elif [ "`$BB grep selected.1=2 /tmp/aroma-data/spectrum.prop`" ]; then
 	if [ ! -f /vendor/etc/perf/targetresourceconfigs.xml.bkp ] && [ ! -f /vendor/etc/perf/targetconfig.xml.bkp ] && [ ! -f /vendor/etc/perf/perfboostsconfig.xml.bkp ] && [ ! -f /vendor/etc/perf/commonresourceconfigs.xml.bkp ];then
 	if [ "$REG" = "IDN" ];then
     ui_print "- Mencadangkan Perf HAL lama...";
@@ -787,7 +787,7 @@ ui_print "- Preparing Environment Setup ...";
 fi;
 setup_env;
 
-if [ "`$BB grep selected.2=4 /tmp/aroma-data/spectrum.prop`" ]; then
+if [ "`$BB grep selected.1=4 /tmp/aroma-data/spectrum.prop`" ]; then
 	
 	$BB mount -o rw,remount -t auto /system;
     $BB mount -o rw,remount -t auto /vendor 2>/dev/null;
