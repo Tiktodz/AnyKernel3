@@ -5,46 +5,31 @@
 <b><#selectbg_g>About Kernel Variants :</#></b></@>
 
 <@fill><q>
-R : Kernel for Android 11 and 12 ROM
-    with CAF LA.UM.9.2.r1-XXXXX-SDMxx0.0 .
-	Some Android 10 ROMs maybe can
-	booted with this :)
+R : Kernel with CAF LA.UM.9.2.r1-XXXXX-SDMxx0.0.
 
-XR : Kernel for Android 10 , 11 ,
-     and Stock ROM which it's
-	 still using Old QPNP Vibration
-	 driver . With CAF
-	 LA.UM.8.2.r2-XXXXX-sdm660.0 ,
-	 so Don't flash on ROMs with
-	 LEDs Based Vibration else
-	 Vibrate will Dead.
+XR : Kernel for Android 10 , 11 , and Stock ROM
+     which it's still using Old QPNP Vibration driver .
+	 With CAF LA.UM.8.2.r2-XXXXX-sdm660.0 , so Don't flash
+	 on ROMs with LEDs Based Vibration else Vibrate will Dead.
 
-P : Kernel for Android 9 Custom ROM only
-    with CAF LA.UM.8.2.r2-XXXXX-sdm660.0 ,
-	don't flash on others else WiFi Will
-	dead.
+P : Kernel for Android 9 Custom ROM only with
+    CAF LA.UM.9.2.r1-XXXXX-SDMxx0.0 , don't
+	flash on others else WiFi Will dead.
 
-NFI : Android R Kernel Variant with
-      CAF 9.2 / R WiFi Driver .
-	  Recommended to use this variant
-	  if u're on Q Firmware.
+NFI : Kernel Variant with CAF 9.2 / R WiFi Driver .
+      Recommended to use this variant if u're on Q Firmware.
 
-OFI : Android R Kernel Variant with
-      CAF 7.2 / P WiFi Driver . U
-	  can use this Variant on
-	  Both Firmware (Pie and Q).
+OFI : Kernel Variant with CAF 7.2 / P WiFi Driver .
+      U can use this Variant on Both Firmware (Pie and Q).
 
-LV : For ROM which using LEDs Based
-     Vibration driver , don't flash
-	 on A10 or ROMs which still
-	 using Old QPNP Vibration
-	 driver else will bootloop.
+LV : For ROM which using LEDs Based Vibration driver or
+     usually A11 and above , don't flash on A10 or ROMs
+	 which still using Old QPNP Vibration driver else
+	 will bootloop.
 
-NLV : For ROMs which still using
-      Old QPNP Vibration Driver .
-	  Don't flash on ROMs with LEDs
-	  Based Vibration else Vibrate
-	  will Dead.
+NLV : For ROMs which still using Old QPNP Vibration Driver
+      or usually A10 and below . Don't flash on ROMs with
+	  LEDs Based Vibration else Vibrate will Dead.
 	  
 What is EAS?
 

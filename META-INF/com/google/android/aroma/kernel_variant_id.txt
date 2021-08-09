@@ -7,8 +7,6 @@
 <@fill><q>
 R : Kernel untuk ROM Android 11 dan 12
     dengan CAF LA.UM.9.2.r1-XXXXX-SDMxx0.0 .
-	Beberapa ROM Android 10 mungkin bisa
-	boot dengan variant ini :)
 
 XR : Kernel untuk ROM Android 10 , 11 , dan
      Stock yang dimana masih menggunakan
@@ -20,7 +18,7 @@ XR : Kernel untuk ROM Android 10 , 11 , dan
 
 P : Kernel yang hanya untuk
     Custom ROM Android 9 . Dengan
-	CAF LA.UM.8.2.r2-XXXXX-sdm660.0 ,
+	CAF LA.UM.9.2.r1-XXXXX-SDMxx0.0 ,
 	jangan flash pada lainnya atau
 	WiFi akan Mati.
 
@@ -34,18 +32,17 @@ OFI : Varian Kernel untuk Android R dengan
 	  menggunakan varian ini pada Kedua
 	  Jenis Firmware yaitu Pie dan Q.
 
-LV : Untuk ROM yang Getarannya sudah
-     Berbasis Driver LEDs , Jangan Flash
-	 pada Android 10 atau ROM yang masih
-	 menggunakan Getaran lama berbasis
+LV : Untuk ROM yang Getarannya sudah Berbasis
+     Driver LEDs atau biasanya Android 11 keatas ,
+	 Jangan Flash pada Android 10 atau ROM yang
+	 masih menggunakan Getaran lama berbasis
 	 Driver QPNP , nanti akan bootloop .
 
 NLV : Untuk ROM yang Getarannya masih
-      Menggunakan Driver QPNP Lama ,
-	  Jangan flash pada ROM yang
-	  getarannya sudah memakai
-	  Driver berbasis LEDs , nanti
-	  getaran akan mati .
+      Menggunakan Driver QPNP Lama atau biasanya
+	  Android 10 kebawah , Jangan flash pada ROM
+	  yang getarannya sudah memakai Driver
+	  berbasis LEDs , nanti getaran akan mati .
 	  
 Apa itu EAS?
 
