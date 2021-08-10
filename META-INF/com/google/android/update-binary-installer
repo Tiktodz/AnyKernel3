@@ -484,7 +484,6 @@ if [ "`$BB grep selected.1=1 /tmp/aroma-data/spectrum.prop`" ] && [ -e $AKHOME/s
   cd $AKHOME;
 
   # add spectrum support
-  SCRIPT_TYPE="$(file_getprop anykernel.sh script.type)";
   if [ "$REG" = "IDN" ];then
   ui_print "- Mencadangkan Skrip Lama...";
   elif [ "$REG" = "JAV" ];then
@@ -517,31 +516,15 @@ if [ "`$BB grep selected.1=1 /tmp/aroma-data/spectrum.prop`" ] && [ -e $AKHOME/s
     grep "import init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import init.spectrum.rc/d' /vendor/etc/init/hw/init.qcom.rc
     grep "import /vendor/etc/init/hw/init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null || sed -i '1,/.*import.*/s/.*import.*/import \/vendor\/etc\/init\/hw\/init.spectrum.rc\n&/' /vendor/etc/init/hw/init.qcom.rc
     if [ "$REG" = "IDN" ];then
-		if [ "$SCRIPT_TYPE" = "EAS Advanced Configuration" ];then
-		ui_print "- Menambal Skrip Konfigurasi EAS Lanjutan...";
-		else
-		ui_print "- Menambal Skrip $SCRIPT_TYPE...";
-		fi
+	ui_print "- Menambal Skrip Spektrum...";
 	elif [ "$REG" = "JAV" ];then
-		if [ "$SCRIPT_TYPE" = "EAS Advanced Configuration" ];then
-		ui_print "- Nambahi Skrip Konfigurasi EAS Lanjutan...";
-		else
-		ui_print "- Nambahi Skrip $SCRIPT_TYPE...";
-		fi
+	ui_print "- Nambahi Skrip Spektrum...";
 	elif [ "$REG" = "SUN" ];then
-		if [ "$SCRIPT_TYPE" = "EAS Advanced Configuration" ];then
-		ui_print "- Nambal Skrip Konfigurasi EAS Lanjutan...";
-		else
-		ui_print "- Nambal Skrip $SCRIPT_TYPE...";
-		fi
+	ui_print "- Nambal Skrip Spektrum...";
 	elif [ "$REG" = "HI" ];then
-		if [ "$SCRIPT_TYPE" = "EAS Advanced Configuration" ];then
-		ui_print "- EAS Adhunik Vinyas Script ke patching prakriya suru...";
-		else
-		ui_print "- Script $SCRIPT_TYPE ke Patching prakriya suru...";
-		fi
+	ui_print "- Script Spectrum ke Patching prakriya suru...";
 	elif [ "$REG" = "EN" ];then
-	ui_print "- Patching $SCRIPT_TYPE Script...";
+	ui_print "- Patching Spectrum Script...";
 	fi
 	cp -af $AKHOME/spectrum/init.spectrum.rc /vendor/etc/init/hw/
     chmod -R 644 /vendor/etc/init/hw/init.spectrum.rc
