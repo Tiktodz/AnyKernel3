@@ -13,7 +13,6 @@ kernel.type=xxx
 message.word=blablabla
 build.date=2077
 build.type=stable
-script.type=AdvancedorSpectrum
 do.devicecheck=1
 do.versioncheck=1
 do.modules=0
