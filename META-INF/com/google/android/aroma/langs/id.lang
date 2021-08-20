@@ -108,6 +108,15 @@ refresh.rate=Pilih Refresh Rate: (Memakai lebih dari 60Hz beresiko)
 backup.boot=Cadangkan Boot.img
 dobackup.boot=Lakukan Pencadangan
 dontbackup.boot=Jangan Cadangkan
+forcedttw=Paksa DT2W
+enable.forcedttw=Paksa Hidupkan DT2W
+disable.forcedttw=Matikan Paksaan DT2W
+forceenable.dttw=Berguna untuk Pengguna Non-Root yang dimana memiliki Node DT2W yang berbeda
+removeforced.dttw=Matikan dan Hapus Fitur "Paksa DT2W"
+enabling=Menghidupkan
+disabling=Mematikan
+enabled=telah dihidupkan
+disabled=telah dimatikan
 
 terms.title=Syarat dan Ketentuan
 terms.desc=Mohon Baca dengan Seksama Ketentuan dibawah ini.

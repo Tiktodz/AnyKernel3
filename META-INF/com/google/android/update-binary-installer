@@ -710,6 +710,54 @@ fi
 fi
 }
 
+DoubleTapWake() {
+$BB mount -o rw,remount -t auto /system;
+$BB mount -o rw,remount -t auto /vendor 2>/dev/null;
+	
+if [ "`$BB grep selected.2=1 /tmp/aroma-data/spectrum.prop`" ]; then
+	if [ "$REG" = "IDN" ];then
+	ui_print "- Menghidupkan Paksa DT2W ...";
+	elif [ "$REG" = "JAV" ];then
+	ui_print "- Ngaktifke Peksa DT2W ...";
+	elif [ "$REG" = "SUN" ];then
+	ui_print "- Maksa Ngaktipkeun DT2W ...";
+	elif [ "$REG" = "EN" ];then
+	ui_print "- Force Enabling DT2W ...";
+	fi;
+	grep "import /init.forcedt2w.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import \/init.forcedt2w.rc/d' /vendor/etc/init/hw/init.qcom.rc
+    grep "import init.forcedt2w.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import init.forcedt2w.rc/d' /vendor/etc/init/hw/init.qcom.rc
+    grep "import /vendor/etc/init/hw/init.forcedt2w.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null || sed -i '1,/.*import.*/s/.*import.*/import \/vendor\/etc\/init\/hw\/init.forcedt2w.rc\n&/' /vendor/etc/init/hw/init.qcom.rc
+	cp -af $AKHOME/tools/dt2w /vendor/etc/init/hw/init.forcedt2w.rc
+    chmod -R 644 /vendor/etc/init/hw/init.forcedt2w.rc
+elif [ "`$BB grep selected.2=2 /tmp/aroma-data/spectrum.prop`" ] && [ -e /vendor/etc/init/hw/init.forcedt2w.rc ]; then
+	if [ "$REG" = "IDN" ];then
+	ui_print "- Menghapus Paksaan DT2W ...";
+	elif [ "$REG" = "JAV" ];then
+	ui_print "- Mbusakke Peksaan DT2W ...";
+	elif [ "$REG" = "SUN" ];then
+	ui_print "- Ngaleungitkeun Maksaan DT2W ...";
+	elif [ "$REG" = "EN" ];then
+	ui_print "- Removing Forced DT2W ...";
+	fi;
+	rm -rf /vendor/etc/init/hw/init.forcedt2w.rc
+fi;
+
+$BB mount -o ro,remount -t auto /system;
+$BB mount -o ro,remount -t auto /vendor 2>/dev/null;
+
+if [ "`$BB grep selected.1=2 /tmp/aroma-data/dt2wdummy.prop`" ]; then
+if [ "$REG" = "IDN" ];then
+ui_print "- Selesai";
+elif [ "$REG" = "JAV" ];then
+ui_print "- Rampung";
+elif [ "$REG" = "SUN" ];then
+ui_print "- Parantos";
+elif [ "$REG" = "EN" ];then
+ui_print "- Done";
+fi;
+fi;
+}
+
 show_progress 1.34 4;
 ui_print " ";
 cleanup;
@@ -877,7 +925,8 @@ if [ "`$BB grep selected.2=4 /tmp/aroma-data/spectrum.prop`" ]; then
     abort "! Old Perf HAL not found. Aborting... !";
     fi;
 	fi;
-
+elif [ "`$BB grep selected.1=2 /tmp/aroma-data/dt2wdummy.prop`" ]; then
+DoubleTapWake;
 else
 do_devicecheck;
 do_versioncheck;
@@ -911,6 +960,7 @@ do_modules;
 # custom script for add spectrum support to kernel
 AddSpectrum;
 refreshrate;
+DoubleTapWake;
 
 debugging;
 restore_env;

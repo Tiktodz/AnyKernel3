@@ -108,6 +108,15 @@ refresh.rate=Milih Refresh Rate: (Nggunakake luwih saka 60Hz beboyo)
 backup.boot=Gawe Serep Boot.img
 dobackup.boot=Gawe Serep
 dontbackup.boot=Ojo Gawe Serep
+forcedttw=Peksa DT2W
+enable.forcedttw=Peksa Uripke DT2W
+disable.forcedttw=Pateni Peksaan DT2W
+forceenable.dttw=Migunakake kanggo Pangguna Non-Root sing beda Node DT2W
+removeforced.dttw=Pateni lan Copot Fitur "Peksa DT2W"
+enabling=Nguripke
+disabling=Mateni
+enabled=sampun diuripke
+disabled=sampun dipateni
 
 terms.title=Syarat lan Ketentuan
 terms.desc=Woco kanthi tliti Syarat lan Ketentuan AROMA Installer Ing ngisor iki.
