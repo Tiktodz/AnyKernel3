@@ -106,12 +106,20 @@ menubox(
   
     "<~install>",    "",    "@send",    #-- selected = 1
 	"<~perfhal.restore>", "", "@archive", #-- selected = 2
-    "<~kernel.about>",    "",    "@info",    #-- selected = 3
-	"<~kernel.aboutoc>",    "",    "@alert",    #-- selected = 4
-	"<~kernel.variantinfo>",    "",    "@info"    #-- selected = 5
+	"<~forcedttw>", "", "@pen", #-- selected = 3
+    "<~kernel.about>",    "",    "@info",    #-- selected = 4
+	"<~kernel.aboutoc>",    "",    "@alert",    #-- selected = 5
+	"<~kernel.variantinfo>",    "",    "@info"    #-- selected = 6
 );																															
 
-if prop("menu.prop","selected")=="3" then
+writetmpfile(
+      #-- Property
+	    "dt2wdummy.prop",
+	  #-- Values
+	    "selected.1=1\n"
+    );
+	
+if prop("menu.prop","selected")=="4" then
 ini_set("text_next", "");
 textbox(
   #-- Title
@@ -126,7 +134,7 @@ textbox(
 back("1");
 endif;
 
-if prop("menu.prop","selected")=="4" then
+if prop("menu.prop","selected")=="5" then
 ini_set("text_next", "");
 textbox(
   #-- Title
@@ -141,7 +149,7 @@ textbox(
 back("1");
 endif;
 
-if prop("menu.prop","selected")=="5" then
+if prop("menu.prop","selected")=="6" then
 
 menubox(
   #-- Title
@@ -190,6 +198,86 @@ textbox(
 	);
 endif;
 back("1");
+endif;
+
+if prop("menu.prop","selected")=="3" then
+writetmpfile(
+      #-- Property
+	    "dt2wdummy.prop",
+	  #-- Values
+	    "selected.1=2\n"
+    );
+	
+menubox(
+  #-- Title
+    "<~forcedttw>",
+  
+  #-- Description
+    "",
+  
+  #-- Icon
+    "@pen",
+    
+  #-- Property
+    "dt2wmenu.prop",
+    
+  #-------------------------+------------------------------+-------------#
+  # TITLE                   | DESCRIPTION                  | ICON        #
+  #-------------------------+------------------------------+-------------#
+  
+    "<~enable.forcedttw>",    "<~forceenable.dttw>",    "@done",    #-- selected = 1
+    "<~disable.forcedttw>",    "<~removeforced.dttw>",    "@clear"    #-- selected = 2
+);
+
+ini_set("text_next", "<~text_finish>");
+
+if prop("dt2wmenu.prop","selected")=="1" then
+writetmpfile(
+      #-- Property
+	    "spectrum.prop",
+	  #-- Values
+	    "selected.3=1\n"
+    );
+	
+setvar("retstatus",
+  install(
+	#-- Title
+      "<~enabling> <~forcedttw>...",
+
+	#-- Installation Process message
+      "<~please.wait>",
+
+	#-- Installation Icon
+      "@build",
+
+	#-- Installation Finish Message
+      "<~forcedttw> <~enabled>."
+  )
+);
+else
+writetmpfile(
+      #-- Property
+	    "spectrum.prop",
+	  #-- Values
+	    "selected.3=2\n"
+    );
+
+setvar("retstatus",
+  install(
+	#-- Title
+      "<~disabling> <~forcedt2w>...",
+
+	#-- Installation Process message
+      "<~please.wait>",
+
+	#-- Installation Icon
+      "@build",
+
+	#-- Installation Finish Message
+      "<~forcedt2w> <~disabled>."
+  )
+);
+endif;
 endif;
 
 if prop("menu.prop","selected")=="2" then
@@ -266,7 +354,11 @@ selectbox(
         "<~easperfhal.confirm> ?",        "",                              2,  #-- Group 2. key = "selected.2"
           "<~text_yes>,<~installeas.module>",    "<~installeas.moduleinfo>",    1,    #-- selected.2 = 1
           "<~text_yes>,<~installeas.directly>",    "<~installeas.directlyinfo>",    0,    #-- selected.2 = 2
-		  "<~text_no>",    "<~installeas.nothing>",    0     #-- selected.2 = 3
+		  "<~text_no>",    "<~installeas.nothing>",    0,     #-- selected.2 = 3
+		  
+		"<~forcedttw>",        "",                              2,  #-- Group 3. key = "selected.3"
+          "<~enable.forcedttw>",    "<~forceenable.dttw>",    0,    #-- selected.3 = 1
+          "<~disable.forcedttw>",    "<~removeforced.dttw>",    1     #-- selected.3 = 2
     );
 
 selectbox(

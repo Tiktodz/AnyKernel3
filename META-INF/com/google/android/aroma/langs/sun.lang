@@ -116,6 +116,15 @@ refresh.rate=Milih Refresh Rate: (Ngagunakeun langkung ti 60Hz nyaéta résiko)
 backup.boot=Nyadangkeun Boot.img
 dobackup.boot=Ngalakukeun Cadangan
 dontbackup.boot=Entong Cadangan
+forcedttw=Maksa DT2W
+enable.forcedttw=Maksa Ngaktipkeun DT2W
+disable.forcedttw=Ngaleungitkeun Maksaan DT2W
+forceenable.dttw=Mangpaat pikeun Pamaké Non-Akar anu ngagaduhan béda DT2W Node
+removeforced.dttw=Pareuman sareng Hapus Fitur "Maksa DT2W"
+enabling=Ngaktipkeun
+disabling=Ngaleungitkeun
+enabled=telah diaktipkeun
+disabled=telah dileungitkeun
 
 terms.title=Syarat sareng katangtuan
 terms.desc=Mangga baca sacara saksama Sarat sareng Kaayaan AROMA Installer Ieu di handap.

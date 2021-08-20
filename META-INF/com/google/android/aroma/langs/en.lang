@@ -118,6 +118,16 @@ refresh.rate=Choose Refresh Rate: (Using more than 60Hz is Risky)
 backup.boot=Backup Boot.img
 dobackup.boot=Do Backup
 dontbackup.boot=Don't Backup
+forcedttw=Force DT2W
+enable.forcedttw=Force Enable DT2W
+disable.forcedttw=Disable Forced DT2W
+forceenable.dttw=Useful for Non-Root Users which has Different DT2W Node
+removeforced.dttw=Disable and Remove "Force DT2W" Feature
+enabling=Enabling
+disabling=Disabling
+enabled=has been enabled
+disabled=has been disabled
+
 
 terms.title=Terms and Conditions
 terms.desc=Please read carefully The AROMA Installer Terms and Conditions Below.
