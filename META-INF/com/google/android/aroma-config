@@ -39,7 +39,7 @@ splash(
     5000,
     "sw"
 );
-theme("materialize_red");
+theme("materialize_indigo");
 fontresload( "0", "ttf/GoogleSansMedium.ttf", "12" );
 fontresload( "1", "ttf/GoogleSansMedium.ttf", "14" );
 
@@ -80,8 +80,7 @@ viewbox(
       "  <#textfg><~welcome.version>\t\t\t: <b>"+ini_get("rom_version")+"</b>\n\n"+
       "  <~welcome.author>\t\t: <b>"+ini_get("rom_author")+"</b>\n\n"+
       "  <~welcome.builddate>\t\t: <b>"+ini_get("rom_date")+"</b>\n\n"+
-	  "  <~welcome.buildvariant>\t\t: <b>KVARIANT</b>\n\n\n\n\n"+
-	  "<b><~independenceday>!</b>\n\n\n\n"+
+	  "  <~welcome.buildvariant>\t\t: <b>KVARIANT</b>\n\n\n"+
 
     "<~welcome.next></#>",
   
