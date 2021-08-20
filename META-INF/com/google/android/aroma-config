@@ -385,8 +385,8 @@ selectbox(
 		  "72Hz",    "",    0,    #-- selected.1 = 12
         
         "<~backup.boot> ?",        "",                              2,  #-- Group 2. key = "selected.2"
-          "<~text_yes>",    "<~dobackup.boot>",    1,    #-- selected.2 = 1
-          "<~text_no>",    "<~dontbackup.boot>",    0    #-- selected.2 = 2
+          "<~text_yes>",    "<~dobackup.boot>",    0,    #-- selected.2 = 1
+          "<~text_no>",    "<~dontbackup.boot>",    1    #-- selected.2 = 2
 );
 	
 ini_set("text_next", "<~text_install>");
