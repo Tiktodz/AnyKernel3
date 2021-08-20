@@ -265,6 +265,39 @@ selectbox(
           "<~text_no>",    "<~without.spectrum>",    0    #-- selected.1 = 2
 );
 
+selectbox(
+      #-- Title
+        "",
+      #-- Description
+        "<~add.on>",
+      #-- Icon
+        "@extension",
+      #-- Property
+        "refrate.prop",
+        
+      #-------------------------------+------------------------------+-------#
+      # TITLE                         | DESCRIPTION                  | VALUE #
+      #-------------------------------+------------------------------+-------#
+    
+        "<~refresh.rate>",        "",                              2,  #-- Group 1. key = "selected.1"
+          "48Hz",    "",    0,    #-- selected.1 = 1
+		  "50Hz",    "",    0,    #-- selected.1 = 2
+		  "55Hz",    "",    0,    #-- selected.1 = 3
+		  "60Hz (Default)",    "",    1,    #-- selected.1 = 4
+          "62Hz",    "",    0,    #-- selected.1 = 5
+		  "64Hz",    "",    0,    #-- selected.1 = 6
+		  "65Hz",    "",    0,    #-- selected.1 = 7
+		  "67Hz",    "",    0,    #-- selected.1 = 8
+		  "68Hz",    "",    0,    #-- selected.1 = 9
+		  "69Hz",    "",    0,    #-- selected.1 = 10
+		  "70Hz",    "",    0,    #-- selected.1 = 11
+		  "72Hz",    "",    0,    #-- selected.1 = 12
+        
+        "<~backup.boot> ?",        "",                              2,  #-- Group 2. key = "selected.2"
+          "<~text_yes>",    "<~dobackup.boot>",    1,    #-- selected.2 = 1
+          "<~text_no>",    "<~dontbackup.boot>",    0    #-- selected.2 = 2
+);
+	
 ini_set("text_next", "<~text_install>");
 
 viewbox(

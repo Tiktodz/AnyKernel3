@@ -104,6 +104,10 @@ installing=Menginstal
 isbeing.installed=lagi nginstal.
 please.wait=Tulung ngenteni, Iki bisa uga butuh wektu suwe...
 installed=Kernel wis sukses diinstal, Pencet Rampung kanggo Metu.
+refresh.rate=Milih Refresh Rate: (Nggunakake luwih saka 60Hz beboyo)
+backup.boot=Gawe Serep Boot.img
+dobackup.boot=Gawe Serep
+dontbackup.boot=Ojo Gawe Serep
 
 terms.title=Syarat lan Ketentuan
 terms.desc=Woco kanthi tliti Syarat lan Ketentuan AROMA Installer Ing ngisor iki.

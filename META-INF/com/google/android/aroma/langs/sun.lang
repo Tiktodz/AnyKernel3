@@ -104,6 +104,10 @@ installing=Masang
 isbeing.installed=nuju dipasang.
 please.wait=Punten antosan, Ieu tiasa nyandak sakedap...
 installed=Kernel parantos hasil dipasang, Pencét Rengse pikeun kaluar.
+refresh.rate=Milih Refresh Rate: (Ngagunakeun langkung ti 60Hz nyaéta résiko)
+backup.boot=Nyadangkeun Boot.img
+dobackup.boot=Ngalakukeun Cadangan
+dontbackup.boot=Entong Cadangan
 
 terms.title=Syarat sareng katangtuan
 terms.desc=Mangga baca sacara saksama Sarat sareng Kaayaan AROMA Installer Ieu di handap.
