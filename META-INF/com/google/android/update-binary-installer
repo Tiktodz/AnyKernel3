@@ -1025,19 +1025,14 @@ do_levelcheck;
 
 if [ "$REG" = "IDN" ];then
 ui_print "- Memasang Kernel...";
-ui_print "! Tidak Perlu Menginstall Magisk lagi jika sebelumnya sudah terinstall !";
 elif [ "$REG" = "JAV" ];then
 ui_print "- Nginstall Kernel...";
-ui_print "! Ora perlu nginstall Magisk maneh yen sadurunge wis diinstall !";
 elif [ "$REG" = "SUN" ];then
 ui_print "- Masang Kernel...";
-ui_print "! Henteu kedah masang Magisk deui upami éta sateuacan dipasang !";
 elif [ "$REG" = "HI" ];then
 ui_print "- Kernel Install ka prakriya suru...";
-ui_print "! Aapko Magisk flash karne ki koi jaroorat nai hai agar aapne pehele se flash kie hai !";
 elif [ "$REG" = "EN" ];then
 ui_print "- Installing Kernel...";
-ui_print "! U don't need to reinstall Magisk if already installed before !";
 fi;
 CORE=$($BB grep -oE 'ak.*core.sh' anykernel.sh);
 [ -f tools/$CORE ] || $BB ln -s $AKHOME/tools/ak*-core.sh $AKHOME/tools/$CORE;

@@ -10,6 +10,18 @@ bin=$home/tools;
 patch=$home/patch;
 ramdisk=$home/ramdisk;
 split_img=$home/split_img;
+BB=$bin/busybox;
+
+# MultiLanguage Support
+if [ "`$BB grep selected.0=2 /tmp/aroma-data/lang.prop`" ];then
+  REG=IDN;
+elif [ "`$BB grep selected.0=3 /tmp/aroma-data/lang.prop`" ];then
+  REG=JAV;
+elif [ "`$BB grep selected.0=4 /tmp/aroma-data/lang.prop`" ];then
+  REG=SUN;
+else
+  REG=EN;
+fi;
 
 ### output/testing functions:
 # ui_print "<text>" [...]
@@ -319,6 +331,19 @@ flash_boot() {
           magisk_patched=$?;
         fi;
         if [ $((magisk_patched & 3)) -eq 1 ]; then
+		if [ "$REG" = "IDN" ];then
+		ui_print "! Magisk Terdeteksi, Tidak Perlu Menginstall Magisk lagi !";
+		ui_print "- Menambal Magisk...";
+		elif [ "$REG" = "JAV" ];then
+		ui_print "! Magisk Dideteksi, Ora perlu nginstall Magisk maneh !";
+		ui_print "- Nambal Magisk...";
+		elif [ "$REG" = "SUN" ];then
+		ui_print "! Magisk Dideteksi, Henteu kedah masang Magisk deui !";
+		ui_print "- Nambal Magisk...";
+		elif [ "$REG" = "EN" ];then
+		ui_print "! Magisk Detected, U don't need to reinstall Magisk !";
+		ui_print "- Patching Magisk...";
+		fi;
           comp=$($bin/magiskboot decompress kernel 2>&1 | grep -v 'raw' | sed -n 's;.*\[\(.*\)\];\1;p');
           ($bin/magiskboot split $kernel || $bin/magiskboot decompress $kernel kernel) 2>/dev/null;
           if [ $? != 0 -a "$comp" ]; then
