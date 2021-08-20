@@ -653,7 +653,138 @@ EASPerfHAL() {
 	$BB mount -o rw,remount -t auto /system;
     $BB mount -o rw,remount -t auto /vendor 2>/dev/null;
 }
-	
+
+refreshrate() {
+if [ "`$BB grep selected.1=1 /tmp/aroma-data/refrate.prop`" ];then
+RR=48
+elif [ "`$BB grep selected.1=2 /tmp/aroma-data/refrate.prop`" ];then
+RR=50
+elif [ "`$BB grep selected.1=3 /tmp/aroma-data/refrate.prop`" ];then
+RR=55
+elif [ "`$BB grep selected.1=5 /tmp/aroma-data/refrate.prop`" ];then
+RR=62
+elif [ "`$BB grep selected.1=6 /tmp/aroma-data/refrate.prop`" ];then
+RR=64
+elif [ "`$BB grep selected.1=7 /tmp/aroma-data/refrate.prop`" ];then
+RR=65
+elif [ "`$BB grep selected.1=8 /tmp/aroma-data/refrate.prop`" ];then
+RR=67
+elif [ "`$BB grep selected.1=9 /tmp/aroma-data/refrate.prop`" ];then
+RR=68
+elif [ "`$BB grep selected.1=10 /tmp/aroma-data/refrate.prop`" ];then
+RR=69
+elif [ "`$BB grep selected.1=11 /tmp/aroma-data/refrate.prop`" ];then
+RR=70
+elif [ "`$BB grep selected.1=12 /tmp/aroma-data/refrate.prop`" ];then
+RR=72
+else
+RR=60
+fi
+
+if [ "`$BB grep selected.2=1 /tmp/aroma-data/refrate.prop`" ];then
+dobackup=1
+else
+dobackup=0
+fi
+
+dtc=$AKHOME/tools/dtc
+dtp=$AKHOME/tools/dtp
+screen=$RR
+$BB dd if=/dev/block/bootdevice/by-name/boot of=$AKHOME/tools/boot.img
+
+if [ "$dobackup" = "1" ]; then
+	if [ "$REG" = "IDN" ];then
+	ui_print "- Mencadangkan Boot.img...";
+	elif [ "$REG" = "JAV" ];then
+	ui_print "- Gawe Serep Boot.img...";
+	elif [ "$REG" = "SUN" ];then
+	ui_print "- Nyadangkeun Boot.img...";
+	elif [ "$REG" = "EN" ];then
+	ui_print "- Backing up Boot.img ...";
+	fi;
+    mkdir -p /sdcard/BootBackup
+	$BB cp $AKHOME/tools/boot.img /sdcard/BootBackup/boot-backup-$(date "+%Y%m%d%H%M%S").img
+fi
+
+ui_print "- Refresh Rate: $screen Hz.";
+
+if [ "$RR" = "60" ]; then
+if [ "$REG" = "IDN" ];then
+ui_print "- Melompati Modifikasi Refresh Rate ...";
+elif [ "$REG" = "JAV" ];then
+ui_print "- Nglumpati Modifikasi Refresh Rate ...";
+elif [ "$REG" = "SUN" ];then
+ui_print "- Ngalangkungan Modifikasi Refresh Rate ...";
+elif [ "$REG" = "EN" ];then
+ui_print "- Skipping Modify Refresh Rate ...";
+fi;
+else
+if [ "$REG" = "IDN" ] || [ "$REG" = "SUN" ] || [ "$REG" = "JAV" ];then
+ui_print "- Memodifikasi Refresh Rate ...";
+elif [ "$REG" = "EN" ];then
+ui_print "- Modifying Refresh Rate ...";
+fi;
+$AKHOME/tools/magiskboot unpack $AKHOME/tools/boot.img
+$dtp -i kernel_dtb
+if [ "$?" != "0" ]; then
+abortrefrate=1
+else
+# decompile dtb
+dtb_count=$(ls -lh kernel_dtb-* | wc -l)
+board_id=$($BB cat /proc/device-tree/qcom,board-id | $BB xxd -p | $BB xargs echo | $BB sed 's/ //g' | $BB sed 's/.\{8\}/&\n/g' | $BB sed 's/^0\{6\}/0x/g' | $BB sed 's/^0\{5\}/0x/g' | $BB sed 's/^0\{4\}/0x/g' | $BB sed 's/^0\{3\}/0x/g' | $BB sed 's/^0\{2\}/0x/g' | $BB sed 's/^0\{1\}x*/0x/g' | $BB tr '\n' ' ' | $BB sed 's/ *$/\n/g')
+msm_id=$($BB cat /proc/device-tree/qcom,msm-id | $BB xxd -p | $BB xargs echo | $BB sed 's/ //g' | $BB sed 's/.\{8\}/&\n/g' | $BB sed 's/^0\{6\}/0x/g' | $BB sed 's/^0\{5\}/0x/g' | $BB sed 's/^0\{4\}/0x/g' | $BB sed 's/^0\{3\}/0x/g' | $BB sed 's/^0\{2\}/0x/g' | $BB sed 's/^0\{1\}x*/0x/g' | $BB tr '\n' ' ' | $BB sed 's/ *$/\n/g')
+
+i=0
+while [ $i -lt $dtb_count ]; do
+	$dtc -q -I dtb -O dts kernel_dtb-$i -o $AKHOME/tools/kernel_dtb_$i.dts
+	dts_board_id=$($BB cat $AKHOME/tools/kernel_dtb_$i.dts | $BB grep qcom,board-id | $BB sed -e 's/[\t]*qcom,board-id = <//g' | $BB sed 's/>;//g')
+	dts_msm_id=$($BB cat $AKHOME/tools/kernel_dtb_$i.dts | $BB grep qcom,msm-id | $BB sed -e 's/[\t]*qcom,msm-id = <//g' | $BB sed 's/>;//g')
+	if [ "$dts_board_id" = "$board_id" ] && [ "$dts_msm_id" = "$msm_id" ]; then
+		break
+	fi
+	$BB rm -f $AKHOME/tools/kernel_dtb_$i.dts
+	i=$((i + 1))
+done
+fi
+case $i in
+$dtb_count)
+abortrefrate=1
+;;
+esac
+
+if [ "$abortrefrate" = "1" ]; then
+if [ "$REG" = "IDN" ] || [ "$REG" = "SUN" ] || [ "$REG" = "JAV" ];then
+ui_print "- Gagal Memodifikasi Refresh Rate ...";
+elif [ "$REG" = "EN" ];then
+ui_print "- Failed to Modify Refresh Rate ...";
+fi;
+else
+# screen refresh rate
+srr=qcom,mdss-dsi-panel-framerate
+max_srr=qcom,mdss-dsi-max-refresh-rate
+nsrr_=$(printf "0x%x" $screen)
+$BB sed -i "s/$srr = <[^)]*>/$srr = <$nsrr_>/g" $AKHOME/tools/kernel_dtb_$i.dts
+$BB sed -i "s/$max_srr = <[^)]*>/$max_srr = <$nsrr_>/g" $AKHOME/tools/kernel_dtb_$i.dts
+
+# compile dts to dtb
+$dtc -q -I dts -O dtb $AKHOME/tools/kernel_dtb_$i.dts -o kernel_dtb-$i
+
+# generate new dtb
+i=0
+> kernel_dtb
+while [ $i -lt $dtb_count ]; do
+	$BB cat kernel_dtb-$i >> kernel_dtb
+	i=$((i + 1))
+done
+
+$AKHOME/tools/magiskboot repack $AKHOME/tools/boot.img
+$BB dd if=new-boot.img of=/dev/block/bootdevice/by-name/boot
+$BB rm -f kernel_dtb-*
+$BB rm -f new-boot.img
+fi
+fi
+}
+
 show_progress 1.34 4;
 ui_print " ";
 cleanup;
@@ -869,6 +1000,7 @@ do_modules;
 # custom script for add spectrum support to kernel
 AddSpectrum;
 EASPerfHAL;
+refreshrate;
 
 debugging;
 restore_env;

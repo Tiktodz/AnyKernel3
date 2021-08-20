@@ -113,6 +113,10 @@ installing=Menginstall
 isbeing.installed=sedang diinstall.
 please.wait=Mohon Tunggu beberapa saat...
 installed=Kernel sukses diinstall , Klik Selesai untuk Keluar.
+refresh.rate=Pilih Refresh Rate: (Memakai lebih dari 60Hz beresiko)
+backup.boot=Cadangkan Boot.img
+dobackup.boot=Lakukan Pencadangan
+dontbackup.boot=Jangan Cadangkan
 
 terms.title=Syarat dan Ketentuan
 terms.desc=Mohon Baca dengan Seksama Ketentuan dibawah ini.

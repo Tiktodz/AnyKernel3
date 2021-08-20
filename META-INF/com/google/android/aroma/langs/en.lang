@@ -114,6 +114,10 @@ installing=Installing
 isbeing.installed=is being installed.
 please.wait=Please wait , This may take a moment...
 installed=Kernel has successfully installed , Press Finish to Exit.
+refresh.rate=Choose Refresh Rate: (Using more than 60Hz is Risky)
+backup.boot=Backup Boot.img
+dobackup.boot=Do Backup
+dontbackup.boot=Don't Backup
 
 terms.title=Terms and Conditions
 terms.desc=Please read carefully The AROMA Installer Terms and Conditions Below.
