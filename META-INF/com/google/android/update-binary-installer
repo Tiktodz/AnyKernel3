@@ -650,8 +650,8 @@ EASPerfHAL() {
 	cp -af $PerfHALDir/system/vendor/etc/perf/commonresourceconfigs.xml /vendor/etc/perf/commonresourceconfigs.xml
 	fi;
 	
-	$BB mount -o rw,remount -t auto /system;
-    $BB mount -o rw,remount -t auto /vendor 2>/dev/null;
+  $BB mount -o ro,remount -t auto /system;
+  $BB mount -o ro,remount -t auto /vendor 2>/dev/null;
 }
 
 refreshrate() {
@@ -817,8 +817,8 @@ elif [ "`$BB grep selected.3=2 /tmp/aroma-data/spectrum.prop`" ] && [ -e /vendor
 	rm -rf /vendor/etc/init/hw/init.forcedt2w.rc
 fi;
 
-$BB mount -o ro,remount -t auto /system;
-$BB mount -o ro,remount -t auto /vendor 2>/dev/null;
+  $BB mount -o ro,remount -t auto /system;
+  $BB mount -o ro,remount -t auto /vendor 2>/dev/null;
 
 if [ "`$BB grep selected.1=2 /tmp/aroma-data/dt2wdummy.prop`" ]; then
 if [ "$REG" = "IDN" ];then
@@ -1014,6 +1014,8 @@ if [ "`$BB grep selected.2=4 /tmp/aroma-data/spectrum.prop`" ]; then
     abort "! Old Perf HAL not found. Aborting... !";
     fi;
 	fi;
+  $BB mount -o ro,remount -t auto /system;
+  $BB mount -o ro,remount -t auto /vendor 2>/dev/null;
 elif [ "`$BB grep selected.1=2 /tmp/aroma-data/dt2wdummy.prop`" ]; then
 DoubleTapWake;
 else
