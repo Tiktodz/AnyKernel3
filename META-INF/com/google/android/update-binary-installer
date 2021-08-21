@@ -729,7 +729,7 @@ if [ "`$BB grep selected.2=1 /tmp/aroma-data/spectrum.prop`" ]; then
     grep "import /vendor/etc/init/hw/init.forcedt2w.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null || sed -i '1,/.*import.*/s/.*import.*/import \/vendor\/etc\/init\/hw\/init.forcedt2w.rc\n&/' /vendor/etc/init/hw/init.qcom.rc
 	cp -af $AKHOME/tools/dt2w /vendor/etc/init/hw/init.forcedt2w.rc
     chmod -R 644 /vendor/etc/init/hw/init.forcedt2w.rc
-elif [ "`$BB grep selected.2=2 /tmp/aroma-data/spectrum.prop`" ] && [ -e /vendor/etc/init/hw/init.forcedt2w.rc ]; then
+elif [ "`$BB grep selected.2=2 /tmp/aroma-data/spectrum.prop`" ]; then
 	if [ "$REG" = "IDN" ];then
 	ui_print "- Menghapus Paksaan DT2W ...";
 	elif [ "$REG" = "JAV" ];then
@@ -739,7 +739,19 @@ elif [ "`$BB grep selected.2=2 /tmp/aroma-data/spectrum.prop`" ] && [ -e /vendor
 	elif [ "$REG" = "EN" ];then
 	ui_print "- Removing Forced DT2W ...";
 	fi;
+	if [ -e /vendor/etc/init/hw/init.forcedt2w.rc ]; then
 	rm -rf /vendor/etc/init/hw/init.forcedt2w.rc
+	else
+	if [ "$REG" = "IDN" ];then
+    ui_print "! Skrip Paksaan DT2W tidak ditemukan. !";
+    elif [ "$REG" = "JAV" ];then
+    ui_print "! Skrip Peksaan DT2W ora ditemokke. !";
+    elif [ "$REG" = "SUN" ];then
+    ui_print "! Skrip Maksaan DT2W teu kapendak. !";
+    elif [ "$REG" = "EN" ];then
+    ui_print "! Force DT2W Script not found. !";
+    fi;
+	fi;
 fi;
 
   $BB mount -o ro,remount -t auto /system;
