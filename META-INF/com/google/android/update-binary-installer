@@ -480,7 +480,7 @@ AddSpectrum(){
   $BB mount -o rw,remount -t auto /system;
   $BB mount -o rw,remount -t auto /vendor 2>/dev/null;
   
-if [ "`$BB grep selected.1=1 /tmp/aroma-data/spectrum.prop`" ] && [ -e $AKHOME/spectrum/init.spectrum.rc ];then
+if [ "`$BB grep -w "selected.1=1" /tmp/aroma-data/spectrum.prop`" ] && [ -e $AKHOME/spectrum/init.spectrum.rc ];then
   cd $AKHOME;
 
   # add spectrum support
@@ -551,7 +551,7 @@ if [ "`$BB grep selected.1=1 /tmp/aroma-data/spectrum.prop`" ] && [ -e $AKHOME/s
       rm -rf /system/init.spectrum.sh
       ui_print "remove /system/init.spectrum.sh"
 	fi
-  elif [ "`$BB grep selected.1=2 /tmp/aroma-data/spectrum.prop`" ] || [ ! -e $AKHOME/spectrum/init.spectrum.rc ];then
+  elif [ "`$BB grep -w "selected.1=2" /tmp/aroma-data/spectrum.prop`" ] || [ ! -e $AKHOME/spectrum/init.spectrum.rc ];then
     if [ -e /vendor/etc/init/hw/init.spectrum.rc ];then
 	  if [ "$REG" = "IDN" ];then
 	  ui_print "- Menghapus Skrip Spectrum Lama..."
@@ -580,33 +580,33 @@ if [ "`$BB grep selected.1=1 /tmp/aroma-data/spectrum.prop`" ] && [ -e $AKHOME/s
 }
 
 refreshrate() {
-if [ "`$BB grep selected.1=1 /tmp/aroma-data/refrate.prop`" ];then
+if [ "`$BB grep -w "selected.1=1" /tmp/aroma-data/refrate.prop`" ];then
 RR=48
-elif [ "`$BB grep selected.1=2 /tmp/aroma-data/refrate.prop`" ];then
+elif [ "`$BB grep -w "selected.1=2" /tmp/aroma-data/refrate.prop`" ];then
 RR=50
-elif [ "`$BB grep selected.1=3 /tmp/aroma-data/refrate.prop`" ];then
+elif [ "`$BB grep -w "selected.1=3" /tmp/aroma-data/refrate.prop`" ];then
 RR=55
-elif [ "`$BB grep selected.1=5 /tmp/aroma-data/refrate.prop`" ];then
+elif [ "`$BB grep -w "selected.1=5" /tmp/aroma-data/refrate.prop`" ];then
 RR=62
-elif [ "`$BB grep selected.1=6 /tmp/aroma-data/refrate.prop`" ];then
+elif [ "`$BB grep -w "selected.1=6" /tmp/aroma-data/refrate.prop`" ];then
 RR=64
-elif [ "`$BB grep selected.1=7 /tmp/aroma-data/refrate.prop`" ];then
+elif [ "`$BB grep -w "selected.1=7" /tmp/aroma-data/refrate.prop`" ];then
 RR=65
-elif [ "`$BB grep selected.1=8 /tmp/aroma-data/refrate.prop`" ];then
+elif [ "`$BB grep -w "selected.1=8" /tmp/aroma-data/refrate.prop`" ];then
 RR=67
-elif [ "`$BB grep selected.1=9 /tmp/aroma-data/refrate.prop`" ];then
+elif [ "`$BB grep -w "selected.1=9" /tmp/aroma-data/refrate.prop`" ];then
 RR=68
-elif [ "`$BB grep selected.1=10 /tmp/aroma-data/refrate.prop`" ];then
+elif [ "`$BB grep -w "selected.1=10" /tmp/aroma-data/refrate.prop`" ];then
 RR=69
-elif [ "`$BB grep selected.1=11 /tmp/aroma-data/refrate.prop`" ];then
+elif [ "`$BB grep -w "selected.1=11" /tmp/aroma-data/refrate.prop`" ];then
 RR=70
-elif [ "`$BB grep selected.1=12 /tmp/aroma-data/refrate.prop`" ];then
+elif [ "`$BB grep -w "selected.1=12" /tmp/aroma-data/refrate.prop`" ];then
 RR=72
 else
 RR=60
 fi
 
-if [ "`$BB grep selected.2=1 /tmp/aroma-data/refrate.prop`" ];then
+if [ "`$BB grep -w "selected.2=1" /tmp/aroma-data/refrate.prop`" ];then
 dobackup=1
 else
 dobackup=0
@@ -714,7 +714,7 @@ DoubleTapWake() {
 $BB mount -o rw,remount -t auto /system;
 $BB mount -o rw,remount -t auto /vendor 2>/dev/null;
 	
-if [ "`$BB grep selected.2=1 /tmp/aroma-data/spectrum.prop`" ]; then
+if [ "`$BB grep -w "selected.2=1" /tmp/aroma-data/spectrum.prop`" ]; then
 	if [ "$REG" = "IDN" ];then
 	ui_print "- Menghidupkan Paksa DT2W ...";
 	elif [ "$REG" = "JAV" ];then
@@ -729,7 +729,7 @@ if [ "`$BB grep selected.2=1 /tmp/aroma-data/spectrum.prop`" ]; then
     grep "import /vendor/etc/init/hw/init.forcedt2w.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null || sed -i '1,/.*import.*/s/.*import.*/import \/vendor\/etc\/init\/hw\/init.forcedt2w.rc\n&/' /vendor/etc/init/hw/init.qcom.rc
 	cp -af $AKHOME/tools/dt2w /vendor/etc/init/hw/init.forcedt2w.rc
     chmod -R 644 /vendor/etc/init/hw/init.forcedt2w.rc
-elif [ "`$BB grep selected.2=2 /tmp/aroma-data/spectrum.prop`" ]; then
+elif [ "`$BB grep -w "selected.2=2" /tmp/aroma-data/spectrum.prop`" ]; then
 	if [ "$REG" = "IDN" ];then
 	ui_print "- Menghapus Paksaan DT2W ...";
 	elif [ "$REG" = "JAV" ];then
@@ -757,7 +757,7 @@ fi;
   $BB mount -o ro,remount -t auto /system;
   $BB mount -o ro,remount -t auto /vendor 2>/dev/null;
 
-if [ "`$BB grep selected.1=2 /tmp/aroma-data/dt2wdummy.prop`" ]; then
+if [ "`$BB grep -w "selected.1=2" /tmp/aroma-data/dt2wdummy.prop`" ]; then
 if [ "$REG" = "IDN" ];then
 ui_print "- Selesai";
 elif [ "$REG" = "JAV" ];then
@@ -799,13 +799,13 @@ if [ $? != 0 -o -z "$(ls bin)" ]; then
 fi;
 
 # MultiLanguage Support
-if [ "`$BB grep selected.0=2 /tmp/aroma-data/lang.prop`" ];then
+if [ "`$BB grep -w "selected.0=2" /tmp/aroma-data/lang.prop`" ];then
   REG=IDN;
-elif [ "`$BB grep selected.0=3 /tmp/aroma-data/lang.prop`" ];then
+elif [ "`$BB grep -w "selected.0=3" /tmp/aroma-data/lang.prop`" ];then
   REG=JAV;
-elif [ "`$BB grep selected.0=4 /tmp/aroma-data/lang.prop`" ];then
+elif [ "`$BB grep -w "selected.0=4" /tmp/aroma-data/lang.prop`" ];then
   REG=SUN;
-elif [ "`$BB grep selected.0=5 /tmp/aroma-data/lang.prop`" ];then
+elif [ "`$BB grep -w "selected.0=5" /tmp/aroma-data/lang.prop`" ];then
   REG=HI;
 else
   REG=EN;
@@ -892,7 +892,7 @@ ui_print "- Preparing Environment Setup ...";
 fi;
 setup_env;
 
-if [ "`$BB grep selected.2=4 /tmp/aroma-data/spectrum.prop`" ]; then
+if [ "`$BB grep -w "selected.2=4" /tmp/aroma-data/spectrum.prop`" ]; then
 	
 	$BB mount -o rw,remount -t auto /system;
     $BB mount -o rw,remount -t auto /vendor 2>/dev/null;
@@ -939,7 +939,7 @@ if [ "`$BB grep selected.2=4 /tmp/aroma-data/spectrum.prop`" ]; then
 	fi;
   $BB mount -o ro,remount -t auto /system;
   $BB mount -o ro,remount -t auto /vendor 2>/dev/null;
-elif [ "`$BB grep selected.1=2 /tmp/aroma-data/dt2wdummy.prop`" ]; then
+elif [ "`$BB grep -w "selected.1=2" /tmp/aroma-data/dt2wdummy.prop`" ]; then
 DoubleTapWake;
 else
 do_devicecheck;
