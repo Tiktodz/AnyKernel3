@@ -681,30 +681,10 @@ else
 RR=60
 fi
 
-if [ "`$BB grep -w "selected.2=1" /tmp/aroma-data/refrate.prop`" ];then
-dobackup=1
-else
-dobackup=0
-fi
-
 dtc=$AKHOME/tools/dtc
 dtp=$AKHOME/tools/dtp
 screen=$RR
 $BB dd if=/dev/block/bootdevice/by-name/boot of=$AKHOME/tools/boot.img
-
-if [ "$dobackup" = "1" ]; then
-	if [ "$REG" = "IDN" ];then
-	ui_print "- Mencadangkan Boot.img...";
-	elif [ "$REG" = "JAV" ];then
-	ui_print "- Gawe Serep Boot.img...";
-	elif [ "$REG" = "SUN" ];then
-	ui_print "- Nyadangkeun Boot.img...";
-	elif [ "$REG" = "EN" ];then
-	ui_print "- Backing up Boot.img ...";
-	fi;
-    mkdir -p /sdcard/BootBackup
-	$BB cp $AKHOME/tools/boot.img /sdcard/BootBackup/boot-backup-$(date "+%Y%m%d%H%M%S").img
-fi
 
 ui_print "- Refresh Rate: $screen Hz.";
 
@@ -1034,6 +1014,20 @@ else
 do_devicecheck;
 do_versioncheck;
 do_levelcheck;
+
+if [ "`$BB grep -w "selected.2=1" /tmp/aroma-data/refrate.prop`" ];then
+	if [ "$REG" = "IDN" ];then
+	ui_print "- Mencadangkan Boot.img...";
+	elif [ "$REG" = "JAV" ];then
+	ui_print "- Gawe Serep Boot.img...";
+	elif [ "$REG" = "SUN" ];then
+	ui_print "- Nyadangkeun Boot.img...";
+	elif [ "$REG" = "EN" ];then
+	ui_print "- Backing up Boot.img ...";
+	fi;
+	mkdir -p /sdcard/BootBackup
+	$BB dd if=/dev/block/bootdevice/by-name/boot of=/sdcard/BootBackup/boot-backup-$(date "+%Y%m%d%H%M%S").img
+fi;
 
 if [ "$REG" = "IDN" ];then
 ui_print "- Memasang Kernel...";
