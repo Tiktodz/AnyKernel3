@@ -647,6 +647,7 @@ EASPerfHAL() {
 	cp -af $PerfHALDir/system/vendor/etc/perf/targetresourceconfigs.xml /vendor/etc/perf/targetresourceconfigs.xml
 	cp -af $PerfHALDir/system/vendor/etc/perf/targetconfig.xml /vendor/etc/perf/targetconfig.xml
 	cp -af $PerfHALDir/system/vendor/etc/perf/perfboostsconfig.xml /vendor/etc/perf/perfboostsconfig.xml
+	cp -af $PerfHALDir/system/vendor/etc/perf/perfconfigstore.xml /vendor/etc/perf/perfconfigstore.xml
 	cp -af $PerfHALDir/system/vendor/etc/perf/commonresourceconfigs.xml /vendor/etc/perf/commonresourceconfigs.xml
 	fi;
 	
@@ -982,6 +983,7 @@ if [ "`$BB grep -w "selected.2=4" /tmp/aroma-data/spectrum.prop`" ]; then
 	mv -f /vendor/etc/perf/targetconfig.xml.bkp /vendor/etc/perf/targetconfig.xml
 	mv -f /vendor/etc/perf/perfboostsconfig.xml.bkp /vendor/etc/perf/perfboostsconfig.xml
 	mv -f /vendor/etc/perf/commonresourceconfigs.xml.bkp /vendor/etc/perf/commonresourceconfigs.xml
+	rm -f /vendor/etc/perf/perfconfigstore.xml
 	if [ "$REG" = "IDN" ];then
 	ui_print "- Selesai";
 	elif [ "$REG" = "JAV" ];then
