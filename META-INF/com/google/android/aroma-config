@@ -39,7 +39,7 @@ splash(
     5000,
     "sw"
 );
-theme("materialize_indigo");
+theme("materialize_blackred");
 fontresload( "0", "ttf/GoogleSansMedium.ttf", "12" );
 fontresload( "1", "ttf/GoogleSansMedium.ttf", "14" );
 
