@@ -12,6 +12,9 @@ ramdisk=$home/ramdisk;
 split_img=$home/split_img;
 BB=$bin/busybox;
 
+# Disable Block Path Display
+no_block_display=1
+
 # MultiLanguage Support
 if [ "`$BB grep selected.0=2 /tmp/aroma-data/lang.prop`" ];then
   REG=IDN;
