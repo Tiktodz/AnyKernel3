@@ -71,6 +71,7 @@ welcome.codename=CODENAME
 welcome.builddate=BUILD DATE
 welcome.author=BUILDED BY
 welcome.buildvariant=VARIANT
+welcome.warning=DON'T MIRROR OR SHARE THIS FILE/CLOUD LINK DIRECTLY.
 welcome.next=Press Next to Continue the Installation...
 
 perfhal=Perf HAL

@@ -81,6 +81,7 @@ viewbox(
       "  <~welcome.author>\t\t: <b>"+ini_get("rom_author")+"</b>\n\n"+
       "  <~welcome.builddate>\t\t: <b>"+ini_get("rom_date")+"</b>\n\n"+
 	  "  <~welcome.buildvariant>\t\t: <b>KVARIANT</b>\n\n\n"+
+	  "  <b><~welcome.warning></b>\n\n\n\n"+
 
     "<~welcome.next></#>",
   

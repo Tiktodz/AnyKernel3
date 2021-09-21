@@ -70,6 +70,7 @@ welcome.codename=PARANGKAT
 welcome.builddate=NGAWANGUN TANGGAL
 welcome.author=DIWANGUN KU
 welcome.buildvariant=VARIAN
+welcome.warning=ULAH DUPLIKASI ATAU BAGIKEUN FILE/TAUTAN CLOUD IEU SACARA LANGSUNG.
 welcome.next=Pencét Terusna pikeun Neruskeun Pamasangan...
 
 perfhal=Perf HAL

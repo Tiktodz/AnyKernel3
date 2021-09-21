@@ -70,6 +70,7 @@ welcome.codename=PERANGKAT
 welcome.builddate=TANGGAL BUILD
 welcome.author=DIBUILD OLEH
 welcome.buildvariant=VARIAN
+welcome.warning=DILARANG MENDUPLIKAT ATAU MEMBAGIKAN FILE/LINK CLOUD INI SECARA LANGSUNG.
 welcome.next=Tekan Lanjut untuk melanjutkan penginstallan...
 
 perfhal=Perf HAL
