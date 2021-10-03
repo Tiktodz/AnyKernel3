@@ -40,8 +40,8 @@ splash(
     "sw"
 );
 theme("materialize_blacksline");
-fontresload( "0", "ttf/GoogleSansMedium.ttf", "12" );
-fontresload( "1", "ttf/GoogleSansMedium.ttf", "14" );
+fontresload( "0", "ttf/Rosemary-Regular.ttf", "12" );
+fontresload( "1", "ttf/Rosemary-Regular.ttf", "14" );
 
 selectbox(
     "Language","<@center><b>\nSelect Language:</b>\n\n</@>","@language","lang.prop",
