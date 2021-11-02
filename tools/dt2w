@@ -1,16 +1,25 @@
 # DT2W Enabler init by @ItsRyuujiX
 
 on late-fs
-    write /sys/kernel/touchpanel/dclicknode 1
+    chmod 0644 /sys/kernel/touchpanel/dclicknode 1
+    chmod 0644 /proc/tpd_gesture 1
+    chmod 0644 /proc/touchpanel/double_tap_enable 1
+	write /sys/kernel/touchpanel/dclicknode 1
     write /proc/tpd_gesture 1
     write /proc/touchpanel/double_tap_enable 1
 
 on boot
-    write /sys/kernel/touchpanel/dclicknode 1
+    chmod 0644 /sys/kernel/touchpanel/dclicknode 1
+    chmod 0644 /proc/tpd_gesture 1
+    chmod 0644 /proc/touchpanel/double_tap_enable 1
+	write /sys/kernel/touchpanel/dclicknode 1
     write /proc/tpd_gesture 1
     write /proc/touchpanel/double_tap_enable 1
 
 on property:sys.boot_completed=1
-    write /sys/kernel/touchpanel/dclicknode 1
+    chmod 0644 /sys/kernel/touchpanel/dclicknode 1
+    chmod 0644 /proc/tpd_gesture 1
+    chmod 0644 /proc/touchpanel/double_tap_enable 1
+	write /sys/kernel/touchpanel/dclicknode 1
     write /proc/tpd_gesture 1
     write /proc/touchpanel/double_tap_enable 1
