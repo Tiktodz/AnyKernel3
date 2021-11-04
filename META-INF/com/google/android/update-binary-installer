@@ -1050,6 +1050,24 @@ if [ $? != 0 ]; then
   abort;
 fi;
 
+if [ "`$BB grep -w "selected.4=2" /tmp/aroma-data/spectrum.prop`" ] || [ "`$BB grep -w "selected.4=1" /tmp/aroma-data/spectrum.prop`" ];then
+if [ "`$BB grep -w "selected.4=2" /tmp/aroma-data/spectrum.prop`" ];then
+SELINUXSTATE="Permissive"
+elif [ "`$BB grep -w "selected.4=1" /tmp/aroma-data/spectrum.prop`" ];then
+SELINUXSTATE="Enforcing"
+fi;
+
+if [ "$REG" = "IDN" ];then
+ui_print "- SELinux diganti ke: $SELINUXSTATE";
+elif [ "$REG" = "JAV" ];then
+ui_print "- SELinux diganti dadi: $SELINUXSTATE";
+elif [ "$REG" = "SUN" ];then
+ui_print "- SELinux digantikeun ka: $SELINUXSTATE";
+elif [ "$REG" = "EN" ];then
+ui_print "- SELinux switched to: $SELINUXSTATE";
+fi;
+fi;
+
 do_modules;
 
 # custom script for add spectrum support to kernel

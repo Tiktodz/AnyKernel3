@@ -127,6 +127,14 @@ enabling=Menghidupkan
 disabling=Mematikan
 enabled=telah dihidupkan
 disabled=telah dimatikan
+selinux.switch=Ganti Status SELinux
+selinux.switched=SELinux Diganti
+switching=Mengganti
+enforcing=Enforcing
+enforcing.info=Ubah SELinux ke Enforcing. Anda tidak dapat merubah ke ini jika ROM sudah Permisif dari bawaan.
+permissive=Permisif
+permissive.info=Ubah SELinux ke Permisif.
+do.nothing=Jangan lakukan apapun.
 
 terms.title=Syarat dan Ketentuan
 terms.desc=Mohon Baca dengan Seksama Ketentuan dibawah ini.

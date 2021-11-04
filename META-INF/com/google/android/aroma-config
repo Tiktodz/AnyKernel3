@@ -359,7 +359,12 @@ selectbox(
 		  
 		"<~forcedttw>",        "",                              2,  #-- Group 3. key = "selected.3"
           "<~enable.forcedttw>",    "<~forceenable.dttw>",    0,    #-- selected.3 = 1
-          "<~disable.forcedttw>",    "<~removeforced.dttw>",    1     #-- selected.3 = 2
+          "<~disable.forcedttw>",    "<~removeforced.dttw>",    1,     #-- selected.3 = 2
+		  
+		"<~selinux.switch> ?",        "",                              2,  #-- Group 4. key = "selected.4"
+          "<~text_yes>,<~enforcing>",    "<~enforcing.info>",    0,    #-- selected.4 = 1
+          "<~text_yes>,<~permissive>",    "<~permissive.info>",    0,    #-- selected.4 = 2
+		  "<~text_no>",    "<~do.nothing>",    1     #-- selected.4 = 3
     );
 
 selectbox(
