@@ -118,6 +118,14 @@ enabling=Ngaktipkeun
 disabling=Ngaleungitkeun
 enabled=telah diaktipkeun
 disabled=telah dileungitkeun
+selinux.switch=Ngarobah Status SELinux
+selinux.switched=SELinux Dirobah
+switching=Ngaganti
+enforcing=Enforcing
+enforcing.info=Robah SELinux ka Enforcing. Anjeun teu bisa ngarobah kana ieu lamun ROM nyaeta Permisif sacara bawaan.
+permissive=Permisif
+permissive.info=Robah SELinux ka Permisif.
+do.nothing=Ulah ngalakukeun nanaon.
 
 terms.title=Syarat sareng katangtuan
 terms.desc=Mangga baca sacara saksama Sarat sareng Kaayaan AROMA Installer Ieu di handap.

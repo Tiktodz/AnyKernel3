@@ -118,6 +118,14 @@ enabling=Nguripke
 disabling=Mateni
 enabled=sampun diuripke
 disabled=sampun dipateni
+selinux.switch=Ganti Status SELinux
+selinux.switched=SELinux Diganti
+switching=Ngganti
+enforcing=Enforcing
+enforcing.info=Ganti SELinux dadi Enforcing. Sampeyan ora iso ngganti iki yen ROM Permisif minangka bawaan.
+permissive=Permisif
+permissive.info=Ganti SELinux dadi Permisif.
+do.nothing=Ojo nindakke opo-opo.
 
 terms.title=Syarat lan Ketentuan
 terms.desc=Woco kanthi tliti Syarat lan Ketentuan AROMA Installer Ing ngisor iki.

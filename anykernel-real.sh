@@ -175,6 +175,13 @@ if [ ! -f /vendor/etc/powerhint.xml ]; then
 	mv /vendor/etc/powerhint.xml.bkp /vendor/etc/powerhint.xml;
 fi
 
+# Switch SELinux
+if [ "`$BB grep -w "selected.3=1" /tmp/aroma-data/spectrum.prop`" ];then
+patch_cmdline androidboot.selinux androidboot.selinux=enforcing
+elif [ "`$BB grep -w "selected.3=2" /tmp/aroma-data/spectrum.prop`" ];then
+patch_cmdline androidboot.selinux androidboot.selinux=permissive
+fi
+
 # end ramdisk changes
 
 write_boot;

@@ -119,6 +119,15 @@ enabling=Enabling
 disabling=Disabling
 enabled=has been enabled
 disabled=has been disabled
+selinux.switch=Switch SELinux State
+selinux.switched=SELinux Switched
+switching=Switching
+enforcing=Enforcing
+enforcing.info=Set SELinux to Enforcing. U can't change to this if ROM was Permissive by default.
+permissive=Permissive
+permissive.info=Set SELinux to Permissive.
+do.nothing=Don't do anything.
+
 
 
 terms.title=Terms and Conditions
