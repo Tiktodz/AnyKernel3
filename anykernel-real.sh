@@ -38,6 +38,7 @@ block=/dev/block/bootdevice/by-name/boot;
 fi
 is_slot_device=0;
 ramdisk_compression=auto;
+keep_vbmeta_flag=auto;
 
 
 ## AnyKernel methods (DO NOT CHANGE)
