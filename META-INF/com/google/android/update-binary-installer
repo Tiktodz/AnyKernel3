@@ -476,6 +476,18 @@ do_modules() {
   cd $AKHOME;
 }
 
+DoneProcess(){
+if [ "$REG" = "IDN" ];then
+ui_print "- Selesai";
+elif [ "$REG" = "JAV" ];then
+ui_print "- Rampung";
+elif [ "$REG" = "SUN" ];then
+ui_print "- Parantos";
+elif [ "$REG" = "EN" ];then
+ui_print "- Done";
+fi;
+}
+
 AddSpectrum(){
 # custom script for spectrum
   $BB mount -o rw,remount -t auto /system;
@@ -814,17 +826,120 @@ fi;
   $BB mount -o ro,remount -t auto /system;
   $BB mount -o ro,remount -t auto /vendor 2>/dev/null;
 
-if [ "`$BB grep -w "selected.1=2" /tmp/aroma-data/dt2wdummy.prop`" ]; then
-if [ "$REG" = "IDN" ];then
-ui_print "- Selesai";
-elif [ "$REG" = "JAV" ];then
-ui_print "- Rampung";
-elif [ "$REG" = "SUN" ];then
-ui_print "- Parantos";
-elif [ "$REG" = "EN" ];then
-ui_print "- Done";
+if [ "`$BB grep -w "selected.1=2" /tmp/aroma-data/dummy.prop`" ]; then
+DoneProcess
+fi;
+}
+
+PatchRAM(){
+$BB mount -o rw,remount -t auto /system;
+$BB mount -o rw,remount -t auto /vendor 2>/dev/null;
+
+if [ "`$BB grep -w "selected.5=1" /tmp/aroma-data/spectrum.prop`" ]; then
+	if [ "$REG" = "IDN" ];then
+    ui_print "- Menghapus Tambalan RAM...";
+    elif [ "$REG" = "JAV" ];then
+    ui_print "- Mbusake Tambelan RAM...";
+    elif [ "$REG" = "SUN" ];then
+    ui_print "- Ngaleungitkeun Tambalan RAM";
+    elif [ "$REG" = "EN" ];then
+    ui_print "- Removing RAM Patch...";
+    fi;
+	
+	if [ -e /vendor/etc/init/hw/init.rampatch.rc ]; then
+	rm -f /vendor/etc/init/hw/init.rampatch.rc
+	rm -f /vendor/bin/patch_ram.sh
+	elif [ -e /data/adb/service.d/12_ryuu_ram_patch ]; then
+	rm -f /data/adb/service.d/12_ryuu_ram_patch
+	else
+	if [ "$REG" = "IDN" ];then
+    ui_print "! Tambalan RAM tidak ditemukan. !";
+    elif [ "$REG" = "JAV" ];then
+    ui_print "! Tambelan RAM ora ditemokke. !";
+    elif [ "$REG" = "SUN" ];then
+    ui_print "! Tambalan RAM teu kapendak. !";
+    elif [ "$REG" = "EN" ];then
+    ui_print "! RAM Patch not found. !";
+    fi;
+	fi
+	
+	if [ "`$BB grep -w "selected.1=3" /tmp/aroma-data/dummy.prop`" ]; then
+	DoneProcess
+	fi
+	
+else
+TotalRAM="$($BB awk '/MemTotal/ { print $2 }' /proc/meminfo | cut -c -2)"
+RAMScriptFile="/tmp/rampatch"
+RAMInitFile="/tmp/raminit"
+
+if [ "$TotalRAM" = "28" ];then
+	ui_print "- RAM Total: 3 GB"
+	MinFreeValue="1536,2048,4096,5120,10240,15000"
+else
+	ui_print "- RAM Total: 4/6 GB"
+	MinFreeValue="25600,34560,38400,52224,71680,84480"
+fi
+if [ "`$BB grep -w "selected.5=2" /tmp/aroma-data/spectrum.prop`" ]; then
+RAMPatchMode="Magisk"
+elif [ "`$BB grep -w "selected.5=3" /tmp/aroma-data/spectrum.prop`" ]; then
+RAMPatchMode="Init"
+fi
+
+	if [ "$REG" = "IDN" ];then
+	ui_print "- Menambal RAM ($RAMPatchMode) ...";
+	elif [ "$REG" = "JAV" ] || [ "$REG" = "SUN" ];then
+	ui_print "- Nambal RAM ($RAMPatchMode) ...";
+	elif [ "$REG" = "EN" ];then
+	ui_print "- Patching RAM ($RAMPatchMode) ...";
+	fi;
+
+$BB echo '#! /system/bin/sh' >> $RAMScriptFile
+$BB echo '' >> $RAMScriptFile
+$BB echo '# RAM Patch Script by RyuujiX' >> $RAMScriptFile
+$BB echo "# Inspired from R0thbaby's and Pk's RAM Patch" >> $RAMScriptFile
+$BB echo '' >> $RAMScriptFile
+$BB echo '# Set LMK Parameters' >> $RAMScriptFile
+$BB echo 'echo "0" > /sys/module/lowmemorykiller/parameters/lmk_fast_run' >> $RAMScriptFile
+$BB echo 'echo "0" > /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk' >> $RAMScriptFile
+$BB echo "echo '$MinFreeValue' > /sys/module/lowmemorykiller/parameters/minfree" >> $RAMScriptFile
+$BB echo '# Disabling LMK Parameters that will cause parameters to be modified.' >> $RAMScriptFile
+$BB echo "chmod -R 444 /sys/module/lowmemorykiller/parameters/*" >> $RAMScriptFile
+if [ "$RAMPatchMode" = "Magisk" ];then
+if [ ! -e /data/adb/service.d ]; then
+mkdir -p /data/adb/service.d
+chmod -R 755 /data/adb/service.d
+else
+rm -f /data/adb/service.d/12_ryuu_ram_patch
+fi
+mv -f $RAMScriptFile /data/adb/service.d/12_ryuu_ram_patch
+chmod -R 755 /data/adb/service.d/12_ryuu_ram_patch
+elif [ "$RAMPatchMode" = "Init" ];then
+$BB echo '# RAM Patch Init by RyuujiX' >> $RAMInitFile
+$BB echo "# Inspired from R0thbaby's and Pk's RAM Patch" >> $RAMInitFile
+$BB echo '' >> $RAMInitFile
+$BB echo 'on boot' >> $RAMInitFile
+$BB echo '  exec u:r:init:s0 root root -- /vendor/bin/patch_ram.sh' >> $RAMInitFile
+$BB echo '  exec u:r:su:s0 root root -- /vendor/bin/patch_ram.sh' >> $RAMInitFile
+$BB echo '' >> $RAMInitFile
+$BB echo 'on property:sys.boot_completed=1' >> $RAMInitFile
+$BB echo '  exec u:r:init:s0 root root -- /vendor/bin/patch_ram.sh' >> $RAMInitFile
+$BB echo '  exec u:r:su:s0 root root -- /vendor/bin/patch_ram.sh' >> $RAMInitFile
+mv -f $RAMInitFile /vendor/etc/init/hw/init.rampatch.rc
+chmod -R 644 /vendor/etc/init/hw/init.rampatch.rc
+mv -f $RAMScriptFile /vendor/bin/patch_ram.sh
+chmod -R 755 /vendor/bin/patch_ram.sh
+grep "import /init.rampatch.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import \/init.rampatch.rc/d' /vendor/etc/init/hw/init.qcom.rc
+grep "import init.rampatch.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import init.rampatch.rc/d' /vendor/etc/init/hw/init.qcom.rc
+grep "import /vendor/etc/init/hw/init.rampatch.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null || sed -i '1,/.*import.*/s/.*import.*/import \/vendor\/etc\/init\/hw\/init.rampatch.rc\n&/' /vendor/etc/init/hw/init.qcom.rc
+fi
+
+if [ "`$BB grep -w "selected.1=3" /tmp/aroma-data/dummy.prop`" ]; then
+DoneProcess
 fi;
 fi;
+
+$BB mount -o ro,remount -t auto /system;
+$BB mount -o ro,remount -t auto /vendor 2>/dev/null;
 }
 
 show_progress 1.34 4;
@@ -985,17 +1100,7 @@ if [ "`$BB grep -w "selected.2=4" /tmp/aroma-data/spectrum.prop`" ]; then
 	mv -f /vendor/etc/perf/perfboostsconfig.xml.bkp /vendor/etc/perf/perfboostsconfig.xml
 	mv -f /vendor/etc/perf/commonresourceconfigs.xml.bkp /vendor/etc/perf/commonresourceconfigs.xml
 	rm -f /vendor/etc/perf/perfconfigstore.xml
-	if [ "$REG" = "IDN" ];then
-	ui_print "- Selesai";
-	elif [ "$REG" = "JAV" ];then
-	ui_print "- Rampung";
-	elif [ "$REG" = "SUN" ];then
-	ui_print "- Parantos";
-	elif [ "$REG" = "HI" ];then
-	ui_print "- Kernel Flash Prakriya Ki Ant.";
-	elif [ "$REG" = "EN" ];then
-	ui_print "- Done";
-	fi;
+	DoneProcess
 	else
 	if [ "$REG" = "IDN" ];then
     abort "! Perf HAL Lama tidak ditemukan. Membatalkan... !";
@@ -1011,8 +1116,10 @@ if [ "`$BB grep -w "selected.2=4" /tmp/aroma-data/spectrum.prop`" ]; then
 	fi;
   $BB mount -o ro,remount -t auto /system;
   $BB mount -o ro,remount -t auto /vendor 2>/dev/null;
-elif [ "`$BB grep -w "selected.1=2" /tmp/aroma-data/dt2wdummy.prop`" ]; then
+elif [ "`$BB grep -w "selected.1=2" /tmp/aroma-data/dummy.prop`" ]; then
 DoubleTapWake;
+elif [ "`$BB grep -w "selected.1=3" /tmp/aroma-data/dummy.prop`" ]; then
+PatchRAM;
 else
 do_devicecheck;
 do_versioncheck;
@@ -1075,6 +1182,7 @@ AddSpectrum;
 EASPerfHAL;
 refreshrate;
 DoubleTapWake;
+PatchRAM;
 
 debugging;
 restore_env;
@@ -1082,16 +1190,7 @@ if [ "$(file_getprop anykernel.sh do.cleanup)" == 1 ]; then
   cleanup;
 fi;
 
-if [ "$REG" = "IDN" ];then
-ui_print "- Selesai";
-elif [ "$REG" = "JAV" ];then
-ui_print "- Rampung";
-elif [ "$REG" = "SUN" ];then
-ui_print "- Parantos";
-elif [ "$REG" = "HI" ];then
-ui_print "- Kernel Flash Prakriya Ki Ant.";
-elif [ "$REG" = "EN" ];then
-ui_print "- Done";
+DoneProcess
 fi;
 
 ui_print " " "_________________________________________________";

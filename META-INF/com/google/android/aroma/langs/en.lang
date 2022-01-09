@@ -136,8 +136,18 @@ enforcing.info=Set SELinux to Enforcing. U can't change to this if ROM was Permi
 permissive=Permissive
 permissive.info=Set SELinux to Permissive.
 do.nothing=Don't do anything.
-
-
+install.kernel=Install this Kernel.
+patch.ram=Patch RAM
+patchraminfo=Useful for 3GB RAM users (Legacy Android LMK support required).
+will.removerampatch=Will also remove patches if exists.
+magisk.mode=Magisk Mode
+magiskd.modeinfo=Required Magisk. Run script with service.d method.
+init.mode=Init Mode
+init.modeinfo=Useful for Non-Root users. Run script with init method.
+removing.rampatch=Removing RAM Patch
+rampatch.removed=RAM Patch has been removed
+patching.ram=Patching RAM
+ram.patched=RAM Patched successfully
 
 terms.title=Terms and Conditions
 terms.desc=Please read carefully The AROMA Installer Terms and Conditions Below.
