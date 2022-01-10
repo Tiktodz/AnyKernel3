@@ -906,7 +906,11 @@ if [ "$TotalRAM" = "28" ];then
 	ui_print "- RAM Total: 3 GB"
 	MinFreeValue="1536,2048,4096,5120,10240,15000"
 else
-	ui_print "- RAM Total: 4/6 GB"
+	if [ "$TotalRAM" = "38" ];then
+	ui_print "- RAM Total: 4 GB"
+	else
+	ui_print "- RAM Total: 6 GB"
+	fi
 	MinFreeValue="25600,34560,38400,52224,71680,84480"
 fi
 
