@@ -816,7 +816,12 @@ if [ "`$BB grep -w "selected.4=1" /tmp/aroma-data/spectrum.prop`" ]; then
 	DoneProcess
 	fi
 	
-else
+elif [ "`$BB grep -w "selected.4=2" /tmp/aroma-data/spectrum.prop`" ]; then
+RAMPatchMode="Magisk"
+elif [ "`$BB grep -w "selected.4=3" /tmp/aroma-data/spectrum.prop`" ]; then
+RAMPatchMode="Init"
+fi
+if [ ! -z "$RAMPatchMode" ];then
 TotalRAM="$($BB awk '/MemTotal/ { print $2 }' /proc/meminfo | cut -c -2)"
 RAMScriptFile="/tmp/rampatch"
 RAMInitFile="/tmp/raminit"
@@ -827,11 +832,6 @@ if [ "$TotalRAM" = "28" ];then
 else
 	ui_print "- RAM Total: 4/6 GB"
 	MinFreeValue="25600,34560,38400,52224,71680,84480"
-fi
-if [ "`$BB grep -w "selected.4=2" /tmp/aroma-data/spectrum.prop`" ]; then
-RAMPatchMode="Magisk"
-elif [ "`$BB grep -w "selected.4=3" /tmp/aroma-data/spectrum.prop`" ]; then
-RAMPatchMode="Init"
 fi
 
 	if [ "$REG" = "IDN" ];then
@@ -885,6 +885,16 @@ fi
 if [ "`$BB grep -w "selected.1=3" /tmp/aroma-data/dummy.prop`" ]; then
 DoneProcess
 fi;
+else
+	if [ "$REG" = "IDN" ];then
+	ui_print "- Melompati Tambal RAM ...";
+	elif [ "$REG" = "JAV" ];then
+	ui_print "- Nglumpati Nambal RAM ...";
+	elif [ "$REG" = "SUN" ];then
+	ui_print "- Ngalangkungan Nambal RAM ...";
+	elif [ "$REG" = "EN" ];then
+	ui_print "- Skipping RAM Patch...";
+	fi;
 fi;
 
 $BB mount -o ro,remount -t auto /system;
