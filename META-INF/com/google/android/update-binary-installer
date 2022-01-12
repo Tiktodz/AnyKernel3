@@ -612,6 +612,7 @@ RestorePerfHAL() {
 	mv -f /vendor/etc/perf/targetconfig.xml.bkp /vendor/etc/perf/targetconfig.xml
 	mv -f /vendor/etc/perf/perfboostsconfig.xml.bkp /vendor/etc/perf/perfboostsconfig.xml
 	mv -f /vendor/etc/perf/commonresourceconfigs.xml.bkp /vendor/etc/perf/commonresourceconfigs.xml
+	rm -f /vendor/etc/perf/perfconfigstore.xml
 	DoneProcess
 	else
 	if [ "$REG" = "IDN" ];then
