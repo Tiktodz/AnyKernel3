@@ -183,6 +183,10 @@ elif [ "`$BB grep -w "selected.4=2" /tmp/aroma-data/spectrum.prop`" ];then
 patch_cmdline androidboot.selinux androidboot.selinux=permissive
 fi
 
+# Put Android Version on cmdline
+android_ver=$(file_getprop /system/build.prop ro.build.version.release);
+patch_cmdline androidboot.version androidboot.version=$android_ver
+
 # end ramdisk changes
 
 write_boot;
