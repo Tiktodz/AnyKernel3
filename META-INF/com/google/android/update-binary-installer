@@ -613,19 +613,34 @@ RestorePerfHAL() {
 	mv -f /vendor/etc/perf/perfboostsconfig.xml.bkp /vendor/etc/perf/perfboostsconfig.xml
 	mv -f /vendor/etc/perf/commonresourceconfigs.xml.bkp /vendor/etc/perf/commonresourceconfigs.xml
 	rm -f /vendor/etc/perf/perfconfigstore.xml
+	if [ "`$BB grep -w "selected.2=4" /tmp/aroma-data/spectrum.prop`" ]; then
 	DoneProcess
+	fi
 	else
 	if [ "$REG" = "IDN" ];then
-    abort "! Perf HAL Lama tidak ditemukan. Membatalkan... !";
+    ui_print "! Perf HAL Lama tidak ditemukan. !";
     elif [ "$REG" = "JAV" ];then
-    abort "! Perf HAL lawas ora ditemokke. Mbatalke... !";
+    ui_print "! Perf HAL lawas ora ditemokke. !";
     elif [ "$REG" = "SUN" ];then
-    abort "! Perf HAL lami teu kapendak. Ngabatalkeun... !";
+    ui_print "! Perf HAL lami teu kapendak. !";
     elif [ "$REG" = "HI" ];then
-    abort "! Puraanee Perf HAL nahin mileen. Radd karana... !";
+    ui_print "! Puraanee Perf HAL nahin mileen. !";
     elif [ "$REG" = "EN" ];then
-    abort "! Old Perf HAL not found. Aborting... !";
+    ui_print "! Old Perf HAL not found. !";
     fi;
+	if [ "`$BB grep -w "selected.2=4" /tmp/aroma-data/spectrum.prop`" ]; then
+	if [ "$REG" = "IDN" ];then
+    abort "- Membatalkan...";
+    elif [ "$REG" = "JAV" ];then
+    abort "- Mbatalke...";
+    elif [ "$REG" = "SUN" ];then
+    abort "- Ngabatalkeun...";
+    elif [ "$REG" = "HI" ];then
+    abort "- Radd karana...";
+    elif [ "$REG" = "EN" ];then
+    abort "- Aborting...";
+    fi;
+	fi;
 	fi;
   $BB mount -o ro,remount -t auto /system;
   $BB mount -o ro,remount -t auto /vendor 2>/dev/null;
