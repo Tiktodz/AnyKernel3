@@ -898,27 +898,30 @@ elif [ "`$BB grep -w "selected.5=3" /tmp/aroma-data/spectrum.prop`" ]; then
 RAMPatchMode="Init"
 fi
 if [ ! -z "$RAMPatchMode" ];then
-TotalRAM="$($BB awk '/MemTotal/ { print $2 }' /proc/meminfo | cut -c -2)"
+RealTotalRAM="$($BB awk '/MemTotal/ { print $2 }' /proc/meminfo | cut -c -2)"
 RAMScriptFile="/tmp/rampatch"
 RAMInitFile="/tmp/raminit"
 
-if [ "$TotalRAM" = "28" ];then
-	ui_print "- RAM Total: 3 GB"
+if [ "$RealTotalRAM" -lt "30" ] || [ "$RealTotalRAM" == "30" ];then
+	TotalRAM="3"
 	MinFreeValue="1536,2048,4096,5120,10240,15000"
 else
-	if [ "$TotalRAM" = "38" ];then
-	ui_print "- RAM Total: 4 GB"
-	else
-	ui_print "- RAM Total: 6 GB"
+	if [ "$RealTotalRAM" -gt "30" ] && [ "$RealTotalRAM" -lt "40" ] || [ "$RealTotalRAM" == "40" ];then
+	TotalRAM="4"
+	elif [ "$RealTotalRAM" -gt "40" ] && [ "$RealTotalRAM" -lt "60" ] || [ "$RealTotalRAM" == "60" ];then
+	TotalRAM="6"
 	fi
 	MinFreeValue="25600,34560,38400,52224,71680,84480"
 fi
 
 	if [ "$REG" = "IDN" ];then
+	ui_print "- Total RAM: $TotalRAM GB"
 	ui_print "- Menambal RAM ($RAMPatchMode) ...";
 	elif [ "$REG" = "JAV" ] || [ "$REG" = "SUN" ];then
+	ui_print "- Total RAM: $TotalRAM GB"
 	ui_print "- Nambal RAM ($RAMPatchMode) ...";
 	elif [ "$REG" = "EN" ];then
+	ui_print "- RAM Total: $TotalRAM GB"
 	ui_print "- Patching RAM ($RAMPatchMode) ...";
 	fi;
 
