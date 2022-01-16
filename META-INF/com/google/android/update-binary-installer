@@ -819,7 +819,7 @@ if [ "`$BB grep -w "selected.3=1" /tmp/aroma-data/spectrum.prop`" ]; then
 	cp -af $DTTWInitFile /vendor/etc/init/hw/init.forcedttw.rc
     chmod -R 644 /vendor/etc/init/hw/init.forcedttw.rc
 	cp -af $DTTWScriptFile /vendor/bin/patch_dttw.sh
-    chmod -R 644 /vendor/bin/patch_dttw.sh
+    chmod -R 755 /vendor/bin/patch_dttw.sh
 	grep "import /init.forcedttw.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import \/init.forcedttw.rc/d' /vendor/etc/init/hw/init.qcom.rc
     grep "import init.forcedttw.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import init.forcedttw.rc/d' /vendor/etc/init/hw/init.qcom.rc
     grep "import /vendor/etc/init/hw/init.forcedttw.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null || sed -i '1,/.*import.*/s/.*import.*/import \/vendor\/etc\/init\/hw\/init.forcedttw.rc\n&/' /vendor/etc/init/hw/init.qcom.rc
