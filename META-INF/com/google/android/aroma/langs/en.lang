@@ -148,6 +148,9 @@ removing.rampatch=Removing RAM Patch
 rampatch.removed=RAM Patch has been removed
 patching.ram=Patching RAM
 ram.patched=RAM Patched successfully
+vibtype.select=Choose Vibration Type
+ledvib.info=(Android 11+) For ROM that has LED Vibration Support.
+nonledvib.info=(NON-LED Vibration) For ROM that still using Old Haptics Driver.
 
 terms.title=Terms and Conditions
 terms.desc=Please read carefully The AROMA Installer Terms and Conditions Below.

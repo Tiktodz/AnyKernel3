@@ -146,6 +146,9 @@ removing.rampatch=Mupus Tambalan RAM
 rampatch.removed=Tambalan RAM dipupus
 patching.ram=Menambal RAM
 ram.patched=RAM ditambal
+vibtype.select=Pilih Tipe Geter
+ledvib.info=(Android 11+) Pikeun ROM nu ngarojong LED Vibration.
+nonledvib.info=(NON-LED Vibration) Pikeun ROM anu masih ngagunakeun Driver Haptic lami.
 
 terms.title=Syarat sareng katangtuan
 terms.desc=Mangga baca sacara saksama Sarat sareng Kaayaan AROMA Installer Ieu di handap.

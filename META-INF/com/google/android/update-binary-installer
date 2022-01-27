@@ -669,27 +669,27 @@ EASPerfHAL() {
 }
 
 refreshrate() {
-if [ "`$BB grep -w "selected.1=1" /tmp/aroma-data/refrate.prop`" ];then
+if [ "`$BB grep -w "selected.2=1" /tmp/aroma-data/refrate.prop`" ];then
 RR=48
-elif [ "`$BB grep -w "selected.1=2" /tmp/aroma-data/refrate.prop`" ];then
+elif [ "`$BB grep -w "selected.2=2" /tmp/aroma-data/refrate.prop`" ];then
 RR=50
-elif [ "`$BB grep -w "selected.1=3" /tmp/aroma-data/refrate.prop`" ];then
+elif [ "`$BB grep -w "selected.2=3" /tmp/aroma-data/refrate.prop`" ];then
 RR=55
-elif [ "`$BB grep -w "selected.1=5" /tmp/aroma-data/refrate.prop`" ];then
+elif [ "`$BB grep -w "selected.2=5" /tmp/aroma-data/refrate.prop`" ];then
 RR=62
-elif [ "`$BB grep -w "selected.1=6" /tmp/aroma-data/refrate.prop`" ];then
+elif [ "`$BB grep -w "selected.2=6" /tmp/aroma-data/refrate.prop`" ];then
 RR=64
-elif [ "`$BB grep -w "selected.1=7" /tmp/aroma-data/refrate.prop`" ];then
+elif [ "`$BB grep -w "selected.2=7" /tmp/aroma-data/refrate.prop`" ];then
 RR=65
-elif [ "`$BB grep -w "selected.1=8" /tmp/aroma-data/refrate.prop`" ];then
+elif [ "`$BB grep -w "selected.2=8" /tmp/aroma-data/refrate.prop`" ];then
 RR=67
-elif [ "`$BB grep -w "selected.1=9" /tmp/aroma-data/refrate.prop`" ];then
+elif [ "`$BB grep -w "selected.2=9" /tmp/aroma-data/refrate.prop`" ];then
 RR=68
-elif [ "`$BB grep -w "selected.1=10" /tmp/aroma-data/refrate.prop`" ];then
+elif [ "`$BB grep -w "selected.2=10" /tmp/aroma-data/refrate.prop`" ];then
 RR=69
-elif [ "`$BB grep -w "selected.1=11" /tmp/aroma-data/refrate.prop`" ];then
+elif [ "`$BB grep -w "selected.2=11" /tmp/aroma-data/refrate.prop`" ];then
 RR=70
-elif [ "`$BB grep -w "selected.1=12" /tmp/aroma-data/refrate.prop`" ];then
+elif [ "`$BB grep -w "selected.2=12" /tmp/aroma-data/refrate.prop`" ];then
 RR=72
 else
 RR=60
@@ -1167,7 +1167,7 @@ do_devicecheck;
 do_versioncheck;
 do_levelcheck;
 
-if [ "`$BB grep -w "selected.2=1" /tmp/aroma-data/refrate.prop`" ];then
+if [ "`$BB grep -w "selected.3=1" /tmp/aroma-data/refrate.prop`" ];then
 	if [ "$REG" = "IDN" ];then
 	ui_print "- Mencadangkan Boot.img...";
 	elif [ "$REG" = "JAV" ];then
@@ -1216,6 +1216,31 @@ elif [ "$REG" = "EN" ];then
 ui_print "- SELinux switched to: $SELINUXSTATE";
 fi;
 fi;
+
+if [ "`$BB grep -w "selected.1=1" /tmp/aroma-data/refrate.prop`" ];then
+	if [ "$android_ver" -lt "11" ];then
+	if [ "$REG" = "IDN" ] || [ "$REG" = "SUN" ];then
+	ui_print "! Versi Android tidak didukung untuk LV. NLV diatur sebagai default !";
+	elif [ "$REG" = "JAV" ];then
+	ui_print "! Versi Android ora didukung kanggo LV. NLV disetel minangka standar !";
+	elif [ "$REG" = "EN" ];then
+	ui_print "! Unsupported Android Version for LV. NLV is set as default !";
+	fi;
+	else
+	if [ "$REG" = "IDN" ] || [ "$REG" = "JAV" ] || [ "$REG" = "SUN" ];then
+	ui_print "- Tipe Driver Getaran: LV";
+	elif [ "$REG" = "EN" ];then
+	ui_print "- Vibrate Driver Type: LV";
+	fi;
+	fi
+elif [ "`$BB grep -w "selected.1=2" /tmp/aroma-data/refrate.prop`" ];then
+	if [ "$REG" = "IDN" ] || [ "$REG" = "JAV" ] || [ "$REG" = "SUN" ];then
+	ui_print "- Tipe Driver Getaran: NLV";
+	elif [ "$REG" = "EN" ];then
+	ui_print "- Vibrate Driver Type: NLV";
+	fi;
+fi
+	
 
 do_modules;
 

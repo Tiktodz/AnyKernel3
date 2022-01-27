@@ -23,7 +23,7 @@ device.name2=X01BDA
 device.name3=Zenfone Max Pro M2 (X01BD)
 device.name4=ASUS_X01BD
 device.name5=ASUS_X01BDA
-supported.versions=
+supported.versions=9-12
 supported.patchlevels=
 '; } # end properties
 
@@ -186,6 +186,13 @@ fi
 # Put Android Version on cmdline
 android_ver=$(file_getprop /system/build.prop ro.build.version.release);
 patch_cmdline androidboot.version androidboot.version=$android_ver
+
+# Switch Vibration Type
+if [ "`$BB grep -w "selected.1=1" /tmp/aroma-data/refrate.prop`" ] && [ "$android_ver" -gt "10" ];then
+patch_cmdline led.vibration led.vibration=1
+else
+patch_cmdline led.vibration led.vibration=0
+fi
 
 # end ramdisk changes
 
