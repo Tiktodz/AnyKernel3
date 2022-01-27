@@ -474,23 +474,27 @@ selectbox(
       # TITLE                         | DESCRIPTION                  | VALUE #
       #-------------------------------+------------------------------+-------#
     
-        "<~refresh.rate>",        "",                              2,  #-- Group 1. key = "selected.1"
-          "48Hz",    "",    0,    #-- selected.1 = 1
-		  "50Hz",    "",    0,    #-- selected.1 = 2
-		  "55Hz",    "",    0,    #-- selected.1 = 3
-		  "60Hz (Default)",    "",    1,    #-- selected.1 = 4
-          "62Hz",    "",    0,    #-- selected.1 = 5
-		  "64Hz",    "",    0,    #-- selected.1 = 6
-		  "65Hz",    "",    0,    #-- selected.1 = 7
-		  "67Hz",    "",    0,    #-- selected.1 = 8
-		  "68Hz",    "",    0,    #-- selected.1 = 9
-		  "69Hz",    "",    0,    #-- selected.1 = 10
-		  "70Hz",    "",    0,    #-- selected.1 = 11
-		  "72Hz",    "",    0,    #-- selected.1 = 12
+        "<~vibtype.select> :",        "",                              2,  #-- Group 1. key = "selected.1"
+          "LV",    "<~ledvib.info>",    1,    #-- selected.1 = 1
+          "NLV",    "<~nonledvib.info>",    0,    #-- selected.1 = 2
+		
+		"<~refresh.rate>",        "",                              2,  #-- Group 2. key = "selected.2"
+          "48Hz",    "",    0,    #-- selected.2 = 1
+		  "50Hz",    "",    0,    #-- selected.2 = 2
+		  "55Hz",    "",    0,    #-- selected.2 = 3
+		  "60Hz (Default)",    "",    1,    #-- selected.2 = 4
+          "62Hz",    "",    0,    #-- selected.2 = 5
+		  "64Hz",    "",    0,    #-- selected.2 = 6
+		  "65Hz",    "",    0,    #-- selected.2 = 7
+		  "67Hz",    "",    0,    #-- selected.2 = 8
+		  "68Hz",    "",    0,    #-- selected.2 = 9
+		  "69Hz",    "",    0,    #-- selected.2 = 10
+		  "70Hz",    "",    0,    #-- selected.2 = 11
+		  "72Hz",    "",    0,    #-- selected.2 = 12
         
-        "<~backup.boot> ?",        "",                              2,  #-- Group 2. key = "selected.2"
-          "<~text_yes>",    "<~dobackup.boot>",    0,    #-- selected.2 = 1
-          "<~text_no>",    "<~dontbackup.boot>",    1    #-- selected.2 = 2
+        "<~backup.boot> ?",        "",                              2,  #-- Group 3. key = "selected.3"
+          "<~text_yes>",    "<~dobackup.boot>",    0,    #-- selected.3 = 1
+          "<~text_no>",    "<~dontbackup.boot>",    1    #-- selected.3 = 2
 );
 	
 ini_set("text_next", "<~text_install>");
