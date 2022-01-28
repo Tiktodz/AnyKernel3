@@ -1199,49 +1199,6 @@ if [ $? != 0 ]; then
   abort;
 fi;
 
-if [ "`$BB grep -w "selected.4=2" /tmp/aroma-data/spectrum.prop`" ] || [ "`$BB grep -w "selected.4=1" /tmp/aroma-data/spectrum.prop`" ];then
-if [ "`$BB grep -w "selected.4=2" /tmp/aroma-data/spectrum.prop`" ];then
-SELINUXSTATE="Permissive"
-elif [ "`$BB grep -w "selected.4=1" /tmp/aroma-data/spectrum.prop`" ];then
-SELINUXSTATE="Enforcing"
-fi;
-
-if [ "$REG" = "IDN" ];then
-ui_print "- SELinux diganti ke: $SELINUXSTATE";
-elif [ "$REG" = "JAV" ];then
-ui_print "- SELinux diganti dadi: $SELINUXSTATE";
-elif [ "$REG" = "SUN" ];then
-ui_print "- SELinux digantikeun ka: $SELINUXSTATE";
-elif [ "$REG" = "EN" ];then
-ui_print "- SELinux switched to: $SELINUXSTATE";
-fi;
-fi;
-
-if [ "`$BB grep -w "selected.1=1" /tmp/aroma-data/refrate.prop`" ];then
-	if [ "$android_ver" -lt "11" ];then
-	if [ "$REG" = "IDN" ] || [ "$REG" = "SUN" ];then
-	ui_print "! Versi Android tidak didukung untuk LV. NLV diatur sebagai default !";
-	elif [ "$REG" = "JAV" ];then
-	ui_print "! Versi Android ora didukung kanggo LV. NLV disetel minangka standar !";
-	elif [ "$REG" = "EN" ];then
-	ui_print "! Unsupported Android Version for LV. NLV is set as default !";
-	fi;
-	else
-	if [ "$REG" = "IDN" ] || [ "$REG" = "JAV" ] || [ "$REG" = "SUN" ];then
-	ui_print "- Tipe Driver Getaran: LV";
-	elif [ "$REG" = "EN" ];then
-	ui_print "- Vibrate Driver Type: LV";
-	fi;
-	fi
-elif [ "`$BB grep -w "selected.1=2" /tmp/aroma-data/refrate.prop`" ];then
-	if [ "$REG" = "IDN" ] || [ "$REG" = "JAV" ] || [ "$REG" = "SUN" ];then
-	ui_print "- Tipe Driver Getaran: NLV";
-	elif [ "$REG" = "EN" ];then
-	ui_print "- Vibrate Driver Type: NLV";
-	fi;
-fi
-	
-
 do_modules;
 
 # custom script for add spectrum support to kernel
