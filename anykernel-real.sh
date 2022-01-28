@@ -177,22 +177,60 @@ if [ ! -f /vendor/etc/powerhint.xml ]; then
 fi
 
 # Switch SELinux
+if [ "`$BB grep -w "selected.3=2" /tmp/aroma-data/spectrum.prop`" ] || [ "`$BB grep -w "selected.3=1" /tmp/aroma-data/spectrum.prop`" ];then
 if [ "`$BB grep -w "selected.3=1" /tmp/aroma-data/spectrum.prop`" ];then
-patch_cmdline androidboot.selinux androidboot.selinux=enforcing
+	patch_cmdline androidboot.selinux androidboot.selinux=enforcing
+	SELINUXSTATE="Enforcing"
 elif [ "`$BB grep -w "selected.3=2" /tmp/aroma-data/spectrum.prop`" ];then
-patch_cmdline androidboot.selinux androidboot.selinux=permissive
+	patch_cmdline androidboot.selinux androidboot.selinux=permissive
+	SELINUXSTATE="Permissive"
 fi
+if [ "$REG" = "IDN" ];then
+ui_print "- SELinux diganti ke: $SELINUXSTATE";
+elif [ "$REG" = "JAV" ];then
+ui_print "- SELinux diganti dadi: $SELINUXSTATE";
+elif [ "$REG" = "SUN" ];then
+ui_print "- SELinux digantikeun ka: $SELINUXSTATE";
+elif [ "$REG" = "EN" ];then
+ui_print "- SELinux switched to: $SELINUXSTATE";
+fi;
+fi;
 
 # Put Android Version on cmdline
 android_ver=$(file_getprop /system/build.prop ro.build.version.release);
 patch_cmdline androidboot.version androidboot.version=$android_ver
 
 # Switch Vibration Type
-if [ "`$BB grep -w "selected.1=1" /tmp/aroma-data/refrate.prop`" ] && [ "$android_ver" -gt "10" ];then
-patch_cmdline led.vibration led.vibration=1
-else
+NLVib() {
+if [ "$REG" = "IDN" ] || [ "$REG" = "JAV" ] || [ "$REG" = "SUN" ];then
+ui_print "- Tipe Driver Getaran: NLV";
+elif [ "$REG" = "EN" ];then
+ui_print "- Vibrate Driver Type: NLV";
+fi;
 patch_cmdline led.vibration led.vibration=0
-fi
+}
+
+if [ "`$BB grep -w "selected.1=1" /tmp/aroma-data/refrate.prop`" ];then
+	if [ "$android_ver" -lt "11" ];then
+	if [ "$REG" = "IDN" ] || [ "$REG" = "SUN" ];then
+	ui_print "! Versi Android tidak didukung untuk LV. NLV diatur sebagai default !";
+	elif [ "$REG" = "JAV" ];then
+	ui_print "! Versi Android ora didukung kanggo LV. NLV disetel minangka standar !";
+	elif [ "$REG" = "EN" ];then
+	ui_print "! Unsupported Android Version for LV. NLV is set as default !";
+	fi;
+	NLVib
+	else
+	if [ "$REG" = "IDN" ] || [ "$REG" = "JAV" ] || [ "$REG" = "SUN" ];then
+	ui_print "- Tipe Driver Getaran: LV";
+	elif [ "$REG" = "EN" ];then
+	ui_print "- Vibrate Driver Type: LV";
+	fi;
+	patch_cmdline led.vibration led.vibration=1
+	fi;
+else
+	NLVib
+fi;
 
 # end ramdisk changes
 
