@@ -5,44 +5,37 @@
 <b><#selectbg_g>Tentang Varian Kernel :</#></b></@>
 
 <@fill><q>
-R : Kernel untuk ROM Android 11 dan 12
-    dengan CAF LA.UM.9.2.r1-XXXXX-SDMxx0.0 .
+OC : Kernel Overclock
+     (X01BD) 1.8 + 2.2GHz + 750Mhz
+     (X00TD) 1.8 + 2.2GHz + 585MHz
 
-XR : Kernel untuk ROM Android 10 , 11 , dan
-     Stock yang dimana masih menggunakan
-	 Getaran lama berbasis Driver QPNP .
-	 Dengan CAF LA.UM.8.2.r2-XXXXX-sdm660.0 ,
-	 jadi jangan flash pada ROM yang
-	 getarannya sudah memakai Driver
-	 berbasis LEDs , nanti getaran akan mati.
+Stock : Kernel dengan Freq Bawaan
+        (X01BD) 1.8 + 1.95GHz + 585Mhz
+        (X00TD) 1.6 + 1.8GHz + 430MHz
 
-P : Kernel yang hanya untuk
-    Custom ROM Android 9 . Dengan
-	CAF LA.UM.9.2.r1-XXXXX-SDMxx0.0 ,
-	jangan flash pada lainnya atau
-	WiFi akan Mati.
+P : Kernel yang hanya untuk Custom ROM
+    Android 9 X01BD saja. Jangan flash
+    pada lainnya atau WiFi akan Mati.
 
-NFI : Varian Kernel untuk Android R dengan
-      CAF 9.2 / Driver WiFi R . Disarankan
-	  menggunakan varian ini apabila agan
-	  menggunakan Firmware Q.
+NFI : Varian Kernel dengan CAF 9.2 / Driver WiFi R.
+      Agan dapat menggunakan varian ini pada Kedua
+      Jenis Firmware (Pie dan Q), tapi lebih baik
+      dengan Firmware Q.
 
-OFI : Varian Kernel untuk Android R dengan
-      CAF 7.2 / Driver WiFi P . Agan dapat
-	  menggunakan varian ini pada Kedua
-	  Jenis Firmware yaitu Pie dan Q.
+OFI : Varian Kernel dengan CAF 7.2 / Driver WiFi Pie.
+      Agan dapat menggunakan varian ini pada Kedua
+      Jenis Firmware (Pie dan Q)
 
-LV : Untuk ROM yang Getarannya sudah Berbasis
-     Driver LEDs atau biasanya Android 11 keatas ,
-	 Jangan Flash pada Android 10 atau ROM yang
-	 masih menggunakan Getaran lama berbasis
-	 Driver QPNP , nanti akan bootloop .
+LV : Untuk Android 11 keatas yang Getarannya sudah
+     Berbasis Driver LEDs. Jangan Flash pada Android 10
+     atau ROM yang masih menggunakan Getaran lama
+     berbasis Driver QPNP, nanti akan bootloop .
 
-NLV : Untuk ROM yang Getarannya masih
-      Menggunakan Driver QPNP Lama atau biasanya
-	  Android 10 kebawah , Jangan flash pada ROM
-	  yang getarannya sudah memakai Driver
-	  berbasis LEDs , nanti getaran akan mati .
+NLV : Kernel untuk Android 9 (X00TD), 10, 11, 12, dan 
+      Stock ROM yang Getarannya masih Menggunakan Driver
+      QPNP Lama. Jangan flash pada ROM yang getarannya
+      sudah memakai Driver berbasis LEDs, nanti getaran
+      akan mati.
 	  
 Apa itu EAS?
 
