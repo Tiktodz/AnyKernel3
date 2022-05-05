@@ -921,8 +921,6 @@ $BB echo '# RAM Patch Script by RyuujiX' >> $RAMScriptFile
 $BB echo "# Inspired from R0thbaby's and Pk's RAM Patch" >> $RAMScriptFile
 $BB echo '' >> $RAMScriptFile
 $BB echo '# Set LMK Parameters' >> $RAMScriptFile
-$BB echo 'echo "0" > /sys/module/lowmemorykiller/parameters/lmk_fast_run' >> $RAMScriptFile
-$BB echo 'echo "0" > /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk' >> $RAMScriptFile
 $BB echo "echo '$MinFreeValue' > /sys/module/lowmemorykiller/parameters/minfree" >> $RAMScriptFile
 $BB echo '# Disabling LMK Parameters that will cause parameters to be modified.' >> $RAMScriptFile
 $BB echo "chmod -R 444 /sys/module/lowmemorykiller/parameters/*" >> $RAMScriptFile
