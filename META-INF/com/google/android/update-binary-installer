@@ -960,10 +960,18 @@ $BB echo '# RAM Patch Init by RyuujiX' >> $RAMInitFile
 $BB echo "# Inspired from R0thbaby's and Pk's RAM Patch" >> $RAMInitFile
 $BB echo '' >> $RAMInitFile
 $BB echo 'on boot' >> $RAMInitFile
+$BB echo '  # Set LMK Parameters' >> $RAMInitFile
+$BB echo "  write /sys/module/lowmemorykiller/parameters/minfree $MinFreeValue" >> $RAMInitFile
+$BB echo '  # Disabling LMK Parameters that will cause parameters to be modified.' >> $RAMInitFile
+$BB echo "  chmod 0444 /sys/module/lowmemorykiller/parameters/*" >> $RAMInitFile
 $BB echo '  exec u:r:init:s0 root root -- /vendor/bin/patch_ram.sh' >> $RAMInitFile
 $BB echo '  exec u:r:su:s0 root root -- /vendor/bin/patch_ram.sh' >> $RAMInitFile
 $BB echo '' >> $RAMInitFile
 $BB echo 'on property:sys.boot_completed=1' >> $RAMInitFile
+$BB echo '  # Set LMK Parameters' >> $RAMInitFile
+$BB echo "  write /sys/module/lowmemorykiller/parameters/minfree $MinFreeValue" >> $RAMInitFile
+$BB echo '  # Disabling LMK Parameters that will cause parameters to be modified.' >> $RAMInitFile
+$BB echo "  chmod 0444 /sys/module/lowmemorykiller/parameters/*" >> $RAMInitFile
 $BB echo '  exec u:r:init:s0 root root -- /vendor/bin/patch_ram.sh' >> $RAMInitFile
 $BB echo '  exec u:r:su:s0 root root -- /vendor/bin/patch_ram.sh' >> $RAMInitFile
 mv -f $RAMInitFile /vendor/etc/init/hw/init.rampatch.rc
