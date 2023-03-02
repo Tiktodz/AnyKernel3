@@ -592,14 +592,7 @@ if [ "`$BB grep -w "selected.1=1" /tmp/aroma-data/spectrum.prop`" ] && [ -e $AKH
   $BB mount -o ro,remount -t auto /vendor 2>/dev/null;
 }
 
-EASPerfHAL() {
-	cd $AKHOME;
-	PerfHALDir=$AKHOME/tools/SDM660PerfHAL;
-	
-	$BB mount -o rw,remount -t auto /system;
-    $BB mount -o rw,remount -t auto /vendor 2>/dev/null;
-	
-	if [ "`$BB grep -w "selected.2=1" /tmp/aroma-data/spectrum.prop`" ]; then
+RemoveEASPerfHALModule() {
 	if [ -f /data/adb/modules/SDM660PerfHAL ];then
 	if [ "$REG" = "IDN" ];then
     ui_print "- Menghapus Modul Perf HAL EAS lama...";
@@ -613,7 +606,19 @@ EASPerfHAL() {
     ui_print "- Removing old EAS Perf HAL Module...";
     fi;
 	rm -rf /data/adb/modules/SDM660PerfHAL
+	PerfHALRestored=1
 	fi;
+}
+
+EASPerfHAL() {
+	cd $AKHOME;
+	PerfHALDir=$AKHOME/tools/SDM660PerfHAL;
+	
+	$BB mount -o rw,remount -t auto /system;
+    $BB mount -o rw,remount -t auto /vendor 2>/dev/null;
+	
+	if [ "`$BB grep -w "selected.2=1" /tmp/aroma-data/spectrum.prop`" ]; then
+	RemoveEASPerfHALModule
 	if [ "$REG" = "IDN" ];then
     ui_print "- Menginstall Perf HAL EAS sebagai Modul...";
     elif [ "$REG" = "JAV" ];then
@@ -1128,21 +1133,8 @@ if [ "`$BB grep -w "selected.2=4" /tmp/aroma-data/spectrum.prop`" ]; then
 	$BB mount -o rw,remount -t auto /system;
     $BB mount -o rw,remount -t auto /vendor 2>/dev/null;
 	
+	RemoveEASPerfHALModule
 	if [ -f /vendor/etc/perf/targetresourceconfigs.xml.bkp ] || [ -f /vendor/etc/perf/targetconfig.xml.bkp ] || [ -f /vendor/etc/perf/perfboostsconfig.xml.bkp ] || [ -f /vendor/etc/perf/commonresourceconfigs.xml.bkp ];then
-	if [ -f /data/adb/modules/SDM660PerfHAL ];then
-	if [ "$REG" = "IDN" ];then
-    ui_print "- Menghapus Modul Perf HAL EAS lama...";
-    elif [ "$REG" = "JAV" ];then
-    ui_print "- Mbusake Modul Perf HAL EAS sing lawas...";
-    elif [ "$REG" = "SUN" ];then
-    ui_print "- Ngaleungitkeun Modul Perf HAL EAS lami...";
-    elif [ "$REG" = "HI" ];then
-    ui_print "- Poorane EAS Perf HAL modyool ka hatane jane wale prakriya suru...";
-    elif [ "$REG" = "EN" ];then
-    ui_print "- Removing old EAS Perf HAL Module...";
-    fi;
-	rm -rf /data/adb/modules/SDM660PerfHAL
-	fi;
 	if [ "$REG" = "IDN" ];then
     ui_print "- Mengembalikan Perf HAL lama...";
     elif [ "$REG" = "JAV" ];then
@@ -1159,7 +1151,9 @@ if [ "`$BB grep -w "selected.2=4" /tmp/aroma-data/spectrum.prop`" ]; then
 	mv -f /vendor/etc/perf/perfboostsconfig.xml.bkp /vendor/etc/perf/perfboostsconfig.xml
 	mv -f /vendor/etc/perf/commonresourceconfigs.xml.bkp /vendor/etc/perf/commonresourceconfigs.xml
 	DoneProcess
-	else
+	PerfHALRestored=1
+	fi;
+	if [ -z "$PerfHALRestored" ];then
 	if [ "$REG" = "IDN" ];then
     abort "! Perf HAL Lama tidak ditemukan. Membatalkan... !";
     elif [ "$REG" = "JAV" ];then
