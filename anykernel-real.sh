@@ -66,6 +66,26 @@ fi
 ## AnyKernel install
 dump_boot;
 
+# Check if boot img has Magisk Patched
+cd $split_img;
+if [ ! "$magisk_patched" ]; then
+  $bin/magiskboot cpio ramdisk.cpio test;
+  magisk_patched=$?;
+fi;
+if [ $((magisk_patched & 3)) -eq 1 ]; then
+	if [ "$REG" = "IDN" ];then
+	ui_print "! Magisk Terdeteksi, Tidak Perlu Menginstall Magisk lagi !";
+	elif [ "$REG" = "JAV" ];then
+	ui_print "! Magisk Dideteksi, Ora perlu nginstall Magisk maneh !";
+	elif [ "$REG" = "SUN" ];then
+	ui_print "! Magisk Dideteksi, Henteu kedah masang Magisk deui !";
+	elif [ "$REG" = "EN" ];then
+	ui_print "! Magisk Detected, U don't need to reinstall Magisk !";
+	fi;
+	WITHMAGISK=Y
+fi;
+cd $home
+
 # begin ramdisk changes
 
 #Remove old kernel stuffs from ramdisk
