@@ -335,16 +335,12 @@ flash_boot() {
         fi;
         if [ $((magisk_patched & 3)) -eq 1 ]; then
 		if [ "$REG" = "IDN" ];then
-		ui_print "! Magisk Terdeteksi, Tidak Perlu Menginstall Magisk lagi !";
 		ui_print "- Menambal Magisk...";
 		elif [ "$REG" = "JAV" ];then
-		ui_print "! Magisk Dideteksi, Ora perlu nginstall Magisk maneh !";
 		ui_print "- Nambal Magisk...";
 		elif [ "$REG" = "SUN" ];then
-		ui_print "! Magisk Dideteksi, Henteu kedah masang Magisk deui !";
 		ui_print "- Nambal Magisk...";
 		elif [ "$REG" = "EN" ];then
-		ui_print "! Magisk Detected, U don't need to reinstall Magisk !";
 		ui_print "- Patching Magisk...";
 		fi;
           comp=$($bin/magiskboot decompress kernel 2>&1 | grep -vE 'raw|zimage' | sed -n 's;.*\[\(.*\)\];\1;p');
