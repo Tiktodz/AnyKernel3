@@ -210,7 +210,7 @@ fi;
 patch_cmdline led.vibration led.vibration=0
 }
 
-if [ "`$BB grep -w "selected.1=1" /tmp/aroma-data/refrate.prop`" ];then
+if [ "`$BB grep -w "selected.2=1" /tmp/aroma-data/refrate.prop`" ];then
 	if [ "$android_ver" -lt "11" ];then
 	if [ "$REG" = "IDN" ] || [ "$REG" = "SUN" ];then
 	ui_print "! Versi Android tidak didukung untuk LV. NLV diatur sebagai default !";
@@ -231,6 +231,31 @@ if [ "`$BB grep -w "selected.1=1" /tmp/aroma-data/refrate.prop`" ];then
 else
 	NLVib
 fi;
+
+# KernelSU Support
+if [ "`$BB grep -w "selected.1=1" /tmp/aroma-data/refrate.prop`" ];then
+if [ "$REG" = "IDN" ];then
+ui_print "- KernelSU dihidupkan !";
+elif [ "$REG" = "JAV" ];then
+ui_print "- KernelSU diuripke !";
+elif [ "$REG" = "SUN" ];then
+ui_print "- KernelSU diaktifkeun !";
+elif [ "$REG" = "EN" ];then
+ui_print "- KernelSU enabled !";
+fi;
+patch_cmdline kernelsu.enabled kernelsu.enabled=1
+else
+if [ "$REG" = "IDN" ];then
+ui_print "- KernelSU dimatikan !";
+elif [ "$REG" = "JAV" ];then
+ui_print "- KernelSU dipateni !";
+elif [ "$REG" = "SUN" ];then
+ui_print "- KernelSU dinon-aktifkeun !";
+elif [ "$REG" = "EN" ];then
+ui_print "- KernelSU disabled !";
+fi;
+patch_cmdline kernelsu.enabled kernelsu.enabled=0
+fi
 
 # end ramdisk changes
 

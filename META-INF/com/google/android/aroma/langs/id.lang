@@ -141,6 +141,9 @@ ram.patched=RAM ditambal
 vibtype.select=Pilih Tipe Getaran
 ledvib.info=(Android 11+) Untuk ROM yg mendukung LED Vibration.
 nonledvib.info=(NON-LED Vibration) Untuk ROM yg masih pakai Driver Haptic lama.
+kernelsu.dialog=Aktifkan KernelSU
+kernelsuenable.info=Install kernel ini dengan dukungan KernelSU.
+kernelsudisable.info=Install kernel ini tanpa dukungan KernelSU.
 
 terms.title=Syarat dan Ketentuan
 terms.desc=Mohon Baca dengan Seksama Ketentuan dibawah ini.

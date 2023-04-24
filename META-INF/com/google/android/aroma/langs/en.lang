@@ -142,6 +142,9 @@ ram.patched=RAM Patched successfully
 vibtype.select=Choose Vibration Type
 ledvib.info=(Android 11+) For ROM that has LED Vibration Support.
 nonledvib.info=(NON-LED Vibration) For ROM that still using Old Haptics Driver.
+kernelsu.dialog=Enable KernelSU
+kernelsuenable.info=Install this kernel with KernelSU support.
+kernelsudisable.info=Install this kernel without KernelSU support.
 
 terms.title=Terms and Conditions
 terms.desc=Please read carefully The AROMA Installer Terms and Conditions Below.
