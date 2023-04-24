@@ -442,8 +442,8 @@ selectbox(
       #-------------------------------+------------------------------+-------#
     
         "<~spectrum.confirm> ?",        "",                              2,  #-- Group 1. key = "selected.1"
-          "<~text_yes>",    "<~with.spectrum>",    1,    #-- selected.1 = 1
-          "<~text_no>",    "<~without.spectrum>",    0,    #-- selected.1 = 2
+          "<~text_yes>",    "<~with.spectrum>",    0,    #-- selected.1 = 1
+          "<~text_no>",    "<~without.spectrum>",    1,    #-- selected.1 = 2
 		  
 		"<~forcedttw>",        "",                              2,  #-- Group 2. key = "selected.2"
           "<~enable.forcedttw>",    "<~forceenable.dttw>",    0,    #-- selected.2 = 1
