@@ -143,7 +143,9 @@ ledvib.info=(Android 11+) Kanggo ROM sing ndhukung LED Vibration.
 nonledvib.info=(NON-LED Vibration) Kanggo ROM sing isih nggunakake Driver Haptic lawas.
 kernelsu.dialog=Uripke KernelSU
 kernelsuenable.info=Pasang kernel iki karo dukungan KernelSU.
+kernelsuenablesafe.info=Pasang kernel iki karo dukungan KernelSU (Mode Aman). Mboten saget pasang modul nek iki dipilih.
 kernelsudisable.info=Pasang kernel iki tanpo dukungan KernelSU.
+safe.mode=Mode Aman
 
 terms.title=Syarat lan Ketentuan
 terms.desc=Woco kanthi tliti Syarat lan Ketentuan AROMA Installer Ing ngisor iki.
