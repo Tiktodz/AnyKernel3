@@ -151,7 +151,9 @@ ledvib.info=(Android 11+) Pikeun ROM nu ngarojong LED Vibration.
 nonledvib.info=(NON-LED Vibration) Pikeun ROM anu masih ngagunakeun Driver Haptic lami.
 kernelsu.dialog=Aktifkeun KernelSU
 kernelsuenable.info=Pasang kernel ieu kalayan rojongan KernelSU.
+kernelsuenablesafe.info=Pasang kernel ieu kalayan rojongan KernelSU (Mode Aman). Anjeun teu bisa install modul lamun ieu dipilih.
 kernelsudisable.info=Pasang kernel ieu tanpa rojongan KernelSU.
+safe.mode=Mode Aman
 
 terms.title=Syarat sareng katangtuan
 terms.desc=Mangga baca sacara saksama Sarat sareng Kaayaan AROMA Installer Ieu di handap.

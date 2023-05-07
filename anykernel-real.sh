@@ -253,15 +253,27 @@ else
 fi
 
 # KernelSU Support
-if [ "`$BB grep -w "selected.1=1" /tmp/aroma-data/refrate.prop`" ] && [ -z "$WITHMAGISK" ];then
-if [ "$REG" = "IDN" ];then
-ui_print "- KernelSU dihidupkan !";
-elif [ "$REG" = "JAV" ];then
-ui_print "- KernelSU diuripke !";
-elif [ "$REG" = "SUN" ];then
-ui_print "- KernelSU diaktifkeun !";
+if [ "`$BB grep -w "selected.1=1" /tmp/aroma-data/refrate.prop`" ] || [ "`$BB grep -w "selected.1=2" /tmp/aroma-data/refrate.prop`" ] && [ -z "$WITHMAGISK" ];then
+if [ "`$BB grep -w "selected.1=2" /tmp/aroma-data/refrate.prop`" ]
+patch_cmdline kernelsu.safemode kernelsu.safemode=1
+if [ "$REG" = "IDN" ] || [ "$REG" = "SUN" ] || [ "$REG" = "JAV" ];then
+KSUSAFEMODE=" (Mode Aman)"
 elif [ "$REG" = "EN" ];then
-ui_print "- KernelSU enabled !";
+KSUSAFEMODE=" (Safe Mode)"
+fi;
+else
+patch_cmdline kernelsu.safemode kernelsu.safemode=0
+KSUSAFEMODE=""
+fi;
+
+if [ "$REG" = "IDN" ];then
+ui_print "- KernelSU dihidupkan$KSUSAFEMODE !";
+elif [ "$REG" = "JAV" ];then
+ui_print "- KernelSU diuripke$KSUSAFEMODE !";
+elif [ "$REG" = "SUN" ];then
+ui_print "- KernelSU diaktifkeun$KSUSAFEMODE !";
+elif [ "$REG" = "EN" ];then
+ui_print "- KernelSU enabled$KSUSAFEMODE !";
 fi;
 patch_cmdline kernelsu.enabled kernelsu.enabled=1
 else
