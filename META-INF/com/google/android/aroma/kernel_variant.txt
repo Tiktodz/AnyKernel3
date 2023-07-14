@@ -1,28 +1,16 @@
 <@center><b><#selectbg_g>ENGLISH</#></b>
 
-<@center><b><#selectbg_g>SkyWalker Kernel</#></b>
+<@center><b><#selectbg_g>TheOneMemory Kernel</#></b>
 
 <b><#selectbg_g>About Kernel Variants :</#></b></@>
 
 <@fill><q>
 
 OC : Overclocked Kernel
-     (X01BD) 1.8 + 2.2GHz + 750Mhz
      (X00TD) 1.8 + 2.2GHz + 585MHz
 
 Stock : Kernel with Stock Freq
-        (X01BD) 1.8 + 1.95GHz + 585Mhz
         (X00TD) 1.6 + 1.8GHz + 430MHz
-
-Pie : Kernel for X01BD Android 9 Custom ROM only.
-      Don't flash on others else WiFi Will dead.
-
-NFI : Kernel Variant with CAF 9.2 / R WiFi Driver .
-      U can use this Variant on Both Firmware (Pie and Q),
-      but more better with Q Firmware.
-
-OFI : Kernel Variant with CAF 7.2 / P WiFi Driver .
-      U can use this Variant on Both Firmware (Pie and Q).
 
 LV : For Android 11 and above which using LEDs Based
      Vibration driver. Don't flash on A10 or ROMs which

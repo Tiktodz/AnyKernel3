@@ -37,7 +37,7 @@ ini_set("rom_date", "KBDATE");
 ini_set("force_colorspace", "rgba");
 splash(
     5000,
-    "sw"
+    "tom"
 );
 theme("materialize_blackred");
 fontresload( "0", "ttf/Rosemary-Regular.ttf", "12" );
@@ -47,8 +47,8 @@ selectbox(
     "Language","<@center><b>\nSelect Language:</b>\n\n</@>","@language","lang.prop",
     "English",	"Use Default English Language.", 1,	        #-- selected.0 = 1     
     "Indonesia",	"Gunakan Bahasa Indonesia.", 0, 	        #-- selected.0 = 2
-	"Jawa",	"Nggo Boso Jowo.", 0, 	        #-- selected.0 = 3
-	"Sunda",	"Anggo Basa Sundana.", 0 	        #-- selected.0 = 4
+    "Jawa",	"Nggo Boso Jowo.", 0, 	        #-- selected.0 = 3
+    "Sunda",	"Anggo Basa Sundana.", 0 	        #-- selected.0 = 4
 );
 
 if prop("lang.prop","selected.0")=="1" then
@@ -80,8 +80,8 @@ viewbox(
       "  <#textfg><~welcome.version>\t\t\t: <b>"+ini_get("rom_version")+"</b>\n\n"+
       "  <~welcome.author>\t\t: <b>"+ini_get("rom_author")+"</b>\n\n"+
       "  <~welcome.builddate>\t\t: <b>"+ini_get("rom_date")+"</b>\n\n"+
-	  "  <~welcome.buildvariant>\t\t: <b>KVARIANT</b>\n\n\n"+
-	  "  <b><~welcome.warning></b>\n\n\n\n"+
+      "  <~welcome.buildvariant>\t\t: <b>KVARIANT</b>\n\n\n"+
+      "  <b><~welcome.warning></b>\n\n\n\n"+
 
     "<~welcome.next></#>",
   
@@ -105,7 +105,7 @@ menubox(
   # TITLE                   | DESCRIPTION                  | ICON        #
   #-------------------------+------------------------------+-------------#
   
-    "<~install>",    "<~install.kernel>",    "@send",    #-- selected = 1
+	"<~install>",    "<~install.kernel>",    "@send",    #-- selected = 1
 	"<~perfhal.restore>", "<~perfhal.restoreinfo>", "@archive", #-- selected = 2
 	"<~forcedttw>", "<~forceenable.dttw>", "@pen", #-- selected = 3
 	"<~patch.ram>", "<~patchraminfo>", "@apps", #-- selected = 4

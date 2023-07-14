@@ -1,30 +1,15 @@
 <@center><b><#selectbg_g>INDONESIA</#></b>
 
-<@center><b><#selectbg_g>Kernel SkyWalker</#></b>
+<@center><b><#selectbg_g>Kernel TheOneMemory</#></b>
 
 <b><#selectbg_g>Tentang Varian Kernel :</#></b></@>
 
 <@fill><q>
 OC : Kernel Overclock
-     (X01BD) 1.8 + 2.2GHz + 750Mhz
      (X00TD) 1.8 + 2.2GHz + 585MHz
 
 Stock : Kernel dengan Freq Bawaan
-        (X01BD) 1.8 + 1.95GHz + 585Mhz
         (X00TD) 1.6 + 1.8GHz + 430MHz
-
-P : Kernel yang hanya untuk Custom ROM
-    Android 9 X01BD saja. Jangan flash
-    pada lainnya atau WiFi akan Mati.
-
-NFI : Varian Kernel dengan CAF 9.2 / Driver WiFi R.
-      Agan dapat menggunakan varian ini pada Kedua
-      Jenis Firmware (Pie dan Q), tapi lebih baik
-      dengan Firmware Q.
-
-OFI : Varian Kernel dengan CAF 7.2 / Driver WiFi Pie.
-      Agan dapat menggunakan varian ini pada Kedua
-      Jenis Firmware (Pie dan Q)
 
 LV : Untuk Android 11 keatas yang Getarannya sudah
      Berbasis Driver LEDs. Jangan Flash pada Android 10

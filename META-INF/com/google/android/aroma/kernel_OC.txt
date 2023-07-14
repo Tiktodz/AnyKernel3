@@ -1,6 +1,6 @@
 <@center><b><#selectbg_g>ENGLISH</#></b>
 
-<@center><b><#selectbg_g>SkyWalker Kernel</#></b>
+<@center><b><#selectbg_g>TheOneMemory Kernel</#></b>
 
 <b><#selectbg_g>About Overclocked Kernel :</#></b></@>
 
@@ -20,7 +20,7 @@ own risk :) .
 
 <@center><b><#selectbg_g>INDONESIA</#></b>
 
-<@center><b><#selectbg_g>Kernel SkyWalker</#></b>
+<@center><b><#selectbg_g>Kernel TheOneMemory</#></b>
 
 <b><#selectbg_g>Tentang Kernel yang diOverclock :</#></b></@>
 
@@ -32,8 +32,8 @@ Tapi tetap Resiko ditanggung Pemenang :) .
 </b>
 
 <b>NOTE:
-* Disarankan menggunakan kernel ini dengan spectrum. 
-  Ini akan menjadi opsi terbaik .
+* Disarankan menggunakan kernel ini dengan spectrum, 
+  Ini akan menjadi opsi terbaik.
 </b>
 
 </q></@>
