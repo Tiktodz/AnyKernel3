@@ -1,11 +1,11 @@
 <@center><b><#selectbg_g>ENGLISH</#></b>
 
-<@center><b><#selectbg_g>SkyWalker Kernel</#></b>
+<@center><b><#selectbg_g>TheOneMemory Kernel</#></b>
 
 <b><#selectbg_g>Some Messages from me :</#></b></@>
 
 <@fill><q>
-SkyWalker Kernel is made with love by @ItsRyuujiX 
+TheOneMemory Kernel is made with love by @fakedotkit 
 which he's trying to give good experience for 
 any users :) .
  
@@ -23,15 +23,15 @@ Thank You for choosing this Kernel !. </q></@>
 
 <@center><b><#selectbg_g>INDONESIA</#></b>
 
-<@center><b><#selectbg_g>Kernel SkyWalker</#></b>
+<@center><b><#selectbg_g>Kernel TheOneMemory</#></b>
 
 <b><#selectbg_g>Sedikit Pesan dari gw :</#></b></@>
 
 <@fill><q>
-Kernel SkyWalker dibuat dengan cinta dari
-@ItsRyuujiX (ANJAY AWOKAWOKAWOK) , yang
+Kernel TheOneMemory dibuat dengan cinta dari
+@fakedotkit (ANJING AWOKAWOKAWOK), yang
 dimana dia mencoba untuk memberikan
-pengalaman terbaik bagi pengguna :) .
+pengalaman terbaik bagi pengguna yg terobsesi ingin menjadi pro player.
  
 Agan dapat mengatur kernel dengan
 Spectrum (jika didukung) atau
@@ -40,7 +40,7 @@ FKM & SmartPack.
 
 <b>
 Dan selalu baca info. Versi terakhir belum tentu
-paling bagus dan menggunakan banyak modul terkadang
+paling bagus, dan menggunakan banyak modul terkadang
 tidak membuat performa lebih baik
 </b>
 

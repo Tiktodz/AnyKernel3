@@ -7,7 +7,7 @@ properties() { '
 kernel.string=ExampleKernel by osm0sis @ xda-developers
 kernel.for=KernelForDriver
 kernel.compiler=SDPG
-kernel.made=Ryuuji @ItsRyuujiX
+kernel.made=dotkit @fakedotkit
 kernel.version=44xxx
 kernel.type=xxx
 message.word=blablabla
@@ -254,7 +254,7 @@ fi;
 
 # KernelSU Support
 if [ "`$BB grep -w "selected.1=1" /tmp/aroma-data/refrate.prop`" ] || [ "`$BB grep -w "selected.1=2" /tmp/aroma-data/refrate.prop`" ] && [ -z "$WITHMAGISK" ];then
-if [ "`$BB grep -w "selected.1=2" /tmp/aroma-data/refrate.prop`" ]
+if [ "`$BB grep -w "selected.1=2" /tmp/aroma-data/refrate.prop`" ];then
 patch_cmdline kernelsu.safemode kernelsu.safemode=1
 if [ "$REG" = "IDN" ] || [ "$REG" = "SUN" ] || [ "$REG" = "JAV" ];then
 KSUSAFEMODE=" (Mode Aman)"
