@@ -25,6 +25,7 @@ device.name4=ASUS_X01BD
 device.name5=ASUS_X01BDA
 supported.versions=9-14
 supported.patchlevels=
+supported.vendorpatchlevels=
 '; } # end properties
 
 # Installation Method
