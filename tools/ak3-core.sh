@@ -4,7 +4,6 @@
 [ "$OUTFD" ] || OUTFD=$1;
 
 # set up working directory variables
-[ "$AKHOME" ] && home=$AKHOME;
 [ "$home" ] || home=$PWD;
 bootimg=$home/boot.img;
 bin=$home/tools;
