@@ -37,7 +37,7 @@ ini_set("rom_date", "KBDATE");
 ini_set("force_colorspace", "rgba");
 splash(
     5000,
-    "tom"
+    "tom2"
 );
 theme("materialize_blacksline");
 fontresload( "0", "ttf/Rosemary-Regular.ttf", "12" );
