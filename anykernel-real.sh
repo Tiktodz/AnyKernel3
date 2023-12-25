@@ -256,7 +256,7 @@ else
 fi;
 
 # KernelSU Support
-if [ "`$BB grep -w "selected.1=1" /tmp/aroma-data/refrate.prop`" ] || [ "`$BB grep -w "selected.1=2" /tmp/aroma-data/refrate.prop`" ] && [ -z "$WITHMAGISK" ];then
+if [ "`$BB grep -w "selected.1=1" /tmp/aroma-data/refrate.prop`" ] || [ "`$BB grep -w "selected.1=2" /tmp/aroma-data/refrate.prop`" ];then
 if [ "`$BB grep -w "selected.1=2" /tmp/aroma-data/refrate.prop`" ];then
 patch_cmdline kernelsu.safemode kernelsu.safemode=1
 if [ "$REG" = "IDN" ] || [ "$REG" = "SUN" ] || [ "$REG" = "JAV" ];then
@@ -280,17 +280,6 @@ ui_print "- KernelSU enabled$KSUSAFEMODE !";
 fi;
 patch_cmdline kernelsu.enabled kernelsu.enabled=1
 else
-if [ ! -z "$WITHMAGISK" ];then
-if [ "$REG" = "IDN" ];then
-ui_print "- KernelSU dimatikan karena Magisk Terinstall !";
-elif [ "$REG" = "JAV" ];then
-ui_print "- KernelSU dipateni amarga Magisk dipasang !";
-elif [ "$REG" = "SUN" ];then
-ui_print "- KernelSU dinon-aktifkeun disebabkeun Magisk dipasang !";
-elif [ "$REG" = "EN" ];then
-ui_print "- KernelSU disabled due Magisk is Installed !";
-fi;
-else
 if [ "$REG" = "IDN" ];then
 ui_print "- KernelSU dimatikan !";
 elif [ "$REG" = "JAV" ];then
@@ -300,9 +289,8 @@ ui_print "- KernelSU dinon-aktifkeun !";
 elif [ "$REG" = "EN" ];then
 ui_print "- KernelSU disabled !";
 fi;
-fi;
 patch_cmdline kernelsu.enabled kernelsu.enabled=0
-fi;
+fi
 
 # end ramdisk changes
 
