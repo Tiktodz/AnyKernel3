@@ -223,6 +223,23 @@ fi;
 android_ver=$(file_getprop /system/build.prop ro.build.version.release);
 patch_cmdline androidboot.version androidboot.version=$android_ver
 
+# Fast Charging Hack
+if [ "`$BB grep -w "selected.3=1" /tmp/aroma-data/overclock.prop`" ];then
+	if [ "$REG" = "IDN" ] || [ "$REG" = "JAV" ] || [ "$REG" = "SUN" ];then
+	ui_print "- Pengisian Cepat dihidupkan secara default !";
+	elif [ "$REG" = "EN" ];then
+	ui_print "- Fast Charging enabled by default !";
+	fi;
+	patch_cmdline ffc ffc=1
+elif [ "`$BB grep -w "selected.3=2" /tmp/aroma-data/overclock.prop`" ];then
+	if [ "$REG" = "IDN" ] || [ "$REG" = "JAV" ] || [ "$REG" = "SUN" ];then
+	ui_print "- Pengisian Cepat dimatikan, menggunakan kecepatan bawaan !";
+	elif [ "$REG" = "EN" ];then
+	ui_print "- Fast Charging disabled, using stock speed !";
+	fi;
+	patch_cmdline ffc ffc=0
+fi;
+
 # Switch Vibration Type
 NLVib() {
 if [ "$REG" = "IDN" ] || [ "$REG" = "JAV" ] || [ "$REG" = "SUN" ];then

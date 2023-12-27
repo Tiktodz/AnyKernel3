@@ -146,6 +146,9 @@ kernelsuenable.info=Pasang kernel ieu kalayan rojongan KernelSU.
 kernelsuenablesafe.info=Pasang kernel ieu kalayan rojongan KernelSU (Mode Aman). Anjeun teu bisa install modul lamun ieu dipilih.
 kernelsudisable.info=Pasang kernel ieu tanpa rojongan KernelSU.
 safe.mode=Mode Aman
+fastcharging.dialog=Hidupkan Pengisian Cepat
+fastcharging.info=Ini akan menghidupkan Pengisian Cepat secara default
+nofastcharging.info=Ini tidak akan menghidupkan Pengisian Cepat secara default (Stock)
 
 terms.title=Syarat sareng katangtuan
 terms.desc=Mangga baca sacara saksama Sarat sareng Kaayaan AROMA Installer Ieu di handap.

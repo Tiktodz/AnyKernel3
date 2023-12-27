@@ -147,6 +147,9 @@ kernelsuenable.info=Install this kernel with KernelSU support.
 kernelsuenablesafe.info=Install this kernel with KernelSU (Safe Mode) support. U can't Install any modules if this mode selected.
 kernelsudisable.info=Install this kernel without KernelSU support.
 safe.mode=Safe Mode
+fastcharging.dialog=Enable Fast Charging
+fastcharging.info=This will enable Fast Charging by default
+nofastcharging.info=This will disable Fast Charging by default (Stock)
 
 terms.title=Terms and Conditions
 terms.desc=Please read carefully The AROMA Installer Terms and Conditions Below.
