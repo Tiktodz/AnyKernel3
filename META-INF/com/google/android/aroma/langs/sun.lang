@@ -149,6 +149,8 @@ safe.mode=Mode Aman
 fastcharging.dialog=Hidupkan Pengisian Cepat
 fastcharging.info=Ini akan menghidupkan Pengisian Cepat secara default
 nofastcharging.info=Ini tidak akan menghidupkan Pengisian Cepat secara default (Stock)
+super.fast=Super Cepat
+superfastcharging.info=Ini akan menghidupkan Pengisian Cepat Super secara default
 
 terms.title=Syarat sareng katangtuan
 terms.desc=Mangga baca sacara saksama Sarat sareng Kaayaan AROMA Installer Ieu di handap.

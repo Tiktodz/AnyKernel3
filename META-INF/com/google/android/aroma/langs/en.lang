@@ -150,6 +150,8 @@ safe.mode=Safe Mode
 fastcharging.dialog=Enable Fast Charging
 fastcharging.info=This will enable Fast Charging by default
 nofastcharging.info=This will disable Fast Charging by default (Stock)
+super.fast=Super Fast
+superfastcharging.info=This will enable Super Fast Charging by default
 
 terms.title=Terms and Conditions
 terms.desc=Please read carefully The AROMA Installer Terms and Conditions Below.

@@ -233,6 +233,13 @@ if [ "`$BB grep -w "selected.3=1" /tmp/aroma-data/overclock.prop`" ];then
 	patch_cmdline ffc ffc=1
 elif [ "`$BB grep -w "selected.3=2" /tmp/aroma-data/overclock.prop`" ];then
 	if [ "$REG" = "IDN" ] || [ "$REG" = "JAV" ] || [ "$REG" = "SUN" ];then
+	ui_print "- Pengisian Cepat Super dihidupkan secara default !";
+	elif [ "$REG" = "EN" ];then
+	ui_print "- Fast Charging Super enabled by default !";
+	fi;
+	patch_cmdline ffc ffc=2
+elif [ "`$BB grep -w "selected.3=3" /tmp/aroma-data/overclock.prop`" ];then
+	if [ "$REG" = "IDN" ] || [ "$REG" = "JAV" ] || [ "$REG" = "SUN" ];then
 	ui_print "- Pengisian Cepat dimatikan, menggunakan kecepatan bawaan !";
 	elif [ "$REG" = "EN" ];then
 	ui_print "- Fast Charging disabled, using stock speed !";

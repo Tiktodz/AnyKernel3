@@ -517,8 +517,9 @@ selectbox(
       #-------------------------------+------------------------------+-------#
 		  
 		"<~fastcharging.dialog> ?",        "",                              2,  #-- Group 3. key = "selected.3"
-          "<~text_yes>",    "<~fastcharging.info>",    0,    #-- selected.3 = 1
-		  "<~text_no>",    "<~nofastcharging.info>",    1    #-- selected.3 = 2
+		  "<~text_yes>",    "<~fastcharging.info>",    0,    #-- selected.3 = 1
+          "<~text_yes>, (<~super.fast>)",    "<~superfastcharging.info>",    0,    #-- selected.3 = 2
+		  "<~text_no>",    "<~nofastcharging.info>",    1    #-- selected.3 = 3
 );
 	
 ini_set("text_next", "<~text_install>");
