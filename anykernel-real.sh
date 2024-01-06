@@ -226,23 +226,23 @@ patch_cmdline androidboot.version androidboot.version=$android_ver
 # Fast Charging Hack
 if [ "`$BB grep -w "selected.3=1" /tmp/aroma-data/overclock.prop`" ];then
 	if [ "$REG" = "IDN" ] || [ "$REG" = "JAV" ] || [ "$REG" = "SUN" ];then
-	ui_print "- Pengisian Cepat dihidupkan secara default !";
+	ui_print "- Hack Pengisian Cepat (Mode 1) dihidupkan secara default !";
 	elif [ "$REG" = "EN" ];then
-	ui_print "- Fast Charging enabled by default !";
+	ui_print "- Fast Charging Hack (Mode 1) enabled by default !";
 	fi;
 	patch_cmdline ffc ffc=1
 elif [ "`$BB grep -w "selected.3=2" /tmp/aroma-data/overclock.prop`" ];then
 	if [ "$REG" = "IDN" ] || [ "$REG" = "JAV" ] || [ "$REG" = "SUN" ];then
-	ui_print "- Pengisian Cepat Super dihidupkan secara default !";
+	ui_print "- Hack Pengisian Cepat (Mode 2) dihidupkan secara default !";
 	elif [ "$REG" = "EN" ];then
-	ui_print "- Fast Charging Super enabled by default !";
+	ui_print "- Fast Charging Hack (Mode 2) enabled by default !";
 	fi;
 	patch_cmdline ffc ffc=2
 elif [ "`$BB grep -w "selected.3=3" /tmp/aroma-data/overclock.prop`" ];then
 	if [ "$REG" = "IDN" ] || [ "$REG" = "JAV" ] || [ "$REG" = "SUN" ];then
-	ui_print "- Pengisian Cepat dimatikan, menggunakan kecepatan bawaan !";
+	ui_print "- Hack Pengisian Cepat dimatikan, menggunakan kecepatan bawaan !";
 	elif [ "$REG" = "EN" ];then
-	ui_print "- Fast Charging disabled, using stock speed !";
+	ui_print "- Fast Charging Hack disabled, using stock speed !";
 	fi;
 	patch_cmdline ffc ffc=0
 fi;

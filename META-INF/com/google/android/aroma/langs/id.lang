@@ -146,11 +146,11 @@ kernelsuenable.info=Install kernel ini dengan dukungan KernelSU.
 kernelsuenablesafe.info=Install kernel ini dengan dukungan KernelSU (Mode Aman). Kamu tidak dapat install modul jika mode ini dipilih.
 kernelsudisable.info=Install kernel ini tanpa dukungan KernelSU.
 safe.mode=Mode Aman
-fastcharging.dialog=Hidupkan Pengisian Cepat
-fastcharging.info=Ini akan menghidupkan Pengisian Cepat secara default
-nofastcharging.info=Ini tidak akan menghidupkan Pengisian Cepat secara default (Stock)
-super.fast=Super Cepat
-superfastcharging.info=Ini akan menghidupkan Pengisian Cepat Super secara default
+fastcharging.dialog=Hidupkan Hack Pengisian Cepat
+fastcharging.info=Ini akan menghidupkan Hack Pengisian Cepat (Aman) secara default
+nofastcharging.info=Ini tidak akan menghidupkan Hack Pengisian Cepat secara default (Stock)
+superfastcharging.info=Ini akan menghidupkan Hack Pengisian Cepat (Super) secara default
+mode=Mode
 
 terms.title=Syarat dan Ketentuan
 terms.desc=Mohon Baca dengan Seksama Ketentuan dibawah ini.

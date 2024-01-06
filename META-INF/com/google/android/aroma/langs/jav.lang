@@ -146,11 +146,11 @@ kernelsuenable.info=Pasang kernel iki karo dukungan KernelSU.
 kernelsuenablesafe.info=Pasang kernel iki karo dukungan KernelSU (Mode Aman). Mboten saget pasang modul nek iki dipilih.
 kernelsudisable.info=Pasang kernel iki tanpo dukungan KernelSU.
 safe.mode=Mode Aman
-fastcharging.dialog=Hidupkan Pengisian Cepat
-fastcharging.info=Ini akan menghidupkan Pengisian Cepat secara default
-nofastcharging.info=Ini tidak akan menghidupkan Pengisian Cepat secara default (Stock)
-super.fast=Super Cepat
-superfastcharging.info=Ini akan menghidupkan Pengisian Cepat Super secara default
+fastcharging.dialog=Hidupkan Hack Pengisian Cepat
+fastcharging.info=Ini akan menghidupkan Hack Pengisian Cepat (Aman) secara default
+nofastcharging.info=Ini tidak akan menghidupkan Hack Pengisian Cepat secara default (Stock)
+superfastcharging.info=Ini akan menghidupkan Hack Pengisian Cepat (Super) secara default
+mode=Mode
 
 terms.title=Syarat lan Ketentuan
 terms.desc=Woco kanthi tliti Syarat lan Ketentuan AROMA Installer Ing ngisor iki.
