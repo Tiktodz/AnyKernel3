@@ -4,7 +4,7 @@
 ### AnyKernel setup
 # global properties
 properties() { '
-kernel.string=KnightWalker kernel with KernelSU supported
+kernel.string=My kernel with 4.19 version supported
 do.devicecheck=1
 do.modules=0
 do.systemless=1
@@ -39,12 +39,6 @@ patch_vbmeta_flag=auto;
 
 # boot install
 dump_boot; # use split_boot to skip ramdisk unpack, e.g. for devices with init_boot ramdisk
-
-# activate updated nvt driver by boot cmdline
-patch_cmdline use_new_nvtouch use_new_nvtouch=1
-
-# activate kernelsu by boot cmdline
-patch_cmdline kernelsu.enabled kernelsu.enabled=1
 
 write_boot; # use flash_boot to skip ramdisk repack, e.g. for devices with init_boot ramdisk
 ## end boot install
@@ -108,4 +102,3 @@ write_boot; # use flash_boot to skip ramdisk repack, e.g. for devices with init_
 
 #write_boot; # use flash_boot to skip ramdisk repack, e.g. for dtb on devices with hdr v4 but no vendor_kernel_boot
 ## end vendor_boot install
-
