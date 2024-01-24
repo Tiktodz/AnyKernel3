@@ -4,7 +4,7 @@
 ### AnyKernel setup
 # global properties
 properties() { '
-kernel.string=My kernel with 4.19 version supported
+kernel.string=TheOneMemory kernel v4.19
 do.devicecheck=1
 do.modules=0
 do.systemless=1
@@ -39,6 +39,9 @@ patch_vbmeta_flag=auto;
 
 # boot install
 dump_boot; # use split_boot to skip ramdisk unpack, e.g. for devices with init_boot ramdisk
+
+# activate kernelsu by boot cmdline
+patch_cmdline kernelsu.enabled kernelsu.enabled=1
 
 write_boot; # use flash_boot to skip ramdisk repack, e.g. for devices with init_boot ramdisk
 ## end boot install
