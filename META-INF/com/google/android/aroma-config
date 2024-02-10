@@ -40,8 +40,8 @@ splash(
     "tom2"
 );
 theme("materialize_blacksline");
-fontresload( "0", "ttf/Rosemary-Regular.ttf", "12" );
-fontresload( "1", "ttf/Rosemary-Regular.ttf", "14" );
+fontresload( "0", "ttf/SpaceMono-Regular.ttf", "10" );
+fontresload( "1", "ttf/SpaceMono-Regular.ttf", "10" );
 
 selectbox(
     "Language","<@center><b>\nSelect Language:</b>\n\n</@>","@language","lang.prop",
