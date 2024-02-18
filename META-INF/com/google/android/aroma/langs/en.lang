@@ -1,0 +1,160 @@
+### LICENSE:
+#
+# Copyright (C) 2011 Ahmad Amarullah ( http://amarullz.com/ )
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+### LANGUAGE STRING RESOURCE FILE
+#
+#   Language  : English
+#   By        : amarullz
+#	Revised by: RyuujiX
+#
+
+#
+#--- COMMON SYSTEM STRING RESOURCE
+#
+text_ok=OK
+text_start=Start
+text_restore=Restore
+text_finish=Finish
+text_install=Install
+text_next=Next
+text_back=Back
+text_yes=Yes
+text_no=No
+text_about=About
+text_calibrating=Calibrating Tools
+text_quit=Quit Installation
+text_quit_msg=Are you sure to quit the installer?
+
+#
+#-- CUSTOM STRING RESOURCE
+#
+common.for=for
+common.toupper=To
+common.to=to
+common.press=Press
+common.cancel=cancel
+language=Language
+select.language=Select Language
+
+langtest.title=Language Test
+langtest.multiline=This text is located in langs/en.lang\
+Use backslash before enter to add new line\
+\
+You can also do <b>Formatting</b> inside the language string resource.\
+\
+Thanks for using AROMA Installer
+
+#-- End of string without any backslash for multiline text
+
+
+themes.title=Select Theme
+themes.desc=Please select installer theme that you want to use in this installation test:
+
+welcome.title=Welcome
+welcome.text1=You are about to Install
+welcome.text2=AROMA Installer was the first and the only Touch and Customizable ANDROID ROM Installer in the World.
+welcome.version=VERSION
+welcome.codename=CODENAME
+welcome.builddate=BUILD DATE
+welcome.author=BUILDED BY
+welcome.buildvariant=VARIANT
+welcome.warning=DON'T MIRROR OR SHARE THIS FILE/CLOUD LINK DIRECTLY.
+welcome.next=Press Next to Continue the Installation...
+
+perfhal=Perf HAL
+perfhal.restore=Restore Old Perf HAL
+perfhal.restoreinfo=To Restore Old Perf HAL.If previously it was installed as module , u just Remove it with Magisk Manager.
+
+add.on=Additional
+kernel.about=About Kernel
+have.readinfo=I Have Read this Info
+have.understand=OK, I Understand
+have.understandagree=OK, I Understand and Agree
+check.tocontinue=Check to continue !
+info.caution=Read these Carefully
+spectrum.confirm=Enable Spectrum Support
+with.spectrum=Install this kernel with spectrum support.
+without.spectrum=Install this kernel without spectrum support.
+ready.restore=Ready to Restore
+begin.restore=to restore
+restoring=Restoring
+isbeing.restored=is being restored.
+resfinish=restore finished ,  Press Finish to Exit.
+install=Install
+ready.install=Ready to Install
+kernel.install=This kernel is ready to be installed
+begin.install=to install this kernel
+review.confirm=If u want to review or change any
+installing=Installing
+isbeing.installed=is being installed.
+please.wait=Please wait , This may take a moment...
+installed=Kernel has successfully installed , Press Finish to Exit.
+refresh.rate=Choose Refresh Rate: (Changing this is Risky)
+backup.boot=Backup Boot.img
+dobackup.boot=Do Backup
+dontbackup.boot=Don't Backup
+forcedttw=Force DT2W Patch
+enable.forcedttw=Force Enable DT2W
+disable.forcedttw=Force Disable DT2W
+donothing.forcedttw=Do Nothing
+forceenable.dttw=This will force enable DT2W
+forcedisable.dttw=This will force disable DT2W
+donothingforce.dttw=Do nothing about DT2W patch or remove the previous patches (if exist)
+enabling=Enabling
+disabling=Disabling
+enabled=has been enabled
+disabled=has been disabled
+selinux.switch=Switch SELinux State
+selinux.switched=SELinux Switched
+switching=Switching
+enforcing=Enforcing
+enforcing.info=Set SELinux to Enforcing. U can't change to this if ROM was Permissive by default.
+permissive=Permissive
+permissive.info=Set SELinux to Permissive.
+do.nothing=Don't do anything.
+install.kernel=Install this Kernel.
+patch.ram=Patch RAM
+patchraminfo=Useful for 3GB RAM users (Legacy Android LMK support required).
+will.removerampatch=Will also remove patches if exists.
+magisk.mode=Magisk Mode
+magiskd.modeinfo=Required Magisk. Run script with service.d method.
+init.mode=Init Mode
+init.modeinfo=Useful for Non-Root users. Run script with init method.
+removing.rampatch=Removing RAM Patch
+rampatch.removed=RAM Patch has been removed
+patching.ram=Patching RAM
+ram.patched=RAM Patched successfully
+vibtype.select=Choose Vibration Type
+ledvib.info=For (Android 11+) ROM that has LED Vibration Support.
+nonledvib.info=For (Android 9-10) ROM that still using Old Haptics Driver.
+kernelsu.dialog=Enable KernelSU
+kernelsuenable.info=Install this kernel with KernelSU support.
+kernelsuenablesafe.info=Install this kernel with KernelSU (Safe Mode) support. U can't Install any modules if this mode selected.
+kernelsudisable.info=Install this kernel without KernelSU support.
+safe.mode=Safe Mode
+fastcharging.dialog=Enable Fast Charging Hack
+fastcharging.info=This will enable Fast Charging Hack (Safe) by default
+nofastcharging.info=This will disable Fast Charging Hack by default (Stock)
+superfastcharging.info=This will enable Fast Charging Hack (Super) by default
+mode=Mode
+
+terms.title=Terms and Conditions
+terms.desc=Please read carefully The AROMA Installer Terms and Conditions Below.
+terms.check=I Agree with this Terms and Conditions...
+terms.confirm=Please check the agreement...
+
+changelog.title=Changelogs :
+changelog.desc=AROMA Installer Changelog

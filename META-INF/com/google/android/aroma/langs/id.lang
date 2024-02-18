@@ -1,0 +1,159 @@
+### LICENSE:
+#
+# Copyright (C) 2011 Ahmad Amarullah ( http://amarullz.com/ )
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+### LANGUAGE STRING RESOURCE FILE
+#
+#   Language  : Indonesia
+#   By        : RyuujiX
+#
+
+#
+#--- COMMON SYSTEM STRING RESOURCE
+#
+text_ok=OK
+text_start=Mulai
+text_restore=Kembalikan
+text_finish=Selesai
+text_install=Pasang
+text_next=Lanjut
+text_back=Kembali
+text_yes=Ya
+text_no=Tidak
+text_about=Tentang
+text_calibrating=Alat Kalibrasi
+text_quit=Batalkan Penginstallan
+text_quit_msg=Anda yakin ingin membatalkan?
+
+#
+#-- CUSTOM STRING RESOURCE
+#
+common.for=untuk
+common.toupper=Untuk
+common.to=untuk
+common.press=Tekan
+common.cancel=membatalkan
+language=Bahasa
+select.language=Pilih Bahasa
+
+langtest.title=Language Test
+langtest.multiline=This text is located in langs/en.lang\
+Use backslash before enter to add new line\
+\
+You can also do <b>Formatting</b> inside the language string resource.\
+\
+Thanks for using AROMA Installer
+
+#-- End of string without any backslash for multiline text
+
+
+themes.title=Pilih Tema
+themes.desc=Mohon pilih Tema untuk menguji penginstallan:
+
+welcome.title=Selamat Datang
+welcome.text1=Anda akan menginstall
+welcome.text2=AROMA Installer was the first and the only Touch and Customizable ANDROID ROM Installer in the World.
+welcome.version=VERSI
+welcome.codename=PERANGKAT
+welcome.builddate=TANGGAL
+welcome.author=BUILDER
+welcome.buildvariant=VARIAN
+welcome.warning=DILARANG MENDUPLIKAT ATAU MEMBAGIKAN FILE/LINK CLOUD INI SECARA LANGSUNG.
+welcome.next=Tekan Lanjut untuk melanjutkan penginstallan...
+
+perfhal=Perf HAL
+perfhal.restore=Kembalikan Perf HAL Lama
+perfhal.restoreinfo=Untuk Mengembalikan Perf HAL Lama. Jika sebelumnya Terinstall sebagai Modul , Anda cukup menghapusnya lewat Magisk Manager.
+
+add.on=Tambahan
+kernel.about=Tentang Kernel
+have.readinfo=Saya telah membaca info ini
+have.understand=OK, Saya Mengerti
+have.understandagree=OK, Saya Mengerti dan Setuju
+check.tocontinue=Centang untuk melanjutkan !
+info.caution=Baca ini dengan seksama
+spectrum.confirm=Aktifkan dukungan spectrum
+with.spectrum=Install kernel ini dengan dukungan spectrum.
+without.spectrum=Install kernel ini tanpa dukungan spectrum.
+ready.restore=Siap diKembalikan
+begin.restore=untuk mengembalikan
+restoring=Mengembalikan
+isbeing.restored=sedang dikembalikan.
+resfinish=selesai dikembalikan ,  Klik Selesai untuk Keluar.
+install=Install
+ready.install=Siap DiInstall
+kernel.install=Kernel ini Siap untuk diInstall
+begin.install=untuk menginstall Kernel ini
+review.confirm=Kalau ada yang ingin dilihat atau diganti
+installing=Menginstall
+isbeing.installed=sedang diinstall.
+please.wait=Mohon Tunggu beberapa saat...
+installed=Kernel sukses diinstall , Klik Selesai untuk Keluar.
+refresh.rate=Pilih Refresh Rate: (Mengganti ini beresiko)
+backup.boot=Cadangkan Boot.img
+dobackup.boot=Lakukan Pencadangan
+dontbackup.boot=Jangan Cadangkan
+forcedttw=Paksa DT2W
+enable.forcedttw=Paksa Hidupkan DT2W
+disable.forcedttw=Paksa Matikan DT2W
+donothing.forcedttw=Biarkan seperti semula
+forceenable.dttw=Ini akan menyalakan paksa DT2W
+forcedisable.dttw=Ini akan mematikan paksa DT2W
+donothingforce.dttw=Biarkan DT2W seperti semula dan Hapus Patch "Paksa DT2W" (jika ada)
+enabling=Menghidupkan
+disabling=Mematikan
+enabled=telah dihidupkan
+disabled=telah dimatikan
+selinux.switch=Ganti Status SELinux
+selinux.switched=SELinux Diganti
+switching=Mengganti
+enforcing=Enforcing
+enforcing.info=Ubah SELinux ke Enforcing. Anda tidak dapat merubah ke ini jika ROM sudah Permisif dari bawaan.
+permissive=Permisif
+permissive.info=Ubah SELinux ke Permisif.
+do.nothing=Jangan lakukan apapun.
+install.kernel=Install Kernel ini.
+patch.ram=Tambal RAM
+patchraminfo=Berguna untuk pengguna RAM 3GB (Dukungan Legacy Android LMK dibutuhkan).
+will.removerampatch=Akan menghapus patch juga jika ada.
+magisk.mode=Mode Magisk
+magiskd.modeinfo=Membutuhkan Magisk. Jalankan Skript dengan metode service.d.
+init.mode=Mode Init
+init.modeinfo=Berguna untuk pengguna Non-Root. Jalankan Skript dengan metode init.
+removing.rampatch=Menghapus Tambalan RAM
+rampatch.removed=Tambalan RAM dihapus
+patching.ram=Menambal RAM
+ram.patched=RAM ditambal
+vibtype.select=Pilih Tipe Getaran
+ledvib.info=Untuk (Android 11+) ROM yg mendukung LED Vibration.
+nonledvib.info=Untuk (Android 9-10) ROM yg masih pakai Driver Haptic lama.
+kernelsu.dialog=Aktifkan KernelSU
+kernelsuenable.info=Install kernel ini dengan dukungan KernelSU.
+kernelsuenablesafe.info=Install kernel ini dengan dukungan KernelSU (Mode Aman). Kamu tidak dapat install modul jika mode ini dipilih.
+kernelsudisable.info=Install kernel ini tanpa dukungan KernelSU.
+safe.mode=Mode Aman
+fastcharging.dialog=Hidupkan Hack Pengisian Cepat
+fastcharging.info=Ini akan menghidupkan Hack Pengisian Cepat (Aman) secara default
+nofastcharging.info=Ini tidak akan menghidupkan Hack Pengisian Cepat secara default (Stock)
+superfastcharging.info=Ini akan menghidupkan Hack Pengisian Cepat (Super) secara default
+mode=Mode
+
+terms.title=Syarat dan Ketentuan
+terms.desc=Mohon Baca dengan Seksama Ketentuan dibawah ini.
+terms.check=Saya Setuju dengan Syarat dan Ketentuan...
+terms.confirm=Mohon periksa persetujuan...
+
+changelog.title=Apa saja yang diganti / baru?
+changelog.desc=Pembaruan AROMA Installer

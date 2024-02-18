@@ -1,0 +1,48 @@
+<@center><b><#selectbg_g>ENGLISH</#></b>
+
+<@center><b><#selectbg_g>TheOneMemory Kernel</#></b>
+
+<b><#selectbg_g>Some Messages from me :</#></b></@>
+
+<@fill><q>
+TheOneMemory Kernel is made with love by @dotkit 
+which he's trying to give good experience for 
+any users :) .
+ 
+U can manage this kernel what do u want 
+with Spectrum (if Supported) or other 
+Kernel Managers like FKM & SmartPack.
+
+<b>
+And always Read Info. Latest Version Doesn't mean 
+more better and Using much modules sometimes
+will not make ur Perf more better .
+</b>
+
+Thank You for choosing this Kernel !. </q></@>
+
+<@center><b><#selectbg_g>INDONESIA</#></b>
+
+<@center><b><#selectbg_g>Kernel Meow</#></b>
+
+<b><#selectbg_g>Sedikit Pesan dari gw :</#></b></@>
+
+<@fill><q>
+Kernel TheOneMemory dibuat dengan cinta dari
+@dotkit (ANJING AWOKAWOKAWOK), yang
+dimana dia mencoba untuk memberikan
+pengalaman terbaik bagi pengguna yg terobsesi ingin menjadi pro player.
+ 
+Agan dapat mengatur kernel dengan
+Spectrum (jika didukung) atau
+Manajer Kernel lainnya seperti
+FKM & SmartPack.
+
+<b>
+Dan selalu baca info. Versi terakhir belum tentu
+paling bagus, dan menggunakan banyak modul terkadang
+tidak membuat performa lebih baik
+</b>
+
+Terima Kasih telah memilih Kernel ini !. </q></@>
+

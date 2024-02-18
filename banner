@@ -9,13 +9,3 @@ $$$$$$$$\  $$$$$$\  $$\      $$\
 ===============================================
                      WELCOME
 ===============================================
- - Device              : X00T/D (Zenfone Max Pro  M1)
- - Maintainer          : @fakedotkit
- - Supported Android   : 11.0 - 14.0
- ===============================================
-                     NOTES
-===============================================
- - KernelSU is enabled by default
- - if you used magisk before then kernelsu will not be active
- - Uninstall Magisk first then re-flash the kernel.
-===============================================
