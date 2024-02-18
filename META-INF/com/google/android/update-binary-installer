@@ -292,22 +292,30 @@ abort() {
 do_devicecheck() {
   [ "$(file_getprop anykernel.sh do.devicecheck)" == 1 ] || return 1;
   local device devicename match product testname vendordevice vendorproduct;
-  ui_print "Checking device...";
+  if [ "$REG" = "IDN" ];then
+  ui_print "- Memeriksa Perangkat ...";
+  elif [ "$REG" = "EN" ];then
+  ui_print "- Checking Device ...";
+  fi;
   device=$(getprop ro.product.device 2>/dev/null);
   product=$(getprop ro.build.product 2>/dev/null);
   vendordevice=$(getprop ro.product.vendor.device 2>/dev/null);
   vendorproduct=$(getprop ro.vendor.product.device 2>/dev/null);
-  for testname in $(grep '^device.name.*=' anykernel.sh | cut -d= -f2-); do
+  for testname in $($BB grep '^device.name.*=' anykernel.sh | $BB cut -d= -f2-); do
     for devicename in $device $product $vendordevice $vendorproduct; do
       if [ "$devicename" == "$testname" ]; then
-        ui_print "$testname" " ";
+        ui_print "- OK ! ";
         match=1;
         break 2;
       fi;
     done;
   done;
   if [ ! "$match" ]; then
-    abort " " "Unsupported device. Aborting...";
+	if [ "$REG" = "IDN" ];then
+	abort "! Perangkat tidak didukung , Perangkat ini adalah $devicename . Membatalkan... !";
+	elif [ "$REG" = "EN" ];then
+    abort "! Unsupported device , This Device is $devicename . Aborting... !";
+	fi;
   fi;
 }
 int2ver() {
@@ -322,28 +330,38 @@ int2ver() {
 do_versioncheck() {
   [ "$(file_getprop anykernel.sh supported.versions)" ] || return 1;
   local android_ver hi_ver lo_ver parsed_ver supported supported_ver;
-  ui_print "Checking Android version...";
-  supported_ver=$(file_getprop anykernel.sh supported.versions | tr -d '[:space:]');
+  supported_ver=$(file_getprop anykernel.sh supported.versions | $BB tr -d '[:space:]');
   android_ver=$(file_getprop /system/build.prop ro.build.version.release);
   parsed_ver=$(int2ver $android_ver);
-  if echo $supported_ver | grep -q '-'; then
-    lo_ver=$(int2ver "$(echo $supported_ver | cut -d- -f1)");
-    hi_ver=$(int2ver "$(echo $supported_ver | cut -d- -f2)");
-    if echo -e "$hi_ver\n$lo_ver\n$parsed_ver" | sort -g | grep -n "$parsed_ver" | grep -q '^2:'; then
+  if echo $supported_ver | $BB grep -q '-'; then
+    lo_ver=$(int2ver "$(echo $supported_ver | $BB cut -d- -f1)");
+    hi_ver=$(int2ver "$(echo $supported_ver | $BB cut -d- -f2)");
+    if echo -e "$hi_ver\n$lo_ver\n$parsed_ver" | $BB sort -g | $BB grep -n "$parsed_ver" | $BB grep -q '^2:'; then
       supported=1;
     fi;
   else
-    for ver in $(echo $supported_ver | sed 's;,; ;g'); do
+    for ver in $(echo $supported_ver | $BB sed 's;,; ;g'); do
       if [ "$(int2ver $ver)" == "$parsed_ver" ]; then
         supported=1;
         break;
       fi;
     done;
   fi;
+  if [ "$REG" = "IDN" ];then
+  ui_print "- Memeriksa Versi Android...";
+  ui_print "- Versi Android: $android_ver ";
+  elif [ "$REG" = "EN" ];then
+  ui_print "- Checking Android Version...";
+  ui_print "- Android Version: $android_ver ";
+  fi;
   if [ "$supported" ]; then
-    ui_print "$android_ver" " ";
+	ui_print "- OK !";
   else
-    abort " " "Unsupported Android version. Aborting...";
+	if [ "$REG" = "IDN" ];then
+	abort "! Versi Android tidak Kompatibel, Kernel ini hanya untuk Android $supported_ver saja . Membatalkan... !";
+	elif [ "$REG" = "EN" ];then
+    abort "! Unsupported Android version, This kernel only for Android $supported_ver . Aborting... !";
+	fi;
   fi;
 }
 do_levelcheck() {
@@ -523,7 +541,522 @@ do_modules() {
   cd $AKHOME;
 }
 
-show_progress 1.34 25;
+DoneProcess(){
+if [ "$REG" = "IDN" ];then
+ui_print "- Selesai";
+elif [ "$REG" = "EN" ];then
+ui_print "- Done";
+fi;
+}
+
+AddSpectrum(){
+# custom script for spectrum
+  $BB mount -o rw,remount -t auto /system;
+  $BB mount -o rw,remount -t auto /vendor 2>/dev/null;
+  
+if [ "`$BB grep -w "selected.1=1" /tmp/aroma-data/spectrum.prop`" ] && [ -e $AKHOME/spectrum/init.spectrum.rc ];then
+  cd $AKHOME;
+
+  # add spectrum support
+  if [ "$REG" = "IDN" ];then
+  ui_print "- Mencadangkan Skrip Lama...";
+  elif [ "$REG" = "EN" ];then
+  ui_print "- Backing up Old Script in Progress...";
+  fi;
+    if [ ! -e /vendor/etc/init/hw/init.qcom.rc.backup ];then
+      cp -af /vendor/etc/init/hw/init.qcom.rc /vendor/etc/init/hw/init.qcom.rc.backup
+    fi
+    if [ ! -e /vendor/etc/init/hw/init.spectrum.rc.backup ];then
+      cp -af /vendor/etc/init/hw/init.spectrum.rc /vendor/etc/init/hw/init.spectrum.rc.backup
+    fi
+	if [ "$REG" = "IDN" ];then
+	ui_print "- Menambal init.qcom.rc...";
+	elif [ "$REG" = "EN" ];then
+	ui_print "- Patching init.qcom.rc...";
+	fi;
+    grep "import /init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import \/init.spectrum.rc/d' /vendor/etc/init/hw/init.qcom.rc
+    grep "import init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import init.spectrum.rc/d' /vendor/etc/init/hw/init.qcom.rc
+    grep "import /vendor/etc/init/hw/init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null || sed -i '1,/.*import.*/s/.*import.*/import \/vendor\/etc\/init\/hw\/init.spectrum.rc\n&/' /vendor/etc/init/hw/init.qcom.rc
+    if [ "$REG" = "IDN" ];then
+	ui_print "- Menambal Skrip Spektrum...";
+	elif [ "$REG" = "EN" ];then
+	ui_print "- Patching Spectrum Script...";
+	fi
+	cp -af $AKHOME/spectrum/init.spectrum.rc /vendor/etc/init/hw/
+    chmod -R 644 /vendor/etc/init/hw/init.spectrum.rc
+	cp -af $AKHOME/spectrum/init.spectrum.sh /vendor/bin/
+    chmod -R 755 /vendor/bin/init.spectrum.sh
+    # cprofile remover
+    if [ -e /system/xbin/cprofile ];then
+      rm -rf /system/xbin/cprofile
+      ui_print "remove /system/xbin/cprofile"
+    fi
+    if [ -e /system/bin/cprofile ];then
+      rm -rf /system/bin/cprofile
+      ui_print "remove /system/bin/cprofile"
+    fi
+    if [ -e /vendor/bin/cprofile ];then
+      rm -rf /vendor/bin/cprofile
+      ui_print "remove /vendor/bin/cprofile"
+    fi
+    if [ -e /system/init.spectrum.rc ];then
+      rm -rf /system/init.spectrum.rc
+      ui_print "remove /system/init.spectrum.rc"
+    fi
+    if [ -e /system/init.spectrum.sh ];then
+      rm -rf /system/init.spectrum.sh
+      ui_print "remove /system/init.spectrum.sh"
+	fi
+  elif [ "`$BB grep -w "selected.1=2" /tmp/aroma-data/spectrum.prop`" ] || [ ! -e $AKHOME/spectrum/init.spectrum.rc ];then
+    if [ -e /vendor/etc/init/hw/init.spectrum.rc ];then
+	  if [ "$REG" = "IDN" ];then
+	  ui_print "- Menghapus Skrip Spectrum Lama..."
+	  elif [ "$REG" = "EN" ];then
+	  ui_print "- Removing old Spectrum Script..."
+	  fi
+      rm -rf /vendor/etc/init/hw/init.spectrum.rc
+	  if [ -e /vendor/bin/init.spectrum.sh ];then
+      rm -rf /vendor/bin/init.spectrum.sh
+      fi
+    fi
+    if [ -e /vendor/etc/init/hw/init.qcom.rc.backup ];then
+      cp -af /vendor/etc/init/hw/init.qcom.rc.backup /vendor/etc/init/hw/init.qcom.rc
+      rm -rf /vendor/etc/init/hw/init.qcom.rc.backup
+      grep "import /vendor/etc/init/hw/init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import \/vendor\/etc\/init\/hw\/init.spectrum.rc/d' /vendor/etc/init/hw/init.qcom.rc
+    fi
+  fi
+  $BB mount -o ro,remount -t auto /system;
+  $BB mount -o ro,remount -t auto /vendor 2>/dev/null;
+}
+
+RestorePerfHAL() {
+	$BB mount -o rw,remount -t auto /system;
+    $BB mount -o rw,remount -t auto /vendor 2>/dev/null;
+	
+	if [ -f /vendor/etc/perf/targetresourceconfigs.xml.bkp ] || [ -f /vendor/etc/perf/targetconfig.xml.bkp ] || [ -f /vendor/etc/perf/perfboostsconfig.xml.bkp ] || [ -f /vendor/etc/perf/commonresourceconfigs.xml.bkp ];then
+	if [ "$REG" = "IDN" ];then
+    ui_print "- Mengembalikan Perf HAL lama...";
+    elif [ "$REG" = "EN" ];then
+    ui_print "- Restoring old Perf HAL...";
+    fi;
+	mv -f /vendor/etc/perf/targetresourceconfigs.xml.bkp /vendor/etc/perf/targetresourceconfigs.xml
+	mv -f /vendor/etc/perf/targetconfig.xml.bkp /vendor/etc/perf/targetconfig.xml
+	mv -f /vendor/etc/perf/perfboostsconfig.xml.bkp /vendor/etc/perf/perfboostsconfig.xml
+	mv -f /vendor/etc/perf/commonresourceconfigs.xml.bkp /vendor/etc/perf/commonresourceconfigs.xml
+	rm -f /vendor/etc/perf/perfconfigstore.xml
+	if [ "`$BB grep -w "selected.2=4" /tmp/aroma-data/spectrum.prop`" ]; then
+	DoneProcess
+	fi
+	else
+	if [ "$REG" = "IDN" ];then
+    ui_print "! Perf HAL Lama tidak ditemukan. !";
+    elif [ "$REG" = "EN" ];then
+    ui_print "! Old Perf HAL not found. !";
+    fi;
+	if [ "`$BB grep -w "selected.2=4" /tmp/aroma-data/spectrum.prop`" ]; then
+	if [ "$REG" = "IDN" ];then
+    abort "- Membatalkan...";
+    elif [ "$REG" = "EN" ];then
+    abort "- Aborting...";
+    fi;
+	fi;
+	fi;
+  $BB mount -o ro,remount -t auto /system;
+  $BB mount -o ro,remount -t auto /vendor 2>/dev/null;
+}
+
+refreshrate() {
+if [ "`$BB grep -w "selected.3=1" /tmp/aroma-data/refrate.prop`" ];then
+RR=48
+elif [ "`$BB grep -w "selected.3=2" /tmp/aroma-data/refrate.prop`" ];then
+RR=50
+elif [ "`$BB grep -w "selected.3=3" /tmp/aroma-data/refrate.prop`" ];then
+RR=55
+elif [ "`$BB grep -w "selected.3=5" /tmp/aroma-data/refrate.prop`" ];then
+RR=62
+elif [ "`$BB grep -w "selected.3=6" /tmp/aroma-data/refrate.prop`" ];then
+RR=64
+elif [ "`$BB grep -w "selected.3=7" /tmp/aroma-data/refrate.prop`" ];then
+RR=65
+elif [ "`$BB grep -w "selected.3=8" /tmp/aroma-data/refrate.prop`" ];then
+RR=67
+elif [ "`$BB grep -w "selected.3=9" /tmp/aroma-data/refrate.prop`" ];then
+RR=68
+elif [ "`$BB grep -w "selected.3=10" /tmp/aroma-data/refrate.prop`" ];then
+RR=69
+elif [ "`$BB grep -w "selected.3=11" /tmp/aroma-data/refrate.prop`" ];then
+RR=70
+elif [ "`$BB grep -w "selected.3=12" /tmp/aroma-data/refrate.prop`" ];then
+RR=72
+else
+RR=60
+fi
+
+dtc=$AKHOME/tools/dtc
+dtp=$AKHOME/tools/dtp
+screen=$RR
+$BB dd if=/dev/block/bootdevice/by-name/boot of=$AKHOME/tools/boot.img
+
+ui_print "- Refresh Rate: $screen Hz.";
+
+if [ "$RR" = "60" ]; then
+if [ "$REG" = "IDN" ];then
+ui_print "- Melompati Modifikasi Refresh Rate ...";
+elif [ "$REG" = "EN" ];then
+ui_print "- Skipping Refresh Rate Modification ...";
+fi;
+else
+if [ "$REG" = "IDN" ];then
+ui_print "- Memodifikasi Refresh Rate ...";
+elif [ "$REG" = "EN" ];then
+ui_print "- Modifying Refresh Rate ...";
+fi;
+$AKHOME/tools/magiskboot unpack $AKHOME/tools/boot.img
+$dtp -i kernel_dtb
+if [ "$?" != "0" ]; then
+abortrefrate=1
+else
+# decompile dtb
+dtb_count=$(ls -lh kernel_dtb-* | wc -l)
+board_id=$($BB cat /proc/device-tree/qcom,board-id | $BB xxd -p | $BB xargs echo | $BB sed 's/ //g' | $BB sed 's/.\{8\}/&\n/g' | $BB sed 's/^0\{6\}/0x/g' | $BB sed 's/^0\{5\}/0x/g' | $BB sed 's/^0\{4\}/0x/g' | $BB sed 's/^0\{3\}/0x/g' | $BB sed 's/^0\{2\}/0x/g' | $BB sed 's/^0\{1\}x*/0x/g' | $BB tr '\n' ' ' | $BB sed 's/ *$/\n/g')
+msm_id=$($BB cat /proc/device-tree/qcom,msm-id | $BB xxd -p | $BB xargs echo | $BB sed 's/ //g' | $BB sed 's/.\{8\}/&\n/g' | $BB sed 's/^0\{6\}/0x/g' | $BB sed 's/^0\{5\}/0x/g' | $BB sed 's/^0\{4\}/0x/g' | $BB sed 's/^0\{3\}/0x/g' | $BB sed 's/^0\{2\}/0x/g' | $BB sed 's/^0\{1\}x*/0x/g' | $BB tr '\n' ' ' | $BB sed 's/ *$/\n/g')
+
+i=0
+while [ $i -lt $dtb_count ]; do
+	$dtc -q -I dtb -O dts kernel_dtb-$i -o $AKHOME/tools/kernel_dtb_$i.dts
+	dts_board_id=$($BB cat $AKHOME/tools/kernel_dtb_$i.dts | $BB grep qcom,board-id | $BB sed -e 's/[\t]*qcom,board-id = <//g' | $BB sed 's/>;//g')
+	dts_msm_id=$($BB cat $AKHOME/tools/kernel_dtb_$i.dts | $BB grep qcom,msm-id | $BB sed -e 's/[\t]*qcom,msm-id = <//g' | $BB sed 's/>;//g')
+	if [ "$dts_board_id" = "$board_id" ] && [ "$dts_msm_id" = "$msm_id" ]; then
+		break
+	fi
+	$BB rm -f $AKHOME/tools/kernel_dtb_$i.dts
+	i=$((i + 1))
+done
+fi
+case $i in
+$dtb_count)
+abortrefrate=1
+;;
+esac
+
+if [ "$abortrefrate" = "1" ]; then
+if [ "$REG" = "IDN" ];then
+ui_print "- Gagal Memodifikasi Refresh Rate ...";
+elif [ "$REG" = "EN" ];then
+ui_print "- Failed to Modify Refresh Rate ...";
+fi;
+else
+# screen refresh rate
+srr=qcom,mdss-dsi-panel-framerate
+max_srr=qcom,mdss-dsi-max-refresh-rate
+nsrr_=$(printf "0x%x" $screen)
+$BB sed -i "s/$srr = <[^)]*>/$srr = <$nsrr_>/g" $AKHOME/tools/kernel_dtb_$i.dts
+$BB sed -i "s/$max_srr = <[^)]*>/$max_srr = <$nsrr_>/g" $AKHOME/tools/kernel_dtb_$i.dts
+
+# compile dts to dtb
+$dtc -q -I dts -O dtb $AKHOME/tools/kernel_dtb_$i.dts -o kernel_dtb-$i
+
+# generate new dtb
+i=0
+> kernel_dtb
+while [ $i -lt $dtb_count ]; do
+	$BB cat kernel_dtb-$i >> kernel_dtb
+	i=$((i + 1))
+done
+
+$AKHOME/tools/magiskboot repack $AKHOME/tools/boot.img
+$BB dd if=new-boot.img of=/dev/block/bootdevice/by-name/boot
+$BB rm -f kernel_dtb-*
+$BB rm -f new-boot.img
+fi
+fi
+}
+
+DoubleTapWake() {
+$BB mount -o rw,remount -t auto /system;
+$BB mount -o rw,remount -t auto /vendor 2>/dev/null;
+	
+if [ "`$BB grep -w "selected.2=1" /tmp/aroma-data/spectrum.prop`" ]; then
+	if [ "$REG" = "IDN" ];then
+	ui_print "- Menghidupkan Paksa DT2W ...";
+	elif [ "$REG" = "EN" ];then
+	ui_print "- Force Enabling DT2W ...";
+	fi;
+	DTTWScriptFile="/tmp/dttwpatch"
+	DTTWInitFile="/tmp/dttwinit"
+	$BB echo '#!/system/bin/sh' >> $DTTWScriptFile
+	$BB echo '' >> $DTTWScriptFile
+	$BB echo '# DT2W Enabler Script by RyuujiX' >> $DTTWScriptFile
+	$BB echo '# Refined by sandatjepil' >> $DTTWScriptFile
+	$BB echo '' >> $DTTWScriptFile
+    $BB echo 'if [[ -f "/proc/touchpanel/double_tap_enable" ]]; then' >> $DTTWScriptFile
+    $BB echo '  for dttw in $(find /proc/touchpanel -name "*enable"); do' >> $DTTWScriptFile
+    $BB echo '    chmod -R 644 "$dttw"' >> $DTTWScriptFile
+    $BB echo '    echo 1 > "$dttw"' >> $DTTWScriptFile
+    $BB echo '  done' >> $DTTWScriptFile
+    $BB echo 'elif [[ -f "/sys/kernel/touchpanel/dclicknode" ]]; then' >> $DTTWScriptFile
+    $BB echo '  chmod -R 644 /sys/kernel/touchpanel/dclicknode' >> $DTTWScriptFile
+    $BB echo '  echo 1 > "/sys/kernel/touchpanel/dclicknode"' >> $DTTWScriptFile
+    $BB echo 'elif [[ -f "/proc/tpd_gesture" ]]; then' >> $DTTWScriptFile
+    $BB echo '  chmod -R 644 /proc/tpd_gesture' >> $DTTWScriptFile
+    $BB echo '  echo 1 > "/proc/tpd_gesture"' >> $DTTWScriptFile
+    $BB echo 'fi' >> $DTTWScriptFile
+	$BB echo '# DT2W Enabler Patch Init by RyuujiX' >> $DTTWInitFile
+	$BB echo '# Refined by sandatjepil' >> $DTTWInitFile
+	$BB echo '' >> $DTTWInitFile
+	$BB echo 'on boot' >> $DTTWInitFile
+	$BB echo 'chmod 0644 /proc/tpd_gesture' >> $DTTWInitFile
+	$BB echo 'write /proc/tpd_gesture 1' >> $DTTWInitFile
+	$BB echo 'chmod 0644 /sys/kernel/touchpanel/dclicknode' >> $DTTWInitFile
+	$BB echo 'write /sys/kernel/touchpanel/dclicknode 1' >> $DTTWInitFile
+	$BB echo 'chmod 0644 /proc/touchpanel/double_tap_enable' >> $DTTWInitFile
+	$BB echo 'write /proc/touchpanel/double_tap_enable 1' >> $DTTWInitFile
+	$BB echo '  exec u:r:init:s0 root root -- /vendor/bin/patch_dttw.sh' >> $DTTWInitFile
+	$BB echo '  exec u:r:su:s0 root root -- /vendor/bin/patch_dttw.sh' >> $DTTWInitFile
+	$BB echo '' >> $DTTWInitFile
+	$BB echo 'on property:sys.boot_completed=1' >> $DTTWInitFile
+	$BB echo 'chmod 0644 /proc/tpd_gesture' >> $DTTWInitFile
+	$BB echo 'write /proc/tpd_gesture 1' >> $DTTWInitFile
+	$BB echo 'chmod 0644 /sys/kernel/touchpanel/dclicknode' >> $DTTWInitFile
+	$BB echo 'write /sys/kernel/touchpanel/dclicknode 1' >> $DTTWInitFile
+	$BB echo 'chmod 0644 /proc/touchpanel/double_tap_enable' >> $DTTWInitFile
+	$BB echo 'write /proc/touchpanel/double_tap_enable 1' >> $DTTWInitFile
+	$BB echo '  exec u:r:init:s0 root root -- /vendor/bin/patch_dttw.sh' >> $DTTWInitFile
+	$BB echo '  exec u:r:su:s0 root root -- /vendor/bin/patch_dttw.sh' >> $DTTWInitFile
+	cp -af $DTTWInitFile /vendor/etc/init/hw/init.forcedttw.rc
+    chmod -R 644 /vendor/etc/init/hw/init.forcedttw.rc
+	cp -af $DTTWScriptFile /vendor/bin/patch_dttw.sh
+    chmod -R 755 /vendor/bin/patch_dttw.sh
+	grep "import /init.forcedttw.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import \/init.forcedttw.rc/d' /vendor/etc/init/hw/init.qcom.rc
+    grep "import init.forcedttw.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import init.forcedttw.rc/d' /vendor/etc/init/hw/init.qcom.rc
+    grep "import /vendor/etc/init/hw/init.forcedttw.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null || sed -i '1,/.*import.*/s/.*import.*/import \/vendor\/etc\/init\/hw\/init.forcedttw.rc\n&/' /vendor/etc/init/hw/init.qcom.rc
+elif [ "`$BB grep -w "selected.2=2" /tmp/aroma-data/spectrum.prop`" ]; then
+	if [ "$REG" = "IDN" ];then
+	ui_print "- Mematikan Paksa DT2W ...";
+	elif [ "$REG" = "EN" ];then
+	ui_print "- Force Disabling DT2W ...";
+	fi;
+	DTTWScriptFile="/tmp/dttwpatch"
+	DTTWInitFile="/tmp/dttwinit"
+	$BB echo '#!/system/bin/sh' >> $DTTWScriptFile
+	$BB echo '' >> $DTTWScriptFile
+	$BB echo '# DT2W Disabler Script by sandatjepil' >> $DTTWScriptFile
+	$BB echo '' >> $DTTWScriptFile
+    $BB echo 'if [[ -f "/proc/touchpanel/double_tap_enable" ]]; then' >> $DTTWScriptFile
+    $BB echo '  for dttw in $(find /proc/touchpanel -name "*enable"); do' >> $DTTWScriptFile
+    $BB echo '    chmod -R 644 "$dttw"' >> $DTTWScriptFile
+    $BB echo '    echo 0 > "$dttw"' >> $DTTWScriptFile
+    $BB echo '  done' >> $DTTWScriptFile
+    $BB echo 'elif [[ -f "/sys/kernel/touchpanel/dclicknode" ]]; then' >> $DTTWScriptFile
+    $BB echo '  chmod -R 644 /sys/kernel/touchpanel/dclicknode' >> $DTTWScriptFile
+    $BB echo '  echo 0 > "/sys/kernel/touchpanel/dclicknode"' >> $DTTWScriptFile
+    $BB echo 'elif [[ -f "/proc/tpd_gesture" ]]; then' >> $DTTWScriptFile
+    $BB echo '  chmod -R 644 /proc/tpd_gesture' >> $DTTWScriptFile
+    $BB echo '  echo 0 > "/proc/tpd_gesture"' >> $DTTWScriptFile
+    $BB echo 'fi' >> $DTTWScriptFile
+	$BB echo '# DT2W Disabler Patch Init by RyuujiX' >> $DTTWInitFile
+	$BB echo '# Refined by sandatjepil' >> $DTTWInitFile
+	$BB echo '' >> $DTTWInitFile
+	$BB echo 'on boot' >> $DTTWInitFile
+	$BB echo 'chmod 0644 /proc/tpd_gesture' >> $DTTWInitFile
+	$BB echo 'write /proc/tpd_gesture 0' >> $DTTWInitFile
+	$BB echo 'chmod 0644 /sys/kernel/touchpanel/dclicknode' >> $DTTWInitFile
+	$BB echo 'write /sys/kernel/touchpanel/dclicknode 0' >> $DTTWInitFile
+	$BB echo 'chmod 0644 /proc/touchpanel/double_tap_enable' >> $DTTWInitFile
+	$BB echo 'write /proc/touchpanel/double_tap_enable 0' >> $DTTWInitFile
+	$BB echo 'chmod 0644 /proc/touchpanel/letter_c_enable' >> $DTTWInitFile
+	$BB echo 'write /proc/touchpanel/letter_c_enable 0' >> $DTTWInitFile
+	$BB echo 'chmod 0644 /proc/touchpanel/letter_e_enable' >> $DTTWInitFile
+	$BB echo 'write /proc/touchpanel/letter_e_enable 0' >> $DTTWInitFile
+	$BB echo 'chmod 0644 /proc/touchpanel/letter_s_enable' >> $DTTWInitFile
+	$BB echo 'write /proc/touchpanel/letter_s_enable 0' >> $DTTWInitFile
+	$BB echo 'chmod 0644 /proc/touchpanel/letter_v_enable' >> $DTTWInitFile
+	$BB echo 'write /proc/touchpanel/letter_v_enable 0' >> $DTTWInitFile
+	$BB echo 'chmod 0644 /proc/touchpanel/letter_w_enable' >> $DTTWInitFile
+	$BB echo 'write /proc/touchpanel/letter_w_enable 0' >> $DTTWInitFile
+	$BB echo 'chmod 0644 /proc/touchpanel/letter_z_enable' >> $DTTWInitFile
+	$BB echo 'write /proc/touchpanel/letter_z_enable 0' >> $DTTWInitFile
+	$BB echo 'chmod 0644 /proc/touchpanel/up_swipe_enable' >> $DTTWInitFile
+	$BB echo 'write /proc/touchpanel/up_swipe_enable 0' >> $DTTWInitFile
+	$BB echo '  exec u:r:init:s0 root root -- /vendor/bin/patch_dttw.sh' >> $DTTWInitFile
+	$BB echo '  exec u:r:su:s0 root root -- /vendor/bin/patch_dttw.sh' >> $DTTWInitFile
+	$BB echo '' >> $DTTWInitFile
+	$BB echo 'on property:sys.boot_completed=1' >> $DTTWInitFile
+	$BB echo 'chmod 0644 /proc/tpd_gesture' >> $DTTWInitFile
+	$BB echo 'write /proc/tpd_gesture 0' >> $DTTWInitFile
+	$BB echo 'chmod 0644 /sys/kernel/touchpanel/dclicknode' >> $DTTWInitFile
+	$BB echo 'write /sys/kernel/touchpanel/dclicknode 0' >> $DTTWInitFile
+	$BB echo 'chmod 0644 /proc/touchpanel/double_tap_enable' >> $DTTWInitFile
+	$BB echo 'write /proc/touchpanel/double_tap_enable 0' >> $DTTWInitFile
+	$BB echo 'chmod 0644 /proc/touchpanel/letter_c_enable' >> $DTTWInitFile
+	$BB echo 'write /proc/touchpanel/letter_c_enable 0' >> $DTTWInitFile
+	$BB echo 'chmod 0644 /proc/touchpanel/letter_e_enable' >> $DTTWInitFile
+	$BB echo 'write /proc/touchpanel/letter_e_enable 0' >> $DTTWInitFile
+	$BB echo 'chmod 0644 /proc/touchpanel/letter_s_enable' >> $DTTWInitFile
+	$BB echo 'write /proc/touchpanel/letter_s_enable 0' >> $DTTWInitFile
+	$BB echo 'chmod 0644 /proc/touchpanel/letter_v_enable' >> $DTTWInitFile
+	$BB echo 'write /proc/touchpanel/letter_v_enable 0' >> $DTTWInitFile
+	$BB echo 'chmod 0644 /proc/touchpanel/letter_w_enable' >> $DTTWInitFile
+	$BB echo 'write /proc/touchpanel/letter_w_enable 0' >> $DTTWInitFile
+	$BB echo 'chmod 0644 /proc/touchpanel/letter_z_enable' >> $DTTWInitFile
+	$BB echo 'write /proc/touchpanel/letter_z_enable 0' >> $DTTWInitFile
+	$BB echo 'chmod 0644 /proc/touchpanel/up_swipe_enable' >> $DTTWInitFile
+	$BB echo 'write /proc/touchpanel/up_swipe_enable 0' >> $DTTWInitFile
+	$BB echo '  exec u:r:init:s0 root root -- /vendor/bin/patch_dttw.sh' >> $DTTWInitFile
+	$BB echo '  exec u:r:su:s0 root root -- /vendor/bin/patch_dttw.sh' >> $DTTWInitFile
+	cp -af $DTTWInitFile /vendor/etc/init/hw/init.forcedttw.rc
+    chmod -R 644 /vendor/etc/init/hw/init.forcedttw.rc
+	cp -af $DTTWScriptFile /vendor/bin/patch_dttw.sh
+    chmod -R 755 /vendor/bin/patch_dttw.sh
+	grep "import /init.forcedttw.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import \/init.forcedttw.rc/d' /vendor/etc/init/hw/init.qcom.rc
+    grep "import init.forcedttw.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import init.forcedttw.rc/d' /vendor/etc/init/hw/init.qcom.rc
+    grep "import /vendor/etc/init/hw/init.forcedttw.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null || sed -i '1,/.*import.*/s/.*import.*/import \/vendor\/etc\/init\/hw\/init.forcedttw.rc\n&/' /vendor/etc/init/hw/init.qcom.rc
+elif [ "`$BB grep -w "selected.2=3" /tmp/aroma-data/spectrum.prop`" ]; then
+	if [ "$REG" = "IDN" ];then
+	ui_print "- Menghapus Paksaan DT2W ...";
+	elif [ "$REG" = "EN" ];then
+	ui_print "- Removing Forced DT2W ...";
+	fi;
+	if [ -e /vendor/etc/init/hw/init.forcedttw.rc ]; then
+	rm -rf /vendor/etc/init/hw/init.forcedttw.rc
+	rm -rf /vendor/bin/patch_dttw.sh
+	else
+	if [ "$REG" = "IDN" ];then
+    ui_print "! Skrip Paksaan DT2W tidak ditemukan. !";
+    elif [ "$REG" = "EN" ];then
+    ui_print "! Force DT2W Script not found. !";
+    fi;
+	fi;
+fi;
+
+  $BB mount -o ro,remount -t auto /system;
+  $BB mount -o ro,remount -t auto /vendor 2>/dev/null;
+
+if [ "`$BB grep -w "selected.1=2" /tmp/aroma-data/dummy.prop`" ]; then
+DoneProcess
+fi;
+}
+
+PatchRAM(){
+$BB mount -o rw,remount -t auto /system;
+$BB mount -o rw,remount -t auto /vendor 2>/dev/null;
+
+if [ "`$BB grep -w "selected.4=1" /tmp/aroma-data/spectrum.prop`" ]; then
+	if [ "$REG" = "IDN" ];then
+    ui_print "- Menghapus Tambalan RAM...";
+    elif [ "$REG" = "EN" ];then
+    ui_print "- Removing RAM Patch...";
+    fi;
+	
+	if [ -e /vendor/etc/init/hw/init.rampatch.rc ]; then
+	rm -f /vendor/etc/init/hw/init.rampatch.rc
+	rm -f /vendor/bin/patch_ram.sh
+	elif [ -e /data/adb/service.d/12_ryuu_ram_patch ]; then
+	rm -f /data/adb/service.d/12_ryuu_ram_patch
+	else
+	if [ "$REG" = "IDN" ];then
+    ui_print "! Tambalan RAM tidak ditemukan. !";
+    elif [ "$REG" = "EN" ];then
+    ui_print "! RAM Patch not found. !";
+    fi;
+	fi
+	
+	if [ "`$BB grep -w "selected.1=3" /tmp/aroma-data/dummy.prop`" ]; then
+	DoneProcess
+	fi
+	
+elif [ "`$BB grep -w "selected.4=2" /tmp/aroma-data/spectrum.prop`" ]; then
+RAMPatchMode="Magisk"
+elif [ "`$BB grep -w "selected.4=3" /tmp/aroma-data/spectrum.prop`" ]; then
+RAMPatchMode="Init"
+fi
+if [ ! -z "$RAMPatchMode" ];then
+RealTotalRAM="$($BB awk '/MemTotal/ { print $2 }' /proc/meminfo | cut -c -2)"
+RAMScriptFile="/tmp/rampatch"
+RAMInitFile="/tmp/raminit"
+
+if [ "$RealTotalRAM" -lt "30" ] || [ "$RealTotalRAM" == "30" ];then
+	TotalRAM="3"
+	MinFreeValue="1536,2048,4096,5120,10240,15000"
+else
+	if [ "$RealTotalRAM" -gt "30" ] && [ "$RealTotalRAM" -lt "40" ] || [ "$RealTotalRAM" == "40" ];then
+	TotalRAM="4"
+	elif [ "$RealTotalRAM" -gt "40" ] && [ "$RealTotalRAM" -lt "60" ] || [ "$RealTotalRAM" == "60" ];then
+	TotalRAM="6"
+	fi
+	MinFreeValue="25600,34560,38400,52224,71680,84480"
+fi
+
+	if [ "$REG" = "IDN" ];then
+	ui_print "- Total RAM: $TotalRAM GB"
+	ui_print "- Menambal RAM ($RAMPatchMode) ...";
+	elif [ "$REG" = "EN" ];then
+	ui_print "- RAM Total: $TotalRAM GB"
+	ui_print "- Patching RAM ($RAMPatchMode) ...";
+	fi;
+
+$BB echo '#! /system/bin/sh' >> $RAMScriptFile
+$BB echo '' >> $RAMScriptFile
+$BB echo '# RAM Patch Script by RyuujiX' >> $RAMScriptFile
+$BB echo "# Inspired from R0thbaby's and Pk's RAM Patch" >> $RAMScriptFile
+$BB echo '' >> $RAMScriptFile
+$BB echo '# Set LMK Parameters' >> $RAMScriptFile
+$BB echo "echo '$MinFreeValue' > /sys/module/lowmemorykiller/parameters/minfree" >> $RAMScriptFile
+$BB echo '# Disabling LMK Parameters that will cause parameters to be modified.' >> $RAMScriptFile
+$BB echo "chmod -R 444 /sys/module/lowmemorykiller/parameters/*" >> $RAMScriptFile
+if [ "$RAMPatchMode" = "Magisk" ];then
+if [ ! -e /data/adb/service.d ]; then
+mkdir -p /data/adb/service.d
+chmod -R 755 /data/adb/service.d
+else
+rm -f /data/adb/service.d/12_ryuu_ram_patch
+fi
+mv -f $RAMScriptFile /data/adb/service.d/12_ryuu_ram_patch
+chmod -R 755 /data/adb/service.d/12_ryuu_ram_patch
+elif [ "$RAMPatchMode" = "Init" ];then
+$BB echo '# RAM Patch Init by RyuujiX' >> $RAMInitFile
+$BB echo "# Inspired from R0thbaby's and Pk's RAM Patch" >> $RAMInitFile
+$BB echo '' >> $RAMInitFile
+$BB echo 'on boot' >> $RAMInitFile
+$BB echo '  # Set LMK Parameters' >> $RAMInitFile
+$BB echo "  write /sys/module/lowmemorykiller/parameters/minfree $MinFreeValue" >> $RAMInitFile
+$BB echo '  # Disabling LMK Parameters that will cause parameters to be modified.' >> $RAMInitFile
+$BB echo "  chmod 0444 /sys/module/lowmemorykiller/parameters/*" >> $RAMInitFile
+$BB echo '  exec u:r:init:s0 root root -- /vendor/bin/patch_ram.sh' >> $RAMInitFile
+$BB echo '  exec u:r:su:s0 root root -- /vendor/bin/patch_ram.sh' >> $RAMInitFile
+$BB echo '' >> $RAMInitFile
+$BB echo 'on property:sys.boot_completed=1' >> $RAMInitFile
+$BB echo '  # Set LMK Parameters' >> $RAMInitFile
+$BB echo "  write /sys/module/lowmemorykiller/parameters/minfree $MinFreeValue" >> $RAMInitFile
+$BB echo '  # Disabling LMK Parameters that will cause parameters to be modified.' >> $RAMInitFile
+$BB echo "  chmod 0444 /sys/module/lowmemorykiller/parameters/*" >> $RAMInitFile
+$BB echo '  exec u:r:init:s0 root root -- /vendor/bin/patch_ram.sh' >> $RAMInitFile
+$BB echo '  exec u:r:su:s0 root root -- /vendor/bin/patch_ram.sh' >> $RAMInitFile
+mv -f $RAMInitFile /vendor/etc/init/hw/init.rampatch.rc
+chmod -R 644 /vendor/etc/init/hw/init.rampatch.rc
+mv -f $RAMScriptFile /vendor/bin/patch_ram.sh
+chmod -R 755 /vendor/bin/patch_ram.sh
+grep "import /init.rampatch.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import \/init.rampatch.rc/d' /vendor/etc/init/hw/init.qcom.rc
+grep "import init.rampatch.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import init.rampatch.rc/d' /vendor/etc/init/hw/init.qcom.rc
+grep "import /vendor/etc/init/hw/init.rampatch.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null || sed -i '1,/.*import.*/s/.*import.*/import \/vendor\/etc\/init\/hw\/init.rampatch.rc\n&/' /vendor/etc/init/hw/init.qcom.rc
+fi
+
+if [ "`$BB grep -w "selected.1=3" /tmp/aroma-data/dummy.prop`" ]; then
+DoneProcess
+fi;
+else
+	if [ "$REG" = "IDN" ];then
+	ui_print "- Melompati Tambal RAM ...";
+	elif [ "$REG" = "EN" ];then
+	ui_print "- Skipping RAM Patch...";
+	fi;
+fi;
+
+$BB mount -o ro,remount -t auto /system;
+$BB mount -o ro,remount -t auto /vendor 2>/dev/null;
+}
+
+show_progress 1.34 4;
 ui_print " ";
 cleanup;
 mkdir -p $AKHOME/bin;
@@ -532,55 +1065,130 @@ unzip -o "$ZIPFILE";
 if [ $? != 0 -o ! "$(ls tools)" ]; then
   abort "Unzip failed. Aborting...";
 fi;
-setup_bb;
+for ARCH32 in x86 arm; do
+  if [ -d $AKHOME/tools/$ARCH32 ]; then
+    BB=$AKHOME/tools/$ARCH32/busybox;
+    chmod 755 $BB;
+    $BB >/dev/null 2>&1;
+    if [ $? == 0 ]; then
+      $BB mv -f $AKHOME/tools/$ARCH32/* $AKHOME/tools;
+      break;
+    fi;
+  fi;
+done;
+BB=$AKHOME/tools/busybox;
+chmod 755 $BB;
+$BB chmod -R 755 tools bin;
+$BB --install -s bin;
 if [ $? != 0 -o -z "$(ls bin)" ]; then
   abort "Busybox setup failed. Aborting...";
 fi;
-OLD_PATH="$PATH";
-export PATH="$AKHOME/bin:$AKHOME/tools:$PATH";
 
+# MultiLanguage Support
+if [ "`$BB grep -w "selected.0=2" /tmp/aroma-data/lang.prop`" ];then
+  REG=IDN;
+else
+  REG=EN;
+fi;
+	
 if [ -f banner ]; then
   ui_printfile banner;
-  ui_print " " " ";
+  ui_print " ";
 fi;
 
 KERNEL_STRING="$(file_getprop anykernel.sh kernel.string)";
-ui_print "$KERNEL_STRING";
+KERNEL_FOR="$(file_getprop anykernel.sh kernel.for)";
+KERNEL_COMPILER="$(file_getprop anykernel.sh kernel.compiler)";
+KERNEL_MADE="$(file_getprop anykernel.sh kernel.made)";
+KERNEL_VERSION="$(file_getprop anykernel.sh kernel.version)";
+KERNEL_TYPE="$(file_getprop anykernel.sh kernel.type)";
+MESSAGE_WORD="$(file_getprop anykernel.sh message.word)";
+BUILD_DATE="$(file_getprop anykernel.sh build.date)";
+DEVICE_NAME="$(file_getprop anykernel.sh device.name3)";
+BUILD_TYPE="$(file_getprop anykernel.sh build.type)";
+if [ "$REG" = "IDN" ];then
+ui_print "-- Nama Kernel    : $KERNEL_STRING";
+ui_print "-- Versi Kernel   : $KERNEL_VERSION";
+ui_print "-- Varian         : $KERNEL_FOR - $KERNEL_TYPE";
+ui_print "-- PengKompilasi  : $KERNEL_COMPILER";
+ui_print "-- Perangkat      : $DEVICE_NAME";
+ui_print "-- Tanggal Build  : $BUILD_DATE";
+ui_print "-- Tipe Build     : $BUILD_TYPE";
+ui_print "-- DiBuild Oleh   : $KERNEL_MADE";
+elif [ "$REG" = "EN" ];then
+ui_print "-- Kernel Name    : $KERNEL_STRING";
+ui_print "-- Kernel Version : $KERNEL_VERSION";
+ui_print "-- Variant        : $KERNEL_FOR - $KERNEL_TYPE";
+ui_print "-- Compiler       : $KERNEL_COMPILER";
+ui_print "-- Device         : $DEVICE_NAME";
+ui_print "-- Build Date     : $BUILD_DATE";
+ui_print "-- Build Type     : $BUILD_TYPE";
+ui_print "-- Builded by     : $KERNEL_MADE";
+fi;
+ui_print "_________________________________________________" " ";
 if [ -f version ]; then
   ui_print " ";
   ui_printfile version;
   ui_print " ";
 fi;
-ui_print " " "AnyKernel3 by osm0sis @ xda-developers" " ";
-grep -oE 'AK_BASE.*' META-INF/com/google/android/updater-script >&2;
-ui_print " ";
 
+if [ "$REG" = "IDN" ];then
+ui_print "- Menyiapkan Pengaturan Lingkungan ...";
+elif [ "$REG" = "EN" ];then
+ui_print "- Preparing Environment Setup ...";
+fi;
 setup_env;
 
+if [ "`$BB grep -w "selected.2=4" /tmp/aroma-data/spectrum.prop`" ]; then
+RestorePerfHAL;
+elif [ "`$BB grep -w "selected.1=2" /tmp/aroma-data/dummy.prop`" ]; then
+DoubleTapWake;
+elif [ "`$BB grep -w "selected.1=3" /tmp/aroma-data/dummy.prop`" ]; then
+PatchRAM;
+else
 do_devicecheck;
 do_versioncheck;
 do_levelcheck;
-do_vendorlevelcheck;
 
-ui_print "Installing...";
-# hack to maintain support for anykernel.sh files that weren't updated correctly along with the AK core
-CORE=$(grep -oE 'ak.*core.sh' anykernel.sh);
-[ -f tools/$CORE ] || ln -s $AKHOME/tools/ak*-core.sh $AKHOME/tools/$CORE;
-ash anykernel.sh;
+if [ "`$BB grep -w "selected.2=1" /tmp/aroma-data/refrate.prop`" ];then
+	if [ "$REG" = "IDN" ];then
+	ui_print "- Mencadangkan Boot.img...";
+	elif [ "$REG" = "EN" ];then
+	ui_print "- Backing up Boot.img ...";
+	fi;
+	mkdir -p /sdcard/BootBackup
+	$BB dd if=/dev/block/bootdevice/by-name/boot of=/sdcard/BootBackup/boot-backup-$(date "+%Y%m%d%H%M%S").img
+fi;
+
+if [ "$REG" = "IDN" ];then
+ui_print "- Memasang Kernel...";
+elif [ "$REG" = "EN" ];then
+ui_print "- Installing Kernel...";
+fi;
+CORE=$($BB grep -oE 'ak.*core.sh' anykernel.sh);
+[ -f tools/$CORE ] || $BB ln -s $AKHOME/tools/ak*-core.sh $AKHOME/tools/$CORE;
+PATH="$AKHOME/bin:$PATH" home=$AKHOME $BB ash anykernel.sh $2;
 if [ $? != 0 ]; then
   abort;
 fi;
 
 do_modules;
 
-debugging;
-ui_print " ";
-restore_env;
+# custom script for add spectrum support to kernel
+AddSpectrum;
+refreshrate;
+DoubleTapWake;
+RestorePerfHAL;
+PatchRAM;
 
+debugging;
+restore_env;
 if [ "$(file_getprop anykernel.sh do.cleanup)" == 1 ]; then
   cleanup;
 fi;
 
-ui_print " " "Done!";
-export PATH="$OLD_PATH";
-unset OLD_PATH OUTFD ZIPFILE;
+DoneProcess
+
+ui_print " " "_________________________________________________";
+ui_print " " "$MESSAGE_WORD" "_________________________________________________" " ";
+fi;
