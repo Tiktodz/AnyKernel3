@@ -4,13 +4,12 @@
 [ "$OUTFD" ] || OUTFD=$1;
 
 # set up working directory variables
-[ "$AKHOME" ] && home=$AKHOME;
-[ "$home" ] || home=$PWD;
-bootimg=$home/boot.img;
-BIN=$home/tools;
-patch=$home/patch;
-ramdisk=$home/ramdisk;
-split_img=$home/split_img;
+[ "$AKHOME" ] || AKHOME=$PWD;
+bootimg=$AKHOME/boot.img;
+BIN=$AKHOME/tools;
+patch=$AKHOME/patch;
+ramdisk=$AKHOME/ramdisk;
+split_img=$AKHOME/split_img;
 
 ### output/testing functions:
 # ui_print "<text>" [...]
@@ -139,7 +138,7 @@ split_boot() {
   if [ $? != 0 -o "$splitfail" ]; then
     abort "Splitting image failed. Aborting...";
   fi;
-  cd $home;
+  cd $AKHOME;
 }
 
 # unpack_ramdisk (extract ramdisk only)
@@ -169,7 +168,7 @@ unpack_ramdisk() {
     fi;
   fi;
 
-  [ -d $ramdisk ] && mv -f $ramdisk $home/rdtmp;
+  [ -d $ramdisk ] && mv -f $ramdisk $AKHOME/rdtmp;
   mkdir -p $ramdisk;
   chmod 755 $ramdisk;
 
@@ -178,8 +177,8 @@ unpack_ramdisk() {
   if [ $? != 0 -o ! "$(ls)" ]; then
     echo "Unpacking ramdisk failed.";
   fi;
-  if [ -d "$home/rdtmp" ]; then
-    cp -af $home/rdtmp/* .;
+  if [ -d "$AKHOME/rdtmp" ]; then
+    cp -af $AKHOME/rdtmp/* .;
   fi;
 }
 ### dump_boot (dump and split image, then extract ramdisk)
@@ -194,7 +193,7 @@ dump_boot() {
 repack_ramdisk() {
   local comp packfail mtktype;
 
-  cd $home;
+  cd $AKHOME;
   if [ "$ramdisk_compression" != "auto" ] && [ "$(grep HEADER_VER $split_img/infotmp | sed -n 's;.*\[\(.*\)\];\1;p')" -gt 3 ]; then
     ui_print " " "Warning: Only lz4-l ramdisk compression is allowed with hdr v4+ images. Resetting to auto...";
     ramdisk_compression=auto;
@@ -213,11 +212,11 @@ repack_ramdisk() {
     mkbootfs $ramdisk > ramdisk-new.cpio;
   else
     cd $ramdisk;
-    find . | cpio -H newc -o > $home/ramdisk-new.cpio;
+    find . | cpio -H newc -o > $AKHOME/ramdisk-new.cpio;
   fi;
   [ $? != 0 ] && packfail=1;
 
-  cd $home;
+  cd $AKHOME;
   if [ ! "$no_magisk_check" ]; then
     magiskboot cpio ramdisk-new.cpio test;
     magisk_patched=$?;
@@ -261,10 +260,10 @@ flash_boot() {
     fi;
   done;
 
-  cd $home;
+  cd $AKHOME;
   for i in zImage zImage-dtb Image Image-dtb Image.gz Image.gz-dtb Image.bz2 Image.bz2-dtb Image.lzo Image.lzo-dtb Image.lzma Image.lzma-dtb Image.xz Image.xz-dtb Image.lz4 Image.lz4-dtb Image.fit; do
     if [ -f $i ]; then
-      kernel=$home/$i;
+      kernel=$AKHOME/$i;
       break;
     fi;
   done;
@@ -277,14 +276,14 @@ flash_boot() {
     kernel=$(ls $split_img/kernel* | grep -v 'kernel_dtb' | tail -n1);
   fi;
   if [ "$(ls ramdisk-new.cpio* 2>/dev/null)" ]; then
-    ramdisk=$home/$(ls ramdisk-new.cpio* | tail -n1);
+    ramdisk=$AKHOME/$(ls ramdisk-new.cpio* | tail -n1);
   elif [ -f "$BIN/mkmtkhdr" -a -f "$split_img/boot.img-base" ]; then
     ramdisk=$split_img/ramdisk.cpio.gz-mtk;
   else
     ramdisk=$(ls $split_img/ramdisk.cpio* 2>/dev/null | tail -n1);
   fi;
   for fdt in dt recovery_dtbo dtb; do
-    for i in $home/$fdt $home/$fdt.img $split_img/$fdt; do
+    for i in $AKHOME/$fdt $AKHOME/$fdt.img $split_img/$fdt; do
       if [ -f $i ]; then
         eval local $fdt=$i;
         break;
@@ -300,20 +299,20 @@ flash_boot() {
       Multi) part1=":$ramdisk";;
       RAMDisk) part0=$ramdisk;;
     esac;
-    mkimage -A $arch -O $os -T $type -C $comp -a $addr -e $ep -n "$name" -d $part0$part1 $home/boot-new.img;
+    mkimage -A $arch -O $os -T $type -C $comp -a $addr -e $ep -n "$name" -d $part0$part1 $AKHOME/boot-new.img;
   elif [ -f "$BIN/elftool" ]; then
     [ "$dt" ] && dt="$dt,rpm";
     [ -f cmdline.txt ] && cmdline="cmdline.txt@cmdline";
-    elftool pack -o $home/boot-new.img header=elftool_out/header $kernel $ramdisk,ramdisk $dt $cmdline;
+    elftool pack -o $AKHOME/boot-new.img header=elftool_out/header $kernel $ramdisk,ramdisk $dt $cmdline;
   elif [ -f "$BIN/mboot" ]; then
     cp -f $kernel kernel;
     cp -f $ramdisk ramdisk.cpio.gz;
-    mboot -d $split_img -f $home/boot-new.img;
+    mboot -d $split_img -f $AKHOME/boot-new.img;
   elif [ -f "$BIN/rkcrc" ]; then
-    rkcrc -k $ramdisk $home/boot-new.img;
+    rkcrc -k $ramdisk $AKHOME/boot-new.img;
   elif [ -f "$BIN/mkbootimg" -a -f "$BIN/unpackelf" -a -f boot.img-base ]; then
     [ "$dt" ] && dt="--dt $dt";
-    mkbootimg --kernel $kernel --ramdisk $ramdisk --cmdline "$cmdline" --base $base --pagesize $pagesize --kernel_offset $kernel_offset --ramdisk_offset $ramdisk_offset --tags_offset "$tags_offset" $dt --output $home/boot-new.img;
+    mkbootimg --kernel $kernel --ramdisk $ramdisk --cmdline "$cmdline" --base $base --pagesize $pagesize --kernel_offset $kernel_offset --ramdisk_offset $ramdisk_offset --tags_offset "$tags_offset" $dt --output $AKHOME/boot-new.img;
   else
     [ "$kernel" ] && cp -f $kernel kernel;
     [ "$ramdisk" ] && cp -f $ramdisk ramdisk.cpio;
@@ -337,8 +336,8 @@ flash_boot() {
           fi;
           # legacy SAR kernel string skip_initramfs -> want_initramfs
           magiskboot hexpatch kernel 736B69705F696E697472616D6673 77616E745F696E697472616D6673;
-          if [ "$(file_getprop $home/anykernel.sh do.modules)" == 1 ] && [ "$(file_getprop $home/anykernel.sh do.systemless)" == 1 ]; then
-            strings kernel 2>/dev/null | grep -E -m1 'Linux version.*#' > $home/vertmp;
+          if [ "$(file_getprop $AKHOME/anykernel.sh do.modules)" == 1 ] && [ "$(file_getprop $AKHOME/anykernel.sh do.systemless)" == 1 ]; then
+            strings kernel 2>/dev/null | grep -E -m1 'Linux version.*#' > $AKHOME/vertmp;
           fi;
           if [ "$comp" ]; then
             magiskboot compress=$comp kernel kernel.$comp;
@@ -353,7 +352,7 @@ flash_boot() {
           for fdt in dtb extra kernel_dtb recovery_dtbo; do
             [ -f $fdt ] && magiskboot dtb $fdt patch; # remove dtb verity/avb
           done;
-        elif [ -d /data/data/me.weishu.kernelsu ] && [ "$(file_getprop $home/anykernel.sh do.modules)" == 1 ] && [ "$(file_getprop $home/anykernel.sh do.systemless)" == 1 ]; then
+        elif [ -d /data/data/me.weishu.kernelsu ] && [ "$(file_getprop $AKHOME/anykernel.sh do.modules)" == 1 ] && [ "$(file_getprop $AKHOME/anykernel.sh do.systemless)" == 1 ]; then
           ui_print " " "KernelSU detected! Setting up for kernel helper module...";
           comp=$(magiskboot decompress kernel 2>&1 | grep -vE 'raw|zimage' | sed -n 's;.*\[\(.*\)\];\1;p');
           (magiskboot split $kernel || magiskboot decompress $kernel kernel) 2>/dev/null;
@@ -363,8 +362,8 @@ flash_boot() {
           fi;
           strings kernel > stringstmp 2>/dev/null;
           if grep -q -E '^/data/adb/ksud$' stringstmp; then
-            touch $home/kernelsu_patched;
-            grep -E -m1 'Linux version.*#' stringstmp > $home/vertmp;
+            touch $AKHOME/kernelsu_patched;
+            grep -E -m1 'Linux version.*#' stringstmp > $AKHOME/vertmp;
             [ -d $ramdisk/overlay.d ] && ui_print " " "Warning: overlay.d detected in ramdisk but not currently supported by KernelSU!";
           else
             ui_print " " "Warning: No KernelSU support detected in kernel!";
@@ -394,15 +393,15 @@ flash_boot() {
       1) export PATCHVBMETAFLAG=true;;
       *) export PATCHVBMETAFLAG=false;;
     esac;
-    magiskboot repack $nocompflag $bootimg $home/boot-new.img;
+    magiskboot repack $nocompflag $bootimg $AKHOME/boot-new.img;
   fi;
   if [ $? != 0 ]; then
     abort "Repacking image failed. Aborting...";
   fi;
   [ "$PATCHVBMETAFLAG" ] && unset PATCHVBMETAFLAG;
-  [ -f .magisk ] && touch $home/magisk_patched;
+  [ -f .magisk ] && touch $AKHOME/magisk_patched;
 
-  cd $home;
+  cd $AKHOME;
   if [ -f "$BIN/futility" -a -d "$BIN/chromeos" ]; then
     if [ -f "$split_img/chromeos" ]; then
       echo "Signing with CHROMEOS..." >&2;
@@ -458,7 +457,7 @@ flash_boot() {
 flash_generic() {
   local avb avbblock avbpath file flags img imgblock imgsz isro isunmounted path;
 
-  cd $home;
+  cd $AKHOME;
   for file in $1 $1.img; do
     if [ -f $file ]; then
       img=$file;
@@ -498,8 +497,8 @@ flash_generic() {
             done;
           done;
           cd $BIN;
-          httools_static patch $1 $home/$img $avbblock || abort "Failed to patch $1 on $avb. Aborting...";
-          cd $home;
+          httools_static patch $1 $AKHOME/$img $avbblock || abort "Failed to patch $1 on $avb. Aborting...";
+          cd $AKHOME;
         fi
       fi
       imgsz=$(wc -c < $img);
@@ -733,7 +732,7 @@ patch_cmdline() {
   if [ -f "$split_img/cmdline.txt" ]; then
     cmdfile=$split_img/cmdline.txt;
   else
-    cmdfile=$home/cmdtmp;
+    cmdfile=$AKHOME/cmdtmp;
     grep "^cmdline=" $split_img/header | cut -d= -f2- > $cmdfile;
   fi;
   if ! grep -q "$1" $cmdfile; then
@@ -744,7 +743,7 @@ patch_cmdline() {
     match=$(grep -o "$1.*$" $cmdfile | cut -d\  -f1);
     sed -i -e "s;${match};${2};" -e 's;^[ \t]*;;' -e 's;  *; ;g' -e 's;[ \t]*$;;' $cmdfile;
   fi;
-  if [ -f "$home/cmdtmp" ]; then
+  if [ -f "$AKHOME/cmdtmp" ]; then
     sed -i "s|^cmdline=.*|cmdline=$(cat $cmdfile)|" $split_img/header;
     rm -f $cmdfile;
   fi;
@@ -781,22 +780,22 @@ patch_ueventd() {
 reset_ak() {
   local current i;
 
-  current=$(dirname $home/*-files/current);
+  current=$(dirname $AKHOME/*-files/current);
   if [ -d "$current" ]; then
-    for i in $bootimg $home/boot-new.img; do
+    for i in $bootimg $AKHOME/boot-new.img; do
       [ -e $i ] && cp -af $i $current;
     done;
     for i in $current/*; do
-      [ -f $i ] && rm -f $home/$(basename $i);
+      [ -f $i ] && rm -f $AKHOME/$(basename $i);
     done;
   fi;
   [ -d $split_img ] && rm -rf $ramdisk;
-  rm -rf $bootimg $split_img $home/*-new* $home/*-files/current;
+  rm -rf $bootimg $split_img $AKHOME/*-new* $AKHOME/*-files/current;
 
   if [ "$1" == "keep" ]; then
-    [ -d $home/rdtmp ] && mv -f $home/rdtmp $ramdisk;
+    [ -d $AKHOME/rdtmp ] && mv -f $AKHOME/rdtmp $ramdisk;
   else
-    rm -rf $patch $home/rdtmp;
+    rm -rf $patch $AKHOME/rdtmp;
   fi;
   if [ ! "$no_block_display" ]; then
     ui_print " ";
@@ -839,7 +838,7 @@ setup_ak() {
   esac;
 
   # clean up any template placeholder files
-  cd $home;
+  cd $AKHOME;
   rm -f modules/system/lib/modules/placeholder patch/placeholder ramdisk/placeholder;
   rmdir -p modules patch ramdisk 2>/dev/null;
 
@@ -927,9 +926,9 @@ setup_ak() {
   # allow multi-partition ramdisk modifying configurations (using reset_ak)
   name=$(basename $block | sed -e 's/_a$//' -e 's/_b$//');
   if [ "$block" ] && [ ! -d "$ramdisk" -a ! -d "$patch" ]; then
-    blockfiles=$home/$name-files;
+    blockfiles=$AKHOME/$name-files;
     if [ "$(ls $blockfiles 2>/dev/null)" ]; then
-      cp -af $blockfiles/* $home;
+      cp -af $blockfiles/* $AKHOME;
     else
       mkdir $blockfiles;
     fi;
