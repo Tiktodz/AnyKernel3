@@ -87,6 +87,15 @@ cd $home
 
 # begin ramdisk changes
 
+# activate kernelsu by boot cmdline
+# patch_cmdline kernelsu.enabled kernelsu.enabled=1
+
+# activate New Novatek Touchscreen Driver by boot cmdline
+patch_cmdline use_new_nvtouch use_new_nvtouch=0
+
+# activate kernelsu safemode by boot cmdline
+# patch_cmdline kernelsu.safemode kernelsu.safemode=0
+
 #Remove old kernel stuffs from ramdisk
 if [ "$X00TD" = "1" ];then
  rm -rf $RAMDISK/init.special_power.sh

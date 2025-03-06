@@ -818,7 +818,7 @@ PatchRAM(){
 $BB mount -o rw,remount -t auto /system;
 $BB mount -o rw,remount -t auto /vendor 2>/dev/null;
 
-if [ "`$BB grep -w "selected.4=1" /tmp/aroma-data/spectrum.prop`" ]; then
+if [ "`$BB grep -w "selected.3=1" /tmp/aroma-data/spectrum.prop`" ]; then
 	if [ "$REG" = "IDN" ];then
     ui_print "- Menghapus Tambalan RAM...";
     elif [ "$REG" = "EN" ];then
@@ -842,9 +842,9 @@ if [ "`$BB grep -w "selected.4=1" /tmp/aroma-data/spectrum.prop`" ]; then
 	DoneProcess
 	fi
 	
-elif [ "`$BB grep -w "selected.4=2" /tmp/aroma-data/spectrum.prop`" ]; then
+elif [ "`$BB grep -w "selected.3=2" /tmp/aroma-data/spectrum.prop`" ]; then
 RAMPatchMode="Magisk"
-elif [ "`$BB grep -w "selected.4=3" /tmp/aroma-data/spectrum.prop`" ]; then
+elif [ "`$BB grep -w "selected.3=3" /tmp/aroma-data/spectrum.prop`" ]; then
 RAMPatchMode="Init"
 fi
 if [ ! -z "$RAMPatchMode" ];then
