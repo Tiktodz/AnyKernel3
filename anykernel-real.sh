@@ -87,14 +87,8 @@ cd $home
 
 # begin ramdisk changes
 
-# activate kernelsu by boot cmdline
-# patch_cmdline kernelsu.enabled kernelsu.enabled=1
-
 # activate New Novatek Touchscreen Driver by boot cmdline
 patch_cmdline use_new_nvtouch use_new_nvtouch=0
-
-# activate kernelsu safemode by boot cmdline
-# patch_cmdline kernelsu.safemode kernelsu.safemode=0
 
 #Remove old kernel stuffs from ramdisk
 if [ "$X00TD" = "1" ];then
@@ -208,38 +202,38 @@ fi
 # android_ver=$(file_getprop /system/build.prop ro.build.version.release);
 # patch_cmdline androidboot.version androidboot.version=$android_ver
 
-# Overclock CPU & GPU
-# if [ "`$BB grep -w "selected.1=1" /tmp/aroma-data/refrate.prop`" ];then
-	# if [ "$REG" = "IDN" ];then
-	# ui_print "- CPU di-Overclock";
-	# elif [ "$REG" = "EN" ];then
-	# ui_print "- CPU Overclocked";
-	# fi;
-	# patch_cmdline overclock.cpu overclock.cpu=1
-# elif [ "`$BB grep -w "selected.1=2" /tmp/aroma-data/refrate.prop`" ];then
-	# if [ "$REG" = "IDN" ];then
-	# ui_print "- CPU tidak di-Overclock";
-	# elif [ "$REG" = "EN" ];then
-	# ui_print "- CPU not Overclock";
-	# fi;
-	# patch_cmdline overclock.cpu overclock.cpu=0
-# fi;
+Overclock CPU & GPU
+if [ "`$BB grep -w "selected.1=1" /tmp/aroma-data/refrate.prop`" ];then
+	if [ "$REG" = "IDN" ];then
+	ui_print "- CPU di-Overclock";
+	elif [ "$REG" = "EN" ];then
+	ui_print "- Overclock CPU Freq";
+	fi;
+	patch_cmdline overclock.cpu overclock.cpu=1
+elif [ "`$BB grep -w "selected.1=2" /tmp/aroma-data/refrate.prop`" ];then
+	if [ "$REG" = "IDN" ];then
+	ui_print "- CPU tidak di-Overclock";
+	elif [ "$REG" = "EN" ];then
+	ui_print "- Use Stock CPU Freq";
+	fi;
+	patch_cmdline overclock.cpu overclock.cpu=0
+fi;
 
-# if [ "`$BB grep -w "selected.2=1" /tmp/aroma-data/refrate.prop`" ];then
-	# if [ "$REG" = "IDN" ];then
-	# ui_print "- GPU di-Overclock";
-	# elif [ "$REG" = "EN" ];then
-	# ui_print "- GPU Overclocked";
-	# fi;
-	# patch_cmdline overclock.gpu overclock.gpu=1
-# elif [ "`$BB grep -w "selected.2=2" /tmp/aroma-data/refrate.prop`" ];then
-	# if [ "$REG" = "IDN" ];then
-	# ui_print "- GPU tidak di-Overclock";
-	# elif [ "$REG" = "EN" ];then
-	# ui_print "- GPU not Overclock";
-	# fi;
-	# patch_cmdline overclock.gpu overclock.gpu=0
-# fi;
+if [ "`$BB grep -w "selected.2=1" /tmp/aroma-data/refrate.prop`" ];then
+	if [ "$REG" = "IDN" ];then
+	ui_print "- GPU di-Overclock";
+	elif [ "$REG" = "EN" ];then
+	ui_print "- Overclock GPU Freq";
+	fi;
+	patch_cmdline overclock.gpu overclock.gpu=1
+elif [ "`$BB grep -w "selected.2=2" /tmp/aroma-data/refrate.prop`" ];then
+	if [ "$REG" = "IDN" ];then
+	ui_print "- GPU tidak di-Overclock";
+	elif [ "$REG" = "EN" ];then
+	ui_print "- Use Stock GPU Freq";
+	fi;
+	patch_cmdline overclock.gpu overclock.gpu=0
+fi;
 
 # end ramdisk changes
 
