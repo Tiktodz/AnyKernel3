@@ -532,86 +532,6 @@ ui_print "- Done";
 fi;
 }
 
-AddSpectrum(){
-# custom script for spectrum
-  $BB mount -o rw,remount -t auto /system;
-  $BB mount -o rw,remount -t auto /vendor 2>/dev/null;
-  
-if [ "`$BB grep -w "selected.1=1" /tmp/aroma-data/spectrum.prop`" ] && [ -e $AKHOME/spectrum/init.spectrum.rc ];then
-  cd $AKHOME;
-
-  # add spectrum support
-  if [ "$REG" = "IDN" ];then
-  ui_print "- Mencadangkan Skrip Lama...";
-  elif [ "$REG" = "EN" ];then
-  ui_print "- Backing up Old Script in Progress...";
-  fi;
-    if [ ! -e /vendor/etc/init/hw/init.qcom.rc.backup ];then
-      cp -af /vendor/etc/init/hw/init.qcom.rc /vendor/etc/init/hw/init.qcom.rc.backup
-    fi
-    if [ ! -e /vendor/etc/init/hw/init.spectrum.rc.backup ];then
-      cp -af /vendor/etc/init/hw/init.spectrum.rc /vendor/etc/init/hw/init.spectrum.rc.backup
-    fi
-	if [ "$REG" = "IDN" ];then
-	ui_print "- Menambal init.qcom.rc...";
-	elif [ "$REG" = "EN" ];then
-	ui_print "- Patching init.qcom.rc...";
-	fi;
-    grep "import /init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import \/init.spectrum.rc/d' /vendor/etc/init/hw/init.qcom.rc
-    grep "import init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import init.spectrum.rc/d' /vendor/etc/init/hw/init.qcom.rc
-    grep "import /vendor/etc/init/hw/init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null || sed -i '1,/.*import.*/s/.*import.*/import \/vendor\/etc\/init\/hw\/init.spectrum.rc\n&/' /vendor/etc/init/hw/init.qcom.rc
-    if [ "$REG" = "IDN" ];then
-	ui_print "- Menambal Skrip Spektrum...";
-	elif [ "$REG" = "EN" ];then
-	ui_print "- Patching Spectrum Script...";
-	fi
-	cp -af $AKHOME/spectrum/init.spectrum.rc /vendor/etc/init/hw/
-    chmod -R 644 /vendor/etc/init/hw/init.spectrum.rc
-	cp -af $AKHOME/spectrum/init.spectrum.sh /vendor/bin/
-    chmod -R 755 /vendor/bin/init.spectrum.sh
-    # cprofile remover
-    if [ -e /system/xbin/cprofile ];then
-      rm -rf /system/xbin/cprofile
-      ui_print "remove /system/xbin/cprofile"
-    fi
-    if [ -e /system/bin/cprofile ];then
-      rm -rf /system/bin/cprofile
-      ui_print "remove /system/bin/cprofile"
-    fi
-    if [ -e /vendor/bin/cprofile ];then
-      rm -rf /vendor/bin/cprofile
-      ui_print "remove /vendor/bin/cprofile"
-    fi
-    if [ -e /system/init.spectrum.rc ];then
-      rm -rf /system/init.spectrum.rc
-      ui_print "remove /system/init.spectrum.rc"
-    fi
-    if [ -e /system/init.spectrum.sh ];then
-      rm -rf /system/init.spectrum.sh
-      ui_print "remove /system/init.spectrum.sh"
-	fi
-  elif [ "`$BB grep -w "selected.1=2" /tmp/aroma-data/spectrum.prop`" ] || [ ! -e $AKHOME/spectrum/init.spectrum.rc ];then
-    if [ -e /vendor/etc/init/hw/init.spectrum.rc ];then
-	  if [ "$REG" = "IDN" ];then
-	  ui_print "- Menghapus Skrip Spectrum Lama..."
-	  elif [ "$REG" = "EN" ];then
-	  ui_print "- Removing old Spectrum Script..."
-	  fi
-      rm -rf /vendor/etc/init/hw/init.spectrum.rc
-	  if [ -e /vendor/bin/init.spectrum.sh ];then
-      rm -rf /vendor/bin/init.spectrum.sh
-      fi
-    fi
-    if [ -e /vendor/etc/init/hw/init.qcom.rc.backup ];then
-      cp -af /vendor/etc/init/hw/init.qcom.rc.backup /vendor/etc/init/hw/init.qcom.rc
-      rm -rf /vendor/etc/init/hw/init.qcom.rc.backup
-      grep "import /vendor/etc/init/hw/init.spectrum.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import \/vendor\/etc\/init\/hw\/init.spectrum.rc/d' /vendor/etc/init/hw/init.qcom.rc
-    fi
-  fi
-  $BB mount -o ro,remount -t auto /system;
-  $BB mount -o ro,remount -t auto /vendor 2>/dev/null;
-}
-
 RestorePerfHAL() {
 	$BB mount -o rw,remount -t auto /system;
     $BB mount -o rw,remount -t auto /vendor 2>/dev/null;
@@ -653,7 +573,7 @@ DoubleTapWake() {
 $BB mount -o rw,remount -t auto /system;
 $BB mount -o rw,remount -t auto /vendor 2>/dev/null;
 	
-if [ "`$BB grep -w "selected.2=1" /tmp/aroma-data/spectrum.prop`" ]; then
+if [ "`$BB grep -w "selected.1=1" /tmp/aroma-data/spectrum.prop`" ]; then
 	if [ "$REG" = "IDN" ];then
 	ui_print "- Menghidupkan Paksa DT2W ...";
 	elif [ "$REG" = "EN" ];then
@@ -707,7 +627,7 @@ if [ "`$BB grep -w "selected.2=1" /tmp/aroma-data/spectrum.prop`" ]; then
 	grep "import /init.forcedttw.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import \/init.forcedttw.rc/d' /vendor/etc/init/hw/init.qcom.rc
     grep "import init.forcedttw.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import init.forcedttw.rc/d' /vendor/etc/init/hw/init.qcom.rc
     grep "import /vendor/etc/init/hw/init.forcedttw.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null || sed -i '1,/.*import.*/s/.*import.*/import \/vendor\/etc\/init\/hw\/init.forcedttw.rc\n&/' /vendor/etc/init/hw/init.qcom.rc
-elif [ "`$BB grep -w "selected.2=2" /tmp/aroma-data/spectrum.prop`" ]; then
+elif [ "`$BB grep -w "selected.1=2" /tmp/aroma-data/spectrum.prop`" ]; then
 	if [ "$REG" = "IDN" ];then
 	ui_print "- Mematikan Paksa DT2W ...";
 	elif [ "$REG" = "EN" ];then
@@ -788,7 +708,7 @@ elif [ "`$BB grep -w "selected.2=2" /tmp/aroma-data/spectrum.prop`" ]; then
 	grep "import /init.forcedttw.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import \/init.forcedttw.rc/d' /vendor/etc/init/hw/init.qcom.rc
     grep "import init.forcedttw.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null | sed -i '/import init.forcedttw.rc/d' /vendor/etc/init/hw/init.qcom.rc
     grep "import /vendor/etc/init/hw/init.forcedttw.rc" /vendor/etc/init/hw/init.qcom.rc >/dev/null || sed -i '1,/.*import.*/s/.*import.*/import \/vendor\/etc\/init\/hw\/init.forcedttw.rc\n&/' /vendor/etc/init/hw/init.qcom.rc
-elif [ "`$BB grep -w "selected.2=3" /tmp/aroma-data/spectrum.prop`" ]; then
+elif [ "`$BB grep -w "selected.1=3" /tmp/aroma-data/spectrum.prop`" ]; then
 	if [ "$REG" = "IDN" ];then
 	ui_print "- Menghapus Paksaan DT2W ...";
 	elif [ "$REG" = "EN" ];then
@@ -818,7 +738,7 @@ PatchRAM(){
 $BB mount -o rw,remount -t auto /system;
 $BB mount -o rw,remount -t auto /vendor 2>/dev/null;
 
-if [ "`$BB grep -w "selected.3=1" /tmp/aroma-data/spectrum.prop`" ]; then
+if [ "`$BB grep -w "selected.2=1" /tmp/aroma-data/spectrum.prop`" ]; then
 	if [ "$REG" = "IDN" ];then
     ui_print "- Menghapus Tambalan RAM...";
     elif [ "$REG" = "EN" ];then
@@ -842,9 +762,9 @@ if [ "`$BB grep -w "selected.3=1" /tmp/aroma-data/spectrum.prop`" ]; then
 	DoneProcess
 	fi
 	
-elif [ "`$BB grep -w "selected.3=2" /tmp/aroma-data/spectrum.prop`" ]; then
+elif [ "`$BB grep -w "selected.2=2" /tmp/aroma-data/spectrum.prop`" ]; then
 RAMPatchMode="Magisk"
-elif [ "`$BB grep -w "selected.3=3" /tmp/aroma-data/spectrum.prop`" ]; then
+elif [ "`$BB grep -w "selected.2=3" /tmp/aroma-data/spectrum.prop`" ]; then
 RAMPatchMode="Init"
 fi
 if [ ! -z "$RAMPatchMode" ];then
