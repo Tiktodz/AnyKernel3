@@ -29,7 +29,7 @@ set_perm_recursive 0 0 755 755 $RAMDISK/init* $RAMDISK/sbin;
 } # end attributes
 
 # boot shell variables
-BLOCK=/dev/block/platform/omap/omap_hsmmc.0/by-name/boot;
+BLOCK=/dev/block/platform/soc/c0c4000.sdhci/by-name/boot;
 IS_SLOT_DEVICE=0;
 RAMDISK_COMPRESSION=auto;
 PATCH_VBMETA_FLAG=auto;
@@ -53,7 +53,7 @@ chmod -R root:root $ramdisk/*;
 dump_boot; # use split_boot to skip ramdisk unpack, e.g. for devices with init_boot ramdisk
 
 # Remove old kernel stuffs from ramdisk
-ui_print "cleaning ramdisk..."
+ui_print "Cleaning ramdisk..."
 rm -rf $ramdisk/*.sh
 rm -rf $ramdisk/*.rc
 
