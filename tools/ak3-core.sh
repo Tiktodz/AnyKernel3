@@ -921,7 +921,7 @@ setup_ak() {
     abort "Unable to determine $block partition. Aborting...";
   fi;
   if [ ! "$no_block_display" ]; then
-    ui_print "$block";
+    ui_print " ";
   fi;
   
   # allow multi-partition ramdisk modifying configurations (using reset_ak)

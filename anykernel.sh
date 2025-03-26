@@ -4,7 +4,7 @@
 ### AnyKernel setup
 # global properties
 properties() { '
-kernel.string=TheOneMemory kernel v4.19
+kernel.string=Appreciate your efforts for choosing TheOneMemory kernel
 do.devicecheck=1
 do.modules=0
 do.systemless=1
@@ -52,19 +52,20 @@ chmod -R root:root $ramdisk/*;
 # boot install
 dump_boot; # use split_boot to skip ramdisk unpack, e.g. for devices with init_boot ramdisk
 
-#Remove old kernel stuffs from ramdisk
-ui_print "cleaning up..."
+# Remove old kernel stuffs from ramdisk
+ui_print "cleaning ramdisk..."
 rm -rf $ramdisk/*.sh
 rm -rf $ramdisk/*.rc
 
-# activate kernelsu by boot cmdline
+### activate kernelsu by boot cmdline, set to 0 to disabled kernelsu
 patch_cmdline kernelsu.enabled kernelsu.enabled=1
 
-# activate New Novatek Touchscreen Driver by boot cmdline
-patch_cmdline use_new_nvtouch use_new_nvtouch=0
+### activate New Novatek Touchscreen Driver by boot cmdline, set to 0 to use original Touchscreen Driver
+patch_cmdline use_new_nvtouch use_new_nvtouch=1
 
-# activate kernelsu safemode by boot cmdline
-patch_cmdline kernelsu.safemode kernelsu.safemode=0
+### activate CPU & GPU Freq Selection by boot cmdline, set to 1 to make it OverClocked
+patch_cmdline overclock.cpu overclock.cpu=0
+patch_cmdline overclock.gpu overclock.gpu=0
 
 write_boot; # use flash_boot to skip ramdisk repack, e.g. for devices with init_boot ramdisk
 ## end boot install

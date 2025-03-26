@@ -9,8 +9,10 @@
 /_/  /_/\___/_/ /_/ /_/\____/_/   \__, /  
                                  /____/   
 ===============================================
-===============================================
+ - Build type          : Nightly
  - Device              : Asus Zenfone Max Pro M1
- - Maintainer          : dotkit @queenserenade
- - Supported Android   : 11.0 - 15.0
+ - Device codename     : X00TD
+ - Kernel version      : 4.19.325 + CIP
+ - Maintainer          : @queenserenade
+ - Supported           : Android 11 - 15
 ===============================================

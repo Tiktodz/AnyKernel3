@@ -562,7 +562,7 @@ do_versioncheck;
 do_levelcheck;
 do_vendorlevelcheck;
 
-ui_print "Installing...";
+ui_print "Installing kernel...";
 # hack to maintain support for anykernel.sh files that weren't updated correctly along with the AK core
 CORE=$(grep -oE 'ak.*core.sh' anykernel.sh);
 [ -f tools/$CORE ] || ln -s $AKHOME/tools/ak*-core.sh $AKHOME/tools/$CORE;
@@ -580,6 +580,12 @@ restore_env;
 if [ "$(file_getprop anykernel.sh do.cleanup)" == 1 ]; then
   cleanup;
 fi;
+
+ui_print "Cleaning Caches...";
+rm -rf /cache;
+mkdir /cache;
+rm -rf /data/dalvik-cache;
+rm -rf /data/system/dropbox;
 
 ui_print " " "Done!";
 export PATH="$OLD_PATH";
