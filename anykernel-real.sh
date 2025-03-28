@@ -18,28 +18,23 @@ do.modules=0
 do.systemless=1
 do.cleanup=1
 do.cleanuponabort=0
-device.name1=X01BD
-device.name2=X01BDA
-device.name3=Zenfone Max Pro M2 (X01BD)
-device.name4=ASUS_X01BD
-device.name5=ASUS_X01BDA
-supported.versions=9-14
+device.name1=X00TD
+device.name2=X00T
+device.name3=Zenfone Max Pro M1 (X00TD)
+device.name4=ASUS_X00TD
+device.name5=ASUS_X00T
+supported.versions=11-15
 supported.patchlevels=
 supported.vendorpatchlevels=
 '; } # end properties
 
-# Installation Method
-X00TD=0
 
 # shell variables
-if [ "$X00TD" = "1" ];then
 BLOCK=/dev/block/platform/soc/c0c4000.sdhci/by-name/boot;
-else
-BLOCK=/dev/block/bootdevice/by-name/boot;
-fi
 IS_SLOT_DEVICE=0;
 RAMDISK_COMPRESSION=auto;
 PATCH_VBMETA_FLAG=auto;
+NO_BLOCK_DISPLAY=1;
 
 
 ## AnyKernel methods (DO NOT CHANGE)
@@ -54,17 +49,10 @@ mount -o remount,rw /vendor;
 
 ## AnyKernel file attributes
 # set permissions/ownership for included ramdisk files
-if [ "$X00TD" = "1" ];then
 chmod -R 750 $RAMDISK/*;
 chmod -R 755 $RAMDISK/sbin;
 chmod -R root:root $RAMDISK/*;
-else
-boot_attributes() {
-set_perm_recursive 0 0 755 644 $RAMDISK/*;
-set_perm_recursive 0 0 755 755 $RAMDISK/init* $RAMDISK/sbin;
-} # end attributes
-fi
-
+# end attributes
 
 ## AnyKernel install
 dump_boot;
@@ -91,82 +79,27 @@ cd $home
 patch_cmdline use_new_nvtouch use_new_nvtouch=0
 
 #Remove old kernel stuffs from ramdisk
-if [ "$X00TD" = "1" ];then
- rm -rf $RAMDISK/init.special_power.sh
- rm -rf $RAMDISK/init.darkonah.rc
- rm -rf $RAMDISK/init.spectrum.rc
- rm -rf $RAMDISK/init.spectrum.sh
- rm -rf $RAMDISK/init.boost.rc
- rm -rf $RAMDISK/init.trb.rc
- rm -rf $RAMDISK/init.azure.rc
- rm -rf $RAMDISK/init.PBH.rc
- rm -rf $RAMDISK/init.Pbh.rc
- rm -rf $RAMDISK/init.overdose.rc
-fi
+rm -rf $RAMDISK/init.special_power.sh
+rm -rf $RAMDISK/init.darkonah.rc
+rm -rf $RAMDISK/init.spectrum.rc
+rm -rf $RAMDISK/init.spectrum.sh
+rm -rf $RAMDISK/init.boost.rc
+rm -rf $RAMDISK/init.trb.rc
+rm -rf $RAMDISK/init.azure.rc
+rm -rf $RAMDISK/init.PBH.rc
+rm -rf $RAMDISK/init.Pbh.rc
+rm -rf $RAMDISK/init.overdose.rc
 
 backup_file init.rc;
-if [ "$X00TD" = "1" ];then
-	remove_line init.rc "import /init.darkonah.rc";
-	remove_line init.rc "import /init.spectrum.rc";
-	remove_line init.rc "import /init.boost.rc";
-	remove_line init.rc "import /init.trb.rc"
-	remove_line init.rc "import /init.azure.rc"
-	remove_line init.rc "import /init.PbH.rc"
-	remove_line init.rc "import /init.Pbh.rc"
-	remove_line init.rc "import /init.overdose.rc"
-else
-	replace_string init.rc "cpuctl cpu,timer_slack" "mount cgroup none /dev/cpuctl cpu" "mount cgroup none /dev/cpuctl cpu,timer_slack";
-	
-	# init.tuna.rc
-	backup_file init.tuna.rc;
-	insert_line init.tuna.rc "nodiratime barrier=0" after "mount_all /fstab.tuna" "\tmount ext4 /dev/block/platform/omap/omap_hsmmc.0/by-name/userdata /data remount nosuid nodev noatime nodiratime barrier=0";
-	append_file init.tuna.rc "bootscript" init.tuna;
-	
-	# fstab.tuna
-	backup_file fstab.tuna;
-	patch_fstab fstab.tuna /system ext4 options "noatime,barrier=1" "noatime,nodiratime,barrier=0";
-	patch_fstab fstab.tuna /cache ext4 options "barrier=1" "barrier=0,nomblk_io_submit";
-	patch_fstab fstab.tuna /data ext4 options "data=ordered" "nomblk_io_submit,data=writeback";
-	append_file fstab.tuna "usbdisk" fstab;
 
-# remove spectrum profile
-	if [ -e $RAMDISK/init.spectrum.rc ];then
-	  rm -rf $RAMDISK/init.spectrum.rc
-	  ui_print "delete /init.spectrum.rc"
-	fi
-	if [ -e $RAMDISK/init.spectrum.sh ];then
-	  rm -rf $RAMDISK/init.spectrum.sh
-	  ui_print "delete /init.spectrum.sh"
-	fi
-	if [ -e $RAMDISK/sbin/init.spectrum.rc ];then
-	  rm -rf $RAMDISK/sbin/init.spectrum.rc
-	  ui_print "delete /sbin/init.spectrum.rc"
-	fi
-	if [ -e $RAMDISK/sbin/init.spectrum.sh ];then
-	  rm -rf $RAMDISK/sbin/init.spectrum.sh
-	  ui_print "delete /sbin/init.spectrum.sh"
-	fi
-	if [ -e $RAMDISK/etc/init.spectrum.rc ];then
-	  rm -rf $RAMDISK/etc/init.spectrum.rc
-	  ui_print "delete /etc/init.spectrum.rc"
-	fi
-	if [ -e $RAMDISK/etc/init.spectrum.sh ];then
-	  rm -rf $RAMDISK/etc/init.spectrum.sh
-	  ui_print "delete /etc/init.spectrum.sh"
-	fi
-	if [ -e $RAMDISK/init.aurora.rc ];then
-	  rm -rf $RAMDISK/init.aurora.rc
-	  ui_print "delete /init.aurora.rc"
-	fi
-	if [ -e $RAMDISK/sbin/init.aurora.rc ];then
-	  rm -rf $RAMDISK/sbin/init.aurora.rc
-	  ui_print "delete /sbin/init.aurora.rc"
-	fi
-	if [ -e $RAMDISK/etc/init.aurora.rc ];then
-	  rm -rf $RAMDISK/etc/init.aurora.rc
-	  ui_print "delete /etc/init.aurora.rc"
-	fi
-fi
+remove_line init.rc "import /init.darkonah.rc";
+remove_line init.rc "import /init.spectrum.rc";
+remove_line init.rc "import /init.boost.rc";
+remove_line init.rc "import /init.trb.rc"
+remove_line init.rc "import /init.azure.rc"
+remove_line init.rc "import /init.PbH.rc"
+remove_line init.rc "import /init.Pbh.rc"
+remove_line init.rc "import /init.overdose.rc"
 
 # rearm perfboostsconfig.xml
 if [ ! -f /vendor/etc/perf/perfboostsconfig.xml ]; then
@@ -202,7 +135,7 @@ fi
 # android_ver=$(file_getprop /system/build.prop ro.build.version.release);
 # patch_cmdline androidboot.version androidboot.version=$android_ver
 
-Overclock CPU & GPU
+# Overclock CPU & GPU
 if [ "`$BB grep -w "selected.1=1" /tmp/aroma-data/refrate.prop`" ];then
 	if [ "$REG" = "IDN" ];then
 	ui_print "- CPU di-Overclock";
