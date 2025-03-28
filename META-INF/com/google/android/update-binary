@@ -547,7 +547,7 @@ RestorePerfHAL() {
 	mv -f /vendor/etc/perf/perfboostsconfig.xml.bkp /vendor/etc/perf/perfboostsconfig.xml
 	mv -f /vendor/etc/perf/commonresourceconfigs.xml.bkp /vendor/etc/perf/commonresourceconfigs.xml
 	rm -f /vendor/etc/perf/perfconfigstore.xml
-	if [ "`$BB grep -w "selected.2=4" /tmp/aroma-data/spectrum.prop`" ]; then
+	if [ "`$BB grep -w "selected.5=4" /tmp/aroma-data/spectrum.prop`" ]; then
 	DoneProcess
 	fi
 	else
@@ -556,7 +556,7 @@ RestorePerfHAL() {
     elif [ "$REG" = "EN" ];then
     ui_print "! Old Perf HAL not found. !";
     fi;
-	if [ "`$BB grep -w "selected.2=4" /tmp/aroma-data/spectrum.prop`" ]; then
+	if [ "`$BB grep -w "selected.5=4" /tmp/aroma-data/spectrum.prop`" ]; then
 	if [ "$REG" = "IDN" ];then
     abort "- Membatalkan...";
     elif [ "$REG" = "EN" ];then
@@ -934,7 +934,7 @@ fi;
 setup_env;
 
 #### CUSTOM INSTALLATION COMMAND
-if [ "`$BB grep -w "selected.2=4" /tmp/aroma-data/spectrum.prop`" ]; then
+if [ "`$BB grep -w "selected.5=4" /tmp/aroma-data/spectrum.prop`" ]; then
 RestorePerfHAL;
 elif [ "`$BB grep -w "selected.1=2" /tmp/aroma-data/dummy.prop`" ]; then
 DoubleTapWake;
