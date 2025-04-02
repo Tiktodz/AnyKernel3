@@ -168,6 +168,23 @@ elif [ "`$BB grep -w "selected.2=2" /tmp/aroma-data/refrate.prop`" ];then
 	patch_cmdline overclock.gpu overclock.gpu=0
 fi;
 
+# KernelSU Support
+if [ "`$BB grep -w "selected.1=1" /tmp/aroma-data/refrate.prop`" ];then
+if [ "$REG" = "IDN" ];then
+ui_print "- KernelSU dihidupkan !";
+elif [ "$REG" = "EN" ];then
+ui_print "- KernelSU enabled !";
+fi;
+patch_cmdline kernelsu.enabled kernelsu.enabled=1
+else
+if [ "$REG" = "IDN" ];then
+ui_print "- KernelSU dimatikan !";
+elif [ "$REG" = "EN" ];then
+ui_print "- KernelSU disabled !";
+fi;
+patch_cmdline kernelsu.enabled kernelsu.enabled=0
+fi;
+
 # end ramdisk changes
 
 write_boot;
